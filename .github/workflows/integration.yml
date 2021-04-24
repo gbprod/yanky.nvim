@@ -1,0 +1,47 @@
+name: Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 7 * * 1'
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nvim-versions: ['stable', 'nightly']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: ${{ matrix.nvim-versions }}
+      - name: Setup ‘lua’
+        uses: leafo/gh-actions-lua@v8
+        with:
+          luaVersion: '5.1.5'
+      - name: Setup ‘luarocks’
+        uses: leafo/gh-actions-luarocks@v4
+      - name: Install dependencies
+        run: |
+          luarocks install luacheck
+          make prepare
+      - name: Run linter
+        run: luacheck lua/ spec/
+      - name: Run tests
+        run: make test
+  stylua:
+    name: Check codestyle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: JohnnyMorganz/stylua-action@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --color always --check .
