@@ -23,6 +23,7 @@ Testing:
 
 Incoming:
 
+- Persistant history between Neovim sessions
 - Synchronize yank history with numbered registers
 - yank preserve cursor
 - Allows to change register type.
@@ -67,6 +68,16 @@ With these mappings, after performing a paste, you can cycle through the history
 Any modifications done after pasting will cancel the possibility to cycle.
 
 Note that the swap operations above will only affect the current paste and the history will be unchanged.
+
+### Configuration
+
+```lua
+require("yanky").setup({
+  ring = {
+    history_length = 10,
+  }
+})
+```
 
 ## Highlight put text
 

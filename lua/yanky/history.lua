@@ -14,7 +14,7 @@ function history.push(item)
   end
 
   local new_state = { item }
-  local length = vim.fn.min({ vim.tbl_count(history.state), config.options.history_length })
+  local length = vim.fn.min({ vim.tbl_count(history.state), config.options.ring.history_length })
   for _, value in pairs(vim.fn.range(1, length)) do
     table.insert(new_state, history.state[value])
   end
