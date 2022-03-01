@@ -19,10 +19,11 @@ Or in English:
 Testing:
 
 - Allows cycling throught registers when pasting (like the Emacs "kill-ring" feature)
+- Hightlight put text **experimental**
 
 Incoming:
 
-- Hightlight pasted text
+- Synchronize yank history with numbered registers
 - yank preserve cursor
 - Allows to change register type.
 - Automaticly record yanks that occur outside of Neovim by checking system clipboard on focus.
@@ -66,6 +67,27 @@ With these mappings, after performing a paste, you can cycle through the history
 Any modifications done after pasting will cancel the possibility to cycle.
 
 Note that the swap operations above will only affect the current paste and the history will be unchanged.
+
+## Highlight put text
+
+This is an experimental feature, it may disapear if not useful. This is disabled
+by default.
+
+Like `on_yank` Neovim feature, this will give you a visual feedback on put text
+by highlighting this.
+
+### Configuration
+
+```lua
+require("yanky").setup({
+  highlight = {
+    enabled = true,
+    timeout = 500,
+  }
+})
+```
+
+You can override `YankyPut` highlight to change colors.
 
 ## Credits
 

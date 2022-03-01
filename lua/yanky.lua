@@ -1,6 +1,7 @@
 local config = require("yanky.config")
 local history = require("yanky.history")
 local utils = require("yanky.utils")
+local highlight = require("yanky.highlight")
 
 local yanky = {}
 
@@ -21,6 +22,7 @@ yanky.type = {
 function yanky.setup(options)
   config.setup(options)
   history.load()
+  highlight.setup()
 
   vim.cmd([[
   augroup Yanky
@@ -33,6 +35,8 @@ local function do_put(state)
   vim.cmd(
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
+
+  highlight.highlight_put(state)
 end
 
 function yanky.put(type, is_visual)
@@ -56,6 +60,7 @@ function yanky.put(type, is_visual)
   do_put(state)
 
   yanky.state = state
+
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function()
       yanky.state = nil
