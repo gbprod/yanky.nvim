@@ -14,6 +14,8 @@ yanky.direction = {
 yanky.type = {
   PUT_BEFORE = "P",
   PUT_AFTER = "p",
+  GPUT_BEFORE = "gP",
+  GPUT_AFTER = "gp",
 }
 
 function yanky.setup(options)
