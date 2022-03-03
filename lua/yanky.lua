@@ -1,5 +1,4 @@
 local config = require("yanky.config")
-local history = require("yanky.history")
 local utils = require("yanky.utils")
 local highlight = require("yanky.highlight")
 
@@ -19,9 +18,20 @@ yanky.type = {
   GPUT_AFTER = "gp",
 }
 
+yanky.storage = {
+  SHADA = "shada",
+  MEMORY = "memory",
+}
+
 function yanky.setup(options)
   config.setup(options)
-  history.load()
+  if not vim.tbl_contains(vim.tbl_values(yanky.storage), config.options.ring.storage) then
+    vim.notify("Invalid storage " .. config.options.ring.storage, vim.log.levels.ERROR)
+    return
+  end
+
+  yanky.history = require("yanky.history." .. config.options.ring.storage)
+
   highlight.setup()
 
   vim.cmd([[
@@ -41,7 +51,7 @@ end
 
 function yanky.put(type, is_visual)
   if not vim.tbl_contains(vim.tbl_values(yanky.type), type) then
-    vim.notify("Invalid type" .. type, vim.log.levels.ERROR)
+    vim.notify("Invalid type " .. type, vim.log.levels.ERROR)
     return
   end
 
@@ -91,7 +101,7 @@ function yanky.cycle(direction)
   new_state.history_pos = new_state.history_pos or 1
 
   if direction == yanky.direction.FORWARD then
-    if new_state.history_pos >= history.length() then
+    if new_state.history_pos >= yanky.history.length() then
       vim.notify("Reached oldest item", vim.log.levels.INFO)
       return
     end
@@ -105,7 +115,7 @@ function yanky.cycle(direction)
     new_state.history_pos = new_state.history_pos - 1
   end
 
-  local item = history.get(new_state.history_pos)
+  local item = yanky.history.get(new_state.history_pos)
 
   vim.fn.setreg(new_state.register, item.regcontents, item.regtype)
 
@@ -118,7 +128,7 @@ function yanky.cycle(direction)
 end
 
 function yanky.on_yank()
-  history.push({
+  yanky.history.push({
     regcontents = vim.fn.getreg(vim.v.event.regname),
     regtype = vim.fn.getregtype(vim.v.event.regname),
   })

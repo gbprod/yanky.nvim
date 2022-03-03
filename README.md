@@ -75,9 +75,35 @@ Note that the swap operations above will only affect the current paste and the h
 require("yanky").setup({
   ring = {
     history_length = 10,
+    storage = "shada",
   }
 })
 ```
+
+#### `ring.history_length`
+
+Default : `10`
+
+Define the number of yanked items that will be saved and used for ring.
+
+#### `ring.storage`
+
+Default : `shada`
+
+Available : `shada` or `memory`
+
+Define the storage mode for ring values.
+
+Using `shada`, this will save pesistantly using Neovim ShaDa feature. This means
+that history will be persisted between each session of Neovim.
+
+You can also use this feature to sync the yank history across multiple running instances
+of Neovim by updating shada file. If you execute `:wshada` in the first instance
+and then `:rshada` in the second instance, the second instance will be synced with
+the yank history in the first instance.
+
+Using `memory`, each Neovim instance will have his own history and il will be
+lost between sessions.
 
 ## Highlight put text
 
@@ -99,6 +125,18 @@ require("yanky").setup({
 ```
 
 You can override `YankyPut` highlight to change colors.
+
+#### `highlight.enabled`
+
+Default : `true`
+
+Define if highlight put text feature is enabled.
+
+#### `ring.timeout`
+
+Default : `500`
+
+Define the duration of highlight.
 
 ## Credits
 

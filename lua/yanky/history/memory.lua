@@ -1,11 +1,16 @@
 local config = require("yanky.config")
+local utils = require("yanky.utils")
 
 local history = {}
 
-history.state = {}
-
-function history.load()
-  history.state = {}
+function history.clear()
+  local reg = utils.get_default_register()
+  history.state = {
+    {
+      regcontents = vim.fn.getreg(reg),
+      regtype = vim.fn.getregtype(reg),
+    },
+  }
 end
 
 function history.push(item)
@@ -29,5 +34,7 @@ end
 function history.length()
   return #history.state
 end
+
+history.clear()
 
 return history

@@ -35,9 +35,6 @@ describe("Cycle", function()
     execute_keys(",p")
     assert.are.same({ "Lorem", "ipsLoremum", "dolor", "sit", "amet" }, get_buf_lines())
 
-    execute_keys(",p")
-    assert.are.same({ "Lorem", "ipsLoremum", "dolor", "sit", "amet" }, get_buf_lines())
-
     execute_keys(",P")
     assert.are.same({ "Lorem", "ipsipsumum", "dolor", "sit", "amet" }, get_buf_lines())
 
