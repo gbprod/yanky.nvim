@@ -25,23 +25,43 @@ yanky.storage = {
 
 function yanky.setup(options)
   config.setup(options)
+
   if not vim.tbl_contains(vim.tbl_values(yanky.storage), config.options.ring.storage) then
     vim.notify("Invalid storage " .. config.options.ring.storage, vim.log.levels.ERROR)
     return
   end
 
-  yanky.history = require("yanky.history." .. config.options.ring.storage)
+  yanky.history = require("yanky.history")
 
   highlight.setup()
 
   vim.cmd([[
   augroup Yanky
-    au! TextYankPost * lua require'yanky'.on_yank()
+    au!
+    autocmd TextYankPost * lua require('yanky').on_yank()
+    autocmd VimEnter * lua require('yanky').init_history()
   augroup END
   ]])
+
+  -- vim.cmd([[
+  --   augroup YankySyncClipboard
+  --     au!
+  --     autocmd FocusGained * lua require('yanky').on_focus_gained()
+  --     autocmd FocusLost * lua require('yanky').on_focus_lost()
+  --   augroup END
+  -- ]])
+end
+
+function yanky.init_history()
+  yanky.history.push(utils.get_register_info(utils.get_default_register()))
 end
 
 local function do_put(state)
+  print(
+    vim.inspect(
+      string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
+    )
+  )
   vim.cmd(
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
@@ -55,16 +75,21 @@ function yanky.put(type, is_visual)
     return
   end
 
+  local register = vim.v.register ~= '"' and vim.v.register or utils.get_default_register()
   local state = {
     type = type,
-    register = vim.v.register ~= '"' and vim.v.register or utils.get_default_register(),
-    history_pos = is_visual and 2 or 1,
+    register = register,
     count = vim.v.count > 0 and vim.v.count or 1,
     is_visual = is_visual,
   }
 
   if is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
+  end
+
+  yanky.history.reset()
+  if vim.deep_equal(yanky.history.first(), utils.get_register_info(register)) then
+    yanky.history.skip_first()
   end
 
   do_put(state)
@@ -74,6 +99,7 @@ function yanky.put(type, is_visual)
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function()
       yanky.state = nil
+
       return true
     end,
   })
@@ -86,41 +112,39 @@ function yanky.cycle(direction)
   end
 
   direction = direction or yanky.direction.FORWARD
+
   if not vim.tbl_contains(vim.tbl_values(yanky.direction), direction) then
     vim.notify("Invalid direction for cycle", vim.log.levels.ERROR)
     return
   end
 
-  local current_register_info = {
-    regcontents = vim.fn.getreg(yanky.state.register),
-    regtype = vim.fn.getregtype(yanky.state.register),
-  }
+  local current_register_info = utils.get_register_info(yanky.state.register)
 
   local new_state = yanky.state
-
-  new_state.history_pos = new_state.history_pos or 1
+  local next_content
 
   if direction == yanky.direction.FORWARD then
-    if new_state.history_pos >= yanky.history.length() then
+    next_content = yanky.history.next()
+    if nil == next_content then
       vim.notify("Reached oldest item", vim.log.levels.INFO)
       return
     end
-
-    new_state.history_pos = new_state.history_pos + 1
   else
-    if new_state.history_pos <= 1 then
+    next_content = yanky.history.previous()
+    if nil == next_content then
       vim.notify("Reached first item", vim.log.levels.INFO)
       return
     end
-    new_state.history_pos = new_state.history_pos - 1
   end
 
-  local item = yanky.history.get(new_state.history_pos)
+  vim.fn.setreg(new_state.register, next_content.regcontents, next_content.regtype)
 
-  vim.fn.setreg(new_state.register, item.regcontents, item.regtype)
-
-  vim.cmd("silent undo")
-  do_put(new_state)
+  if new_state.is_visual then -- Can't manage to make visual replacement repeatable
+    vim.cmd("silent normal! u")
+    do_put(new_state)
+  else
+    vim.cmd("silent normal! u.")
+  end
 
   vim.fn.setreg(new_state.register, current_register_info.regcontents, current_register_info.regtype)
 
@@ -128,10 +152,23 @@ function yanky.cycle(direction)
 end
 
 function yanky.on_yank()
-  yanky.history.push({
-    regcontents = vim.fn.getreg(vim.v.event.regname),
-    regtype = vim.fn.getregtype(vim.v.event.regname),
-  })
+  yanky.history.push(utils.get_register_info(vim.v.event.regname))
 end
+
+-- yanky.reg_info_on_focus_lost = nil
+
+-- function yanky.on_focus_lost()
+-- yanky.reg_info_on_focus_lost = utils.get_register_info(utils.get_system_register())
+-- end
+
+-- function yanky.on_focus_gained()
+-- local new_reg_info = utils.get_register_info(utils.get_system_register())
+--
+-- if not vim.deep_equal(yanky.reg_info_on_focus_lost, new_reg_info) then
+--   yanky.history.push(new_reg_info)
+-- end
+--
+-- yanky.reg_info_on_focus_lost = nil
+-- end
 
 return yanky

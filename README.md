@@ -20,10 +20,10 @@ Testing:
 
 - Allows cycling throught registers when pasting (like the Emacs "kill-ring" feature)
 - Hightlight put text **experimental**
+- Persistant history between Neovim sessions using shada
 
 Incoming:
 
-- Persistant history between Neovim sessions
 - Synchronize yank history with numbered registers
 - yank preserve cursor
 - Allows to change register type.

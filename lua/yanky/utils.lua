@@ -14,4 +14,21 @@ function utils.get_default_register()
   return '"'
 end
 
+function utils.get_system_register()
+  local clipboardFlags = vim.split(vim.api.nvim_get_option("clipboard"), ",")
+
+  if vim.tbl_contains(clipboardFlags, "unnamedplus") then
+    return "+"
+  end
+
+  return "*"
+end
+
+function utils.get_register_info(register)
+  return {
+    regcontents = vim.fn.getreg(register),
+    regtype = vim.fn.getregtype(register),
+  }
+end
+
 return utils

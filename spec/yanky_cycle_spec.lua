@@ -11,7 +11,7 @@ local function get_buf_lines()
 end
 
 local function setup()
-  yanky.setup()
+  yanky.setup({ ring = { storage = "memory" } })
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_command("buffer " .. buf)

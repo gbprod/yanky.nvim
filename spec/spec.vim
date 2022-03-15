@@ -5,7 +5,7 @@ runtime plugin/plenary.vim
 runtime plugin/yanky.vim
 
 lua require('plenary.busted')
-lua require('yanky').setup()
+lua require('yanky').setup({ ring = { storage = "memory" }})
 
 lua vim.api.nvim_set_keymap("n", "p", "<Plug>(YankyPutAfter)", {})
 lua vim.api.nvim_set_keymap("n", "P", "<Plug>(YankyPutBefore)", {})
