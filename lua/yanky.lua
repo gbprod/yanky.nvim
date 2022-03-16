@@ -1,6 +1,6 @@
-local config = require("yanky.config")
 local utils = require("yanky.utils")
 local highlight = require("yanky.highlight")
+local system_clipboard = require("yanky.system_clipboard")
 
 local yanky = {}
 
@@ -24,16 +24,19 @@ yanky.storage = {
 }
 
 function yanky.setup(options)
-  config.setup(options)
+  yanky.config = require("yanky.config")
+  yanky.config.setup(options)
 
-  if not vim.tbl_contains(vim.tbl_values(yanky.storage), config.options.ring.storage) then
-    vim.notify("Invalid storage " .. config.options.ring.storage, vim.log.levels.ERROR)
+  if not vim.tbl_contains(vim.tbl_values(yanky.storage), yanky.config.options.ring.storage) then
+    vim.notify("Invalid storage " .. yanky.config.options.ring.storage, vim.log.levels.ERROR)
     return
   end
 
   yanky.history = require("yanky.history")
+  yanky.history.setup(yanky.config)
 
-  highlight.setup()
+  system_clipboard.setup(yanky.history, yanky.config)
+  highlight.setup(yanky.config)
 
   vim.cmd([[
   augroup Yanky
@@ -42,14 +45,6 @@ function yanky.setup(options)
     autocmd VimEnter * lua require('yanky').init_history()
   augroup END
   ]])
-
-  -- vim.cmd([[
-  --   augroup YankySyncClipboard
-  --     au!
-  --     autocmd FocusGained * lua require('yanky').on_focus_gained()
-  --     autocmd FocusLost * lua require('yanky').on_focus_lost()
-  --   augroup END
-  -- ]])
 end
 
 function yanky.init_history()
@@ -144,6 +139,7 @@ function yanky.cycle(direction)
     do_put(new_state)
   else
     vim.cmd("silent normal! u.")
+    highlight.highlight_put(new_state)
   end
 
   vim.fn.setreg(new_state.register, current_register_info.regcontents, current_register_info.regtype)
@@ -154,21 +150,5 @@ end
 function yanky.on_yank()
   yanky.history.push(utils.get_register_info(vim.v.event.regname))
 end
-
--- yanky.reg_info_on_focus_lost = nil
-
--- function yanky.on_focus_lost()
--- yanky.reg_info_on_focus_lost = utils.get_register_info(utils.get_system_register())
--- end
-
--- function yanky.on_focus_gained()
--- local new_reg_info = utils.get_register_info(utils.get_system_register())
---
--- if not vim.deep_equal(yanky.reg_info_on_focus_lost, new_reg_info) then
---   yanky.history.push(new_reg_info)
--- end
---
--- yanky.reg_info_on_focus_lost = nil
--- end
 
 return yanky

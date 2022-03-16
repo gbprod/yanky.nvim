@@ -1,11 +1,12 @@
-local config = require("yanky.config")
-
 local history = {
   storage = nil,
   position = nil,
 }
 
-history.storage = require("yanky.storage." .. config.options.ring.storage)
+function history.setup(config)
+  history.storage = require("yanky.storage." .. config.options.ring.storage)
+  history.storage.setup(config)
+end
 
 function history.push(item)
   if vim.deep_equal(item, history.storage.get(1)) then

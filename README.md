@@ -21,14 +21,14 @@ Testing:
 - Allows cycling throught registers when pasting (like the Emacs "kill-ring" feature)
 - Hightlight put text **experimental**
 - Persistant history between Neovim sessions using shada
+- Automaticly record yanks that occur outside of Neovim by checking system clipboard on focus.
 
 Incoming:
 
 - Synchronize yank history with numbered registers
 - yank preserve cursor
 - Allows to change register type.
-- Automaticly record yanks that occur outside of Neovim by checking system clipboard on focus.
-- Telescope integration
+- `vim.ui.select` integration
 
 ## Usage
 

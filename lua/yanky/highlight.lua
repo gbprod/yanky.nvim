@@ -1,12 +1,11 @@
-local config = require("yanky.config")
-
 local highlight = {}
 
-function highlight.setup()
+function highlight.setup(config)
   if not config.options.highlight.enabled then
     return
   end
 
+  highlight.config = config
   highlight.hl_put = vim.api.nvim_create_namespace("yanky.put")
   highlight.timer = vim.loop.new_timer()
   vim.highlight.link("YankyPut", "Search", false)
@@ -61,7 +60,7 @@ local function highlight_regions(regions, hl_group, ns_id)
 end
 
 function highlight.highlight_put(state)
-  if not config.options.highlight.enabled then
+  if not highlight.config.options.highlight.enabled then
     return
   end
 
@@ -72,7 +71,7 @@ function highlight.highlight_put(state)
 
   highlight_regions(regions, "YankyPut", highlight.hl_put)
   highlight.timer:start(
-    config.options.highlight.timer,
+    highlight.config.options.highlight.timer,
     0,
     vim.schedule_wrap(function()
       vim.api.nvim_buf_clear_namespace(0, highlight.hl_put, 0, -1)

@@ -1,11 +1,13 @@
-local config = require("yanky.config")
-
 local shada = {}
+
+function shada.setup(config)
+  shada.config = config
+end
 
 function shada.push(item)
   table.insert(vim.g.YANKY_HISTORY, 1, item)
 
-  if #vim.g.YANKY_HISTORY > config.options.ring.history_length then
+  if #vim.g.YANKY_HISTORY > shada.config.options.ring.history_length then
     table.remove(vim.g.YANKY_HISTORY)
   end
 end
