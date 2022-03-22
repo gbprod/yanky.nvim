@@ -1,11 +1,14 @@
 local history = {
   storage = nil,
   position = nil,
+  config = nil,
 }
 
 function history.setup(config)
   history.storage = require("yanky.storage." .. config.options.ring.storage)
   history.storage.setup(config)
+
+  history.config = config
 end
 
 function history.push(item)
@@ -17,6 +20,18 @@ function history.push(item)
 
   if nil ~= history.position then
     history.position = history.position + 1
+  end
+
+  history.sync_with_numbered_registers()
+end
+
+function history.sync_with_numbered_registers()
+  if history.config.options.ring.sync_with_numbered_registers then
+    for i = 1, math.min(history.storage.length(), 9) do
+      local reg = history.storage.get(i)
+      print(vim.inspect(reg))
+      vim.fn.setreg(i, reg.regcontents, reg.regtype)
+    end
   end
 end
 

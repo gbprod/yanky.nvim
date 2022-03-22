@@ -5,11 +5,14 @@ function shada.setup(config)
 end
 
 function shada.push(item)
-  table.insert(vim.g.YANKY_HISTORY, 1, item)
+  local copy = vim.deepcopy(vim.g.YANKY_HISTORY)
+  table.insert(copy, 1, item)
 
-  if #vim.g.YANKY_HISTORY > shada.config.options.ring.history_length then
-    table.remove(vim.g.YANKY_HISTORY)
+  if #copy > shada.config.options.ring.history_length then
+    table.remove(copy)
   end
+
+  vim.g.YANKY_HISTORY = copy
 end
 
 function shada.get(n)

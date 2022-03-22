@@ -49,14 +49,10 @@ end
 
 function yanky.init_history()
   yanky.history.push(utils.get_register_info(utils.get_default_register()))
+  yanky.history.sync_with_numbered_registers()
 end
 
 local function do_put(state)
-  print(
-    vim.inspect(
-      string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
-    )
-  )
   vim.cmd(
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
