@@ -6,6 +6,11 @@ local yanky = {}
 
 yanky.state = nil
 
+yanky.preserve_position = {
+  cusor_position = nil,
+  win_state = nil,
+}
+
 yanky.direction = {
   FORWARD = 1,
   BACKWARD = -1,
@@ -145,6 +150,30 @@ end
 
 function yanky.on_yank()
   yanky.history.push(utils.get_register_info(vim.v.event.regname))
+
+  if nil ~= yanky.preserve_position.cusor_position then
+    vim.fn.setpos(".", yanky.preserve_position.cusor_position)
+    vim.fn.winrestview(yanky.preserve_position.win_state)
+
+    yanky.preserve_position.cusor_position = nil
+    yanky.preserve_position.win_state = nil
+  end
+end
+
+function yanky.yank()
+  yanky.preserve_position.cusor_position = vim.fn.getpos(".")
+  yanky.preserve_position.win_state = vim.fn.winsaveview()
+
+  vim.api.nvim_buf_attach(0, false, {
+    on_lines = function()
+      yanky.preserve_position.cusor_position = nil
+      yanky.preserve_position.win_state = nil
+
+      return true
+    end,
+  })
+
+  return "y"
 end
 
 return yanky

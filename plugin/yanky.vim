@@ -10,3 +10,6 @@ xnoremap <silent> <Plug>(YankyGPutBefore) <cmd>lua require('yanky').put('gP', tr
 
 nnoremap <silent> <Plug>(YankyCycleForward) <cmd>lua require('yanky').cycle(1)<cr>
 nnoremap <silent> <Plug>(YankyCycleBackward) <cmd>lua require('yanky').cycle(-1)<cr>
+
+nnoremap <silent> <expr> <Plug>(YankyYank) v:lua.require('yanky').yank()
+xnoremap <silent> <expr> <Plug>(YankyYank) v:lua.require('yanky').yank()

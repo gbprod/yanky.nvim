@@ -1,6 +1,7 @@
 # yanky.nvim
 
 **This plugin is under development, use at your own risk**
+**Doc is outdated, sorry, this will comes soon**
 
 [![Integration](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml/badge.svg)](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml)
 
@@ -22,11 +23,11 @@ Testing:
 - Hightlight put text **experimental**
 - Persistant history between Neovim sessions using shada
 - Automaticly record yanks that occur outside of Neovim by checking system clipboard on focus.
+- Synchronize yank history with numbered registers
+- yank preserve cursor
 
 Incoming:
 
-- Synchronize yank history with numbered registers
-- yank preserve cursor
 - Allows to change register type.
 - `vim.ui.select` integration
 

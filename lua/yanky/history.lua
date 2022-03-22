@@ -29,7 +29,6 @@ function history.sync_with_numbered_registers()
   if history.config.options.ring.sync_with_numbered_registers then
     for i = 1, math.min(history.storage.length(), 9) do
       local reg = history.storage.get(i)
-      print(vim.inspect(reg))
       vim.fn.setreg(i, reg.regcontents, reg.regtype)
     end
   end
