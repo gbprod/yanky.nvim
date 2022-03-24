@@ -1,6 +1,6 @@
 local history = {
   storage = nil,
-  position = nil,
+  position = 1,
   config = nil,
 }
 
@@ -17,10 +17,6 @@ function history.push(item)
   end
 
   history.storage.push(item)
-
-  if nil ~= history.position then
-    history.position = history.position + 1
-  end
 
   history.sync_with_numbered_registers()
 end
@@ -42,21 +38,23 @@ function history.first()
   return history.storage.get(1)
 end
 
-function history.skip_first()
-  history.position = 1
+function history.skip()
+  history.position = history.position + 1
 end
 
 function history.next()
-  history.position = history.position ~= nil and history.position + 1 or 1
-  if history.position > history.storage.length() then
+  local new_position = history.position + 1
+  if new_position > history.storage.length() then
     return nil
   end
+
+  history.position = new_position
 
   return history.storage.get(history.position)
 end
 
 function history.previous()
-  if history.position == nil or history.position == 1 then
+  if history.position == 1 then
     return nil
   end
 
@@ -66,7 +64,7 @@ function history.previous()
 end
 
 function history.reset()
-  history.position = nil
+  history.position = 1
 end
 
 return history

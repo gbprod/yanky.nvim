@@ -1,11 +1,11 @@
-# yanky.nvim
+# 🖇️ yanky.nvim
 
 **This plugin is under development, use at your own risk**
-**Doc is outdated, sorry, this will comes soon**
 
-[![Integration](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml/badge.svg)](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml)
+![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gbprod/yanky.nvim/Integration?style=for-the-badge)](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml)
 
-The aim of `yanky.nvim` is to improve yank and paste behavior in Neovim.
+The aim of `yanky.nvim` is to improve yank and put behavior in Neovim.
 
 French slogan:
 

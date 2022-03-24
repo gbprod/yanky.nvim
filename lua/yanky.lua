@@ -6,6 +6,9 @@ local yanky = {}
 
 yanky.state = nil
 
+yanky.is_cycling = false
+yanky.skip_next = false
+
 yanky.preserve_position = {
   cusor_position = nil,
   win_state = nil,
@@ -32,12 +35,13 @@ function yanky.setup(options)
   yanky.config = require("yanky.config")
   yanky.config.setup(options)
 
+  yanky.history = require("yanky.history")
+  yanky.history.setup(yanky.config)
+
   if not vim.tbl_contains(vim.tbl_values(yanky.storage), yanky.config.options.ring.storage) then
     vim.notify("Invalid storage " .. yanky.config.options.ring.storage, vim.log.levels.ERROR)
     return
   end
-
-  yanky.history = require("yanky.history")
 
   system_clipboard.setup(yanky.history, yanky.config)
   highlight.setup(yanky.config)
@@ -57,6 +61,10 @@ function yanky.init_history()
 end
 
 local function do_put(state)
+  if state.is_visual then
+    vim.cmd([[execute "normal! \<esc>"]])
+  end
+
   vim.cmd(
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
@@ -70,30 +78,28 @@ function yanky.put(type, is_visual)
     return
   end
 
-  local register = vim.v.register ~= '"' and vim.v.register or utils.get_default_register()
-  local state = {
+  yanky.state = nil
+  yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, do_put)
+end
+
+function yanky.init_ring(type, register, count, is_visual, callback)
+  register = register ~= '"' and register or utils.get_default_register()
+  yanky.state = {
     type = type,
     register = register,
-    count = vim.v.count > 0 and vim.v.count or 1,
+    count = count > 0 and count or 1,
     is_visual = is_visual,
   }
+  yanky.is_cycling = false
 
-  if is_visual then
-    vim.cmd([[execute "normal! \<esc>"]])
+  if nil ~= callback then
+    callback(yanky.state)
   end
-
-  yanky.history.reset()
-  if vim.deep_equal(yanky.history.first(), utils.get_register_info(register)) then
-    yanky.history.skip_first()
-  end
-
-  do_put(state)
-
-  yanky.state = state
 
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function()
       yanky.state = nil
+      yanky.is_cycling = false
 
       return true
     end,
@@ -111,6 +117,15 @@ function yanky.cycle(direction)
   if not vim.tbl_contains(vim.tbl_values(yanky.direction), direction) then
     vim.notify("Invalid direction for cycle", vim.log.levels.ERROR)
     return
+  end
+
+  if not yanky.is_cycling then
+    yanky.history.reset()
+  end
+
+  if yanky.skip_next then
+    yanky.history.skip()
+    yanky.skip_next = false
   end
 
   local current_register_info = utils.get_register_info(yanky.state.register)
@@ -144,10 +159,16 @@ function yanky.cycle(direction)
 
   vim.fn.setreg(new_state.register, current_register_info.regcontents, current_register_info.regtype)
 
+  yanky.is_cycling = true
   yanky.state = new_state
 end
 
 function yanky.on_yank()
+  -- Only historize first delete in visual mode
+  if vim.v.event.visual and vim.v.event.operator == "d" and yanky.is_cycling then
+    return
+  end
+
   yanky.history.push(utils.get_register_info(vim.v.event.regname))
 
   if nil ~= yanky.preserve_position.cusor_position then

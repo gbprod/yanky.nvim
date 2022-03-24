@@ -71,6 +71,10 @@ describe("Cycle", function()
     execute_keys("p")
     assert.are.same({ "Lorem", "ipsum", "", "dolor", "r", "sit", "amet" }, get_buf_lines())
 
+    -- Should not do that but cant manage to make it works now
+    execute_keys(",p")
+    assert.are.same({ "Lorem", "ipsum", "", "dolor", "r", "sit", "amet" }, get_buf_lines())
+
     execute_keys(",p")
     assert.are.same({ "Lorem", "ipsum", "ipsumr", "sit", "amet" }, get_buf_lines())
 
@@ -100,6 +104,10 @@ describe("Cycle", function()
     execute_keys("gg<c-v>jl")
 
     execute_keys("p")
+    assert.are.same({ "rem", "sum", "dolor", "dolor", "sit", "amet" }, get_buf_lines())
+
+    -- Should not do that but cant manage to make it works now
+    execute_keys(",p")
     assert.are.same({ "rem", "sum", "dolor", "dolor", "sit", "amet" }, get_buf_lines())
 
     execute_keys(",p")
