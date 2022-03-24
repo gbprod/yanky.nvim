@@ -38,7 +38,6 @@ function yanky.setup(options)
   end
 
   yanky.history = require("yanky.history")
-  yanky.history.setup(yanky.config)
 
   system_clipboard.setup(yanky.history, yanky.config)
   highlight.setup(yanky.config)

@@ -2,6 +2,9 @@ local shada = {}
 
 function shada.setup(config)
   shada.config = config
+  if nil == vim.g.YANKY_HISTORY then
+    vim.g.YANKY_HISTORY = {}
+  end
 end
 
 function shada.push(item)
