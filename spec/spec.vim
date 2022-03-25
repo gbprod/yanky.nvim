@@ -19,3 +19,6 @@ lua vim.api.nvim_set_keymap("x", "gP", "<Plug>(YankyGPutBefore)", {})
 
 lua vim.api.nvim_set_keymap("n", ",p", "<Plug>(YankyCycleForward)", {})
 lua vim.api.nvim_set_keymap("n", ",P", "<Plug>(YankyCycleBackward)", {})
+
+lua vim.api.nvim_set_keymap("n", "y", "<Plug>(YankyYank)", {})
+lua vim.api.nvim_set_keymap("x", "y", "<Plug>(YankyYank)", {})

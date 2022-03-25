@@ -1,6 +1,7 @@
 local utils = require("yanky.utils")
 local highlight = require("yanky.highlight")
 local system_clipboard = require("yanky.system_clipboard")
+local preserve_cursor = require("yanky.preserve_cursor")
 
 local yanky = {}
 
@@ -177,27 +178,11 @@ function yanky.on_yank()
 
   yanky.history.push(utils.get_register_info(vim.v.event.regname))
 
-  if nil ~= yanky.preserve_position.cusor_position then
-    vim.fn.setpos(".", yanky.preserve_position.cusor_position)
-    vim.fn.winrestview(yanky.preserve_position.win_state)
-
-    yanky.preserve_position.cusor_position = nil
-    yanky.preserve_position.win_state = nil
-  end
+  preserve_cursor.on_yank()
 end
 
 function yanky.yank()
-  yanky.preserve_position.cusor_position = vim.fn.getpos(".")
-  yanky.preserve_position.win_state = vim.fn.winsaveview()
-
-  vim.api.nvim_buf_attach(0, false, {
-    on_lines = function()
-      yanky.preserve_position.cusor_position = nil
-      yanky.preserve_position.win_state = nil
-
-      return true
-    end,
-  })
+  preserve_cursor.yank()
 
   return "y"
 end
