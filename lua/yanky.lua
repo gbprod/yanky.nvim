@@ -11,11 +11,6 @@ yanky.ring = {
   skip_next = false,
 }
 
-yanky.preserve_position = {
-  cusor_position = nil,
-  win_state = nil,
-}
-
 yanky.direction = {
   FORWARD = 1,
   BACKWARD = -1,
