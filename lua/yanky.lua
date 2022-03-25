@@ -4,10 +4,11 @@ local system_clipboard = require("yanky.system_clipboard")
 
 local yanky = {}
 
-yanky.state = nil
-
-yanky.is_cycling = false
-yanky.skip_next = false
+yanky.ring = {
+  state = nil,
+  is_cycling = false,
+  skip_next = false,
+}
 
 yanky.preserve_position = {
   cusor_position = nil,
@@ -78,28 +79,28 @@ function yanky.put(type, is_visual)
     return
   end
 
-  yanky.state = nil
+  yanky.ring.state = nil
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, do_put)
 end
 
 function yanky.init_ring(type, register, count, is_visual, callback)
   register = register ~= '"' and register or utils.get_default_register()
-  yanky.state = {
+  yanky.ring.state = {
     type = type,
     register = register,
     count = count > 0 and count or 1,
     is_visual = is_visual,
   }
-  yanky.is_cycling = false
+  yanky.ring.is_cycling = false
 
   if nil ~= callback then
-    callback(yanky.state)
+    callback(yanky.ring.state)
   end
 
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function()
-      yanky.state = nil
-      yanky.is_cycling = false
+      yanky.ring.state = nil
+      yanky.ring.is_cycling = false
 
       return true
     end,
@@ -107,7 +108,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
 end
 
 function yanky.cycle(direction)
-  if nil == yanky.state then
+  if nil == yanky.ring.state then
     vim.notify("Your last action was not put, ignoring cycle", vim.log.levels.INFO)
     return
   end
@@ -119,18 +120,18 @@ function yanky.cycle(direction)
     return
   end
 
-  if not yanky.is_cycling then
+  if not yanky.ring.is_cycling then
     yanky.history.reset()
   end
 
-  if yanky.skip_next then
+  if yanky.ring.skip_next then
     yanky.history.skip()
-    yanky.skip_next = false
+    yanky.ring.skip_next = false
   end
 
-  local current_register_info = utils.get_register_info(yanky.state.register)
+  local current_register_info = utils.get_register_info(yanky.ring.state.register)
 
-  local new_state = yanky.state
+  local new_state = yanky.ring.state
   local next_content
 
   if direction == yanky.direction.FORWARD then
@@ -159,13 +160,13 @@ function yanky.cycle(direction)
 
   vim.fn.setreg(new_state.register, current_register_info.regcontents, current_register_info.regtype)
 
-  yanky.is_cycling = true
-  yanky.state = new_state
+  yanky.ring.is_cycling = true
+  yanky.ring.state = new_state
 end
 
 function yanky.on_yank()
   -- Only historize first delete in visual mode
-  if vim.v.event.visual and vim.v.event.operator == "d" and yanky.is_cycling then
+  if vim.v.event.visual and vim.v.event.operator == "d" and yanky.ring.is_cycling then
     return
   end
 
