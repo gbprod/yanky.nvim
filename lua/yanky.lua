@@ -80,22 +80,27 @@ function yanky.put(type, is_visual)
   end
 
   yanky.ring.state = nil
+  yanky.ring.is_cycling = false
+  yanky.ring.skip_next = false
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, do_put)
 end
 
 function yanky.init_ring(type, register, count, is_visual, callback)
   register = register ~= '"' and register or utils.get_default_register()
-  yanky.ring.state = {
+  local new_state = {
     type = type,
     register = register,
     count = count > 0 and count or 1,
     is_visual = is_visual,
   }
-  yanky.ring.is_cycling = false
 
   if nil ~= callback then
-    callback(yanky.ring.state)
+    callback(new_state)
   end
+
+  yanky.ring.state = new_state
+  yanky.ring.is_cycling = false
+  yanky.ring.skip_next = false
 
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function()
