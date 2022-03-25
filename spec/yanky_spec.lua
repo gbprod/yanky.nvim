@@ -99,6 +99,7 @@ describe("Put in blocwise mode", function()
 
   it("should paste after", function()
     execute_keys("<c-v>jjlly")
+    execute_keys("gg^")
     execute_keys("jll")
     execute_keys("p")
 
@@ -107,6 +108,7 @@ describe("Put in blocwise mode", function()
 
   it("should paste before", function()
     execute_keys("<c-v>jjlly")
+    execute_keys("gg^")
     execute_keys("jll")
     execute_keys("P")
 
@@ -115,6 +117,7 @@ describe("Put in blocwise mode", function()
 
   it("should be repeatable", function()
     execute_keys("<c-v>jjlly")
+    execute_keys("gg^")
     execute_keys("jll")
     execute_keys("3p")
 
