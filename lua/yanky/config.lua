@@ -13,8 +13,12 @@ local function with_defaults(options)
       sync_with_ring = options.system_clipboard and options.system_clipboard.sync_with_ring or true,
     },
     highlight = {
-      enabled = options.highlight and options.highlight.enabled or true,
+      on_put = options.highlight and options.highlight.on_put or true,
+      on_yank = options.highlight and options.highlight.on_yank or true,
       timer = options.highlight and options.highlight.timer or 500,
+    },
+    preserve_cursor_position = {
+      enabled = options.preserve_cursor_position and options.preserve_cursor_position.enabled or true,
     },
   }
 end

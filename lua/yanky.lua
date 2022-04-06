@@ -23,25 +23,16 @@ yanky.type = {
   GPUT_AFTER = "gp",
 }
 
-yanky.storage = {
-  SHADA = "shada",
-  MEMORY = "memory",
-}
-
 function yanky.setup(options)
   yanky.config = require("yanky.config")
   yanky.config.setup(options)
 
   yanky.history = require("yanky.history")
-  yanky.history.setup(yanky.config)
+  yanky.history.setup()
 
-  if not vim.tbl_contains(vim.tbl_values(yanky.storage), yanky.config.options.ring.storage) then
-    vim.notify("Invalid storage " .. yanky.config.options.ring.storage, vim.log.levels.ERROR)
-    return
-  end
-
-  system_clipboard.setup(yanky.history, yanky.config)
-  highlight.setup(yanky.config)
+  system_clipboard.setup()
+  highlight.setup()
+  preserve_cursor.setup()
 
   vim.cmd([[
   augroup Yanky
@@ -83,6 +74,13 @@ end
 
 function yanky.init_ring(type, register, count, is_visual, callback)
   register = register ~= '"' and register or utils.get_default_register()
+
+  local reg_content = vim.fn.getreg(register)
+  if nil == reg_content or "" == reg_content then
+    vim.notify(string.format('Register "%s" is empty', register), vim.log.levels.WARN)
+    return
+  end
+
   local new_state = {
     type = type,
     register = register,
@@ -181,5 +179,14 @@ function yanky.yank()
 
   return "y"
 end
+
+-- function yanky.select_in_history()
+--   vim.ui.select(yanky.history.all(), {
+--     prompt = "Ring history",
+--     format_item = function(item)
+--       return item.regcontents
+--     end,
+--   }, function() end)
+-- end
 
 return yanky

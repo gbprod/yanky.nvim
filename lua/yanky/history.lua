@@ -4,11 +4,10 @@ local history = {
   config = nil,
 }
 
-function history.setup(config)
-  history.storage = require("yanky.storage." .. config.options.ring.storage)
-  history.storage.setup(config)
-
-  history.config = config
+function history.setup()
+  history.config = require("yanky.config").options.ring
+  history.storage = require("yanky.storage." .. history.config.storage)
+  history.storage.setup()
 end
 
 function history.push(item)
@@ -22,7 +21,7 @@ function history.push(item)
 end
 
 function history.sync_with_numbered_registers()
-  if history.config.options.ring.sync_with_numbered_registers then
+  if history.config.sync_with_numbered_registers then
     for i = 1, math.min(history.storage.length(), 9) do
       local reg = history.storage.get(i)
       vim.fn.setreg(i, reg.regcontents, reg.regtype)
@@ -65,6 +64,10 @@ end
 
 function history.reset()
   history.position = 1
+end
+
+function history.all()
+  return history.storage.all()
 end
 
 return history

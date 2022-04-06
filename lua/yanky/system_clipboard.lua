@@ -1,16 +1,16 @@
 local utils = require("yanky.utils")
 
 local system_clipboard = {
-  history = nil,
   state = {
     reg_info_on_focus_lost = nil,
   },
 }
 
-function system_clipboard.setup(history, config)
-  system_clipboard.history = history
+function system_clipboard.setup()
+  system_clipboard.config = require("yanky.config").options.system_clipboard
+  system_clipboard.history = require("yanky.history")
 
-  if config.options.system_clipboard.sync_with_ring then
+  if system_clipboard.config.sync_with_ring then
     vim.cmd([[
       augroup YankySyncClipboard
         au!

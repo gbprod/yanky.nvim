@@ -5,7 +5,15 @@ preserve_cursor.state = {
   win_state = nil,
 }
 
+function preserve_cursor.setup()
+  preserve_cursor.config = require("yanky.config").options.preserve_cursor_position
+end
+
 function preserve_cursor.on_yank()
+  if not preserve_cursor.config.enabled then
+    return
+  end
+
   if nil ~= preserve_cursor.state.cusor_position then
     vim.fn.setpos(".", preserve_cursor.state.cusor_position)
     vim.fn.winrestview(preserve_cursor.state.win_state)
@@ -18,6 +26,10 @@ function preserve_cursor.on_yank()
 end
 
 function preserve_cursor.yank()
+  if not preserve_cursor.config.enabled then
+    return
+  end
+
   preserve_cursor.state = {
     cusor_position = vim.fn.getpos("."),
     win_state = vim.fn.winsaveview(),
