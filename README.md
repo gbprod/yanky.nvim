@@ -18,8 +18,8 @@ Or in English:
 ## ✨ Features
 
 - [Yank-ring](#-yank-ring)
-- [Hightlight put and yanked text](#-hightlight-put-and-yanked-text)
-- [Perserve cursor position on yank](#-preserve-cursor-position-on-yank)
+- [Highlight put and yanked text](#-hightlight-put-and-yanked-text)
+- [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
 
 ## ⚡️ Requirements
 
@@ -180,7 +180,7 @@ This means, if `&clipboard` is set to `unnamed` and/or `unnamedplus`, if you yan
 
 If `&clipboard` is empty, if you yank something outside of Neovim, this will be the first value you'll have when cycling through the ring. Basicly, you can do `p` and then `<c-p>` to paste yanked text.
 
-## 💡 Hightlight put and yanked text
+## 💡 Highlight put and yanked text
 
 This will give you a visual feedback on put and yank text
 by highlighting this.
@@ -217,7 +217,7 @@ Default : `500`
 
 Define the duration of highlight.
 
-## ⏹️ Preserve cursor position on yank
+## ⤵️ Preserve cursor position on yank
 
 By default in Neovim, when yanking text, cursor moves to the start of the yanked text. Could be annoying especially when yanking a large text object such as a paragraph or a large text object.
 
@@ -246,7 +246,31 @@ Default : `true`
 
 Define if cursor position should be preserved on yank. This works only if mappings has been defined.
 
-## 🤝 Credits
+## 🎨 Colors
+
+| Description                     | Group       | Default        |
+| ------------------------------- | ----------- | -------------- |
+| Highlight color for put text    | YankyPut    | link to Search |
+| Highlight color for yanked text | YankyYanked | link to Search |
+
+## 🤝 Integrations
+
+<details>
+<summary><b>gbprod/substitute.nvim</b></summary>
+
+To enable [gbprod/substitute.nvim](https://github.com/gbprod/substitute.nvim) swap when performing a substitution, you can add this to your setup:
+
+```lua
+require("substitute").setup({
+  on_substitute = function(event)
+    require("yanky").init_ring("p", event.register, event.count, event.vmode:match("[vV]"))
+  end,
+})
+```
+
+</details>
+
+## 🎉 Credits
 
 This plugin is mostly a lua version of [svermeulen/vim-yoink](https://github.com/svermeulen/vim-yoink) awesome plugin.
 
