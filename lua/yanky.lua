@@ -2,6 +2,7 @@ local utils = require("yanky.utils")
 local highlight = require("yanky.highlight")
 local system_clipboard = require("yanky.system_clipboard")
 local preserve_cursor = require("yanky.preserve_cursor")
+local picker = require("yanky.picker")
 
 local yanky = {}
 
@@ -33,6 +34,7 @@ function yanky.setup(options)
   system_clipboard.setup()
   highlight.setup()
   preserve_cursor.setup()
+  picker.setup()
 
   vim.cmd([[
   augroup Yanky
@@ -128,8 +130,6 @@ function yanky.cycle(direction)
     yanky.ring.skip_next = false
   end
 
-  local current_register_info = utils.get_register_info(yanky.ring.state.register)
-
   local new_state = yanky.ring.state
   local next_content
 
@@ -147,17 +147,15 @@ function yanky.cycle(direction)
     end
   end
 
-  vim.fn.setreg(new_state.register, next_content.regcontents, next_content.regtype)
-
-  if new_state.is_visual then -- Can't manage to make visual replacement repeatable
-    vim.cmd("silent normal! u")
-    do_put(new_state)
-  else
-    vim.cmd("silent normal! u.")
-    highlight.highlight_put(new_state)
-  end
-
-  vim.fn.setreg(new_state.register, current_register_info.regcontents, current_register_info.regtype)
+  utils.use_temporary_register(yanky.ring.state.register, next_content, function()
+    if new_state.is_visual then -- Can't manage to make visual replacement repeatable
+      vim.cmd("silent normal! u")
+      do_put(new_state)
+    else
+      vim.cmd("silent normal! u.")
+      highlight.highlight_put(new_state)
+    end
+  end)
 
   yanky.ring.is_cycling = true
   yanky.ring.state = new_state
@@ -168,8 +166,10 @@ function yanky.on_yank()
   if vim.v.event.visual and vim.v.event.operator == "d" and yanky.ring.is_cycling then
     return
   end
+  local entry = utils.get_register_info(vim.v.event.regname)
+  entry.filetype = vim.bo.filetype
 
-  yanky.history.push(utils.get_register_info(vim.v.event.regname))
+  yanky.history.push(entry)
 
   preserve_cursor.on_yank()
 end
@@ -179,14 +179,5 @@ function yanky.yank()
 
   return "y"
 end
-
--- function yanky.select_in_history()
---   vim.ui.select(yanky.history.all(), {
---     prompt = "Ring history",
---     format_item = function(item)
---       return item.regcontents
---     end,
---   }, function() end)
--- end
 
 return yanky

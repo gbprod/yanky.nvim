@@ -31,4 +31,10 @@ function utils.get_register_info(register)
   }
 end
 
+function utils.use_temporary_register(register, register_info, callback)
+  local current_register_info = utils.get_register_info(register)
+  vim.fn.setreg(register, register_info.regcontents, register_info.regtype)
+  callback()
+  vim.fn.setreg(register, current_register_info.regcontents, current_register_info.regtype)
+end
 return utils
