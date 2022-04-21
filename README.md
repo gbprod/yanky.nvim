@@ -17,14 +17,14 @@ Or in English:
 
 ## ✨ Features
 
-- [Yank-ring](#-yank-ring)
+- [Yank-ring](#%EF%B8%8F-yank-ring)
 - [Yank history picker](#-yank-history-picker)
 - [Highlight put and yanked text](#-highlight-put-and-yanked-text)
 - [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
 
 ## ⚡️ Requirements
 
-Requires neovim > 0.7.0.
+Requires neovim > `0.7.0`.
 
 ## Usage
 
