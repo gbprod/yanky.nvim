@@ -1,4 +1,4 @@
-# 🖇️ yanky.nvim
+# 🍃 yanky.nvim
 
 **This plugin still under development, use at your own risk**
 
@@ -18,12 +18,13 @@ Or in English:
 ## ✨ Features
 
 - [Yank-ring](#-yank-ring)
-- [Highlight put and yanked text](#-hightlight-put-and-yanked-text)
+- [Yank history picker](#-yank-history-picker)
+- [Highlight put and yanked text](#-highlight-put-and-yanked-text)
 - [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
 
 ## ⚡️ Requirements
 
-Requires neovim > 0.6.0.
+Requires neovim > 0.7.0.
 
 ## Usage
 
@@ -72,6 +73,14 @@ Yanky comes with the following defaults:
     storage = "shada",
     sync_with_numbered_registers = true,
   },
+  picker = {
+    select = {
+      action = nil, -- nil to use default put action
+    },
+    telescope = {
+      mappings = nil, -- nil to use default mappings
+    },
+  },
   system_clipboard = {
     sync_with_ring = true,
   },
@@ -104,10 +113,11 @@ vim.api.nvim_set_keymap("x", "gP", "<Plug>(YankyGPutBefore)", {})
 
 Some features requires specific mappings, refer to feature documentation section.
 
-## 🍃 Yank-ring
+## 🖇️ Yank-ring
 
-Yank-ring allows cycling throught yank history when putting text (like the Emacs "kill-ring" feature).
-Yanky automatically maintain a history of yanks that you can choose between when pasting.
+Yank-ring allows cycling throught yank history when putting text (like the Emacs
+"kill-ring" feature). Yanky automatically maintain a history of yanks that you
+can choose between when pasting.
 
 ### ⌨️ Mappings
 
@@ -116,10 +126,12 @@ vim.api.nvim_set_keymap("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
 vim.api.nvim_set_keymap("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
 ```
 
-With these mappings, after performing a paste, you can cycle through the history by hitting `<c-n>` and `<c-p>`.
-Any modifications done after pasting will cancel the possibility to cycle.
+With these mappings, after performing a paste, you can cycle through the history
+by hitting `<c-n>` and `<c-p>`. Any modifications done after pasting will cancel
+the possibility to cycle.
 
-Note that the swap operations above will only affect the current paste and the history will be unchanged.
+Note that the swap operations above will only affect the current paste and the
+history will be unchanged.
 
 ### ⚙️ Configuration
 
@@ -165,8 +177,9 @@ lost between sessions.
 
 Default : `true`
 
-History can also be synchronized with numbered registers. Every time the yank history changes the numbered registers 1 - 9.
-will be updated to sync with the first 9 entries in the yank history. See [here](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
+History can also be synchronized with numbered registers. Every time the yank
+history changes the numbered registers 1 - 9 will be updated to sync with the
+first 9 entries in the yank history. See [here](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
 for an explanation of why we would want do do this.
 
 ### `system_clipboard.sync_with_ring`
@@ -176,9 +189,109 @@ Default: `true`
 Yanky can automatically adds to ring history yanks that occurs outside of Neovim.
 This works regardless to your `&clipboard` setting.
 
-This means, if `&clipboard` is set to `unnamed` and/or `unnamedplus`, if you yank something outside of Neovim, you can put it immediatly using `p` and it will be added to your yank ring.
+This means, if `&clipboard` is set to `unnamed` and/or `unnamedplus`, if you yank
+something outside of Neovim, you can put it immediatly using `p` and it will be
+added to your yank ring.
 
-If `&clipboard` is empty, if you yank something outside of Neovim, this will be the first value you'll have when cycling through the ring. Basicly, you can do `p` and then `<c-p>` to paste yanked text.
+If `&clipboard` is empty, if you yank something outside of Neovim, this will be
+the first value you'll have when cycling through the ring. Basicly, you can do
+`p` and then `<c-p>` to paste yanked text.
+
+## 📜 Yank history picker
+
+This allows you to select an entry in your recorded yank history using default
+`vim.ui.select` neovim prompt (you can use [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim/)
+to customize this) or the awesome [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
+
+It uses the same history as yank ring, so, if you want to increase history size,
+just use [`ring.history_length` option](#ringhistory_length).
+
+### ⚙️ Configuration
+
+To use `vim.ui.select` picker, just call `YankyRingHistory` command.
+
+To use `Telescope` extension, you must first register this extention and then
+you can call `Telescope yank_history` :
+
+```lua
+require("telescope").load_extension("yank_history")
+```
+
+If you want dynamic title with register type in Telescope preview window, you
+should set [`dynamic_preview_title`](https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt)
+Telescope options to `true`.
+
+Default configuration :
+
+```lua
+require("yanky").setup({
+  picker = {
+    select = {
+      action = nil, -- nil to use default put action
+    },
+    telescope = {
+      mappings = nil, -- nil to use default mappings
+    },
+  },
+})
+```
+
+#### `picker.select.acion`
+
+Default : `nil`
+
+This define the action that should be done when selecting an item in the
+`vim.ui.select` prompt. If you let this option to `nil`, this will use the
+default action : put selected item after cursor.
+
+Available actions:
+
+```lua
+require("yanky.picker").actions.put("p") -- put after cursor
+require("yanky.picker").actions.put("P") -- put before cursor
+require("yanky.picker").actions.put("gp") -- put after cursor and leave the cursor after
+require("yanky.picker").actions.put("gP") -- put before cursor and leave the cursor after
+```
+
+#### `picker.telescope.mappings`
+
+Default : `nil`
+
+This define the mappings available in Telescope. If you let this option to `nil`,
+this will use the default mappings :
+
+```lua
+local mapping = require("yanky.telescope.mapping")
+
+require("yanky").setup({
+  picker = {
+    telescope = {
+      mappings = {
+        default = mapping.put("p"),
+        i = {
+          ["<c-p>"] = mapping.put("p"),
+          ["<c-k>"] = mapping.put("P"),
+        },
+        n = {
+          ["p"] = mapping.put("p"),
+          ["P"] = mapping.put("P"),
+        },
+      }
+    }
+  }
+})
+```
+
+Available actions:
+
+```lua
+require("yanky.telescope.mapping").put("p") -- put after cursor
+require("yanky.telescope.mapping").put("P") -- put before cursor
+require("yanky.telescope.mapping").put("gp") -- put after cursor and leave the cursor after
+require("yanky.telescope.mapping").put("gP") -- put before cursor and leave the cursor after
+```
+
+_NB: More actions and mappings will come._
 
 ## 💡 Highlight put and yanked text
 
@@ -219,9 +332,12 @@ Define the duration of highlight.
 
 ## ⤵️ Preserve cursor position on yank
 
-By default in Neovim, when yanking text, cursor moves to the start of the yanked text. Could be annoying especially when yanking a large text object such as a paragraph or a large text object.
+By default in Neovim, when yanking text, cursor moves to the start of the yanked
+text. Could be annoying especially when yanking a large text object such as a
+paragraph or a large text object.
 
-With this feature, yank will function exactly the same as previously with the one difference being that the cursor position will not change after performing a yank.
+With this feature, yank will function exactly the same as previously with the one
+difference being that the cursor position will not change after performing a yank.
 
 ### ⌨️ Mappings
 
@@ -244,7 +360,8 @@ require("yanky").setup({
 
 Default : `true`
 
-Define if cursor position should be preserved on yank. This works only if mappings has been defined.
+Define if cursor position should be preserved on yank. This works only if mappings
+has been defined.
 
 ## 🎨 Colors
 
@@ -258,7 +375,8 @@ Define if cursor position should be preserved on yank. This works only if mappin
 <details>
 <summary><b>gbprod/substitute.nvim</b></summary>
 
-To enable [gbprod/substitute.nvim](https://github.com/gbprod/substitute.nvim) swap when performing a substitution, you can add this to your setup:
+To enable [gbprod/substitute.nvim](https://github.com/gbprod/substitute.nvim)
+swap when performing a substitution, you can add this to your setup:
 
 ```lua
 require("substitute").setup({
@@ -272,7 +390,8 @@ require("substitute").setup({
 
 ## 🎉 Credits
 
-This plugin is mostly a lua version of [svermeulen/vim-yoink](https://github.com/svermeulen/vim-yoink) awesome plugin.
+This plugin is mostly a lua version of [svermeulen/vim-yoink](https://github.com/svermeulen/vim-yoink)
+awesome plugin.
 
 Other inspiration :
 

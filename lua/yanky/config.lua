@@ -5,7 +5,7 @@ config.options = {}
 local function with_defaults(options)
   return {
     ring = {
-      history_length = options.ring and options.ring.history_length or 10,
+      history_length = options.ring and options.ring.history_length or 100,
       storage = options.ring and options.ring.storage or "shada",
       sync_with_numbered_registers = options.ring and options.ring.sync_with_numbered_registers or true,
     },
@@ -19,6 +19,14 @@ local function with_defaults(options)
     },
     preserve_cursor_position = {
       enabled = options.preserve_cursor_position and options.preserve_cursor_position.enabled or true,
+    },
+    picker = {
+      select = {
+        action = nil,
+      },
+      telescope = {
+        mappings = nil,
+      },
     },
   }
 end

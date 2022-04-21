@@ -55,6 +55,7 @@ end
 local function highlight_regions(regions, hl_group, ns_id)
   for _, region in ipairs(regions) do
     for line = region.start_row, region.end_row do
+      -- TODO: Try vim.highlight.range ?
       vim.api.nvim_buf_add_highlight(
         0,
         ns_id,
