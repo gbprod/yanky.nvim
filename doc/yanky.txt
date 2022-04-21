@@ -54,7 +54,7 @@ Or in English:
 
 ⚡️ REQUIREMENTS                                *yanky-⚡️-requirements*
 
-Requires neovim > 0.7.0.
+Requires neovim > `0.7.0`.
 
 USAGE                                                            *yanky-usage*
 
