@@ -8,7 +8,7 @@ function mapping.put(type)
   return function(prompt_bufnr)
     actions.close(prompt_bufnr)
     local selection = action_state.get_selected_entry()
-    picker.actions.make_put_handler(type)(selection.value)
+    picker.actions.put(type)(selection.value)
   end
 end
 
