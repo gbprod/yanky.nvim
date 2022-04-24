@@ -101,14 +101,14 @@ This plugin contains no default mappings and will have no effect until you add y
 You should at least set those keymaps:
 
 ```lua
-vim.api.nvim_set_keymap("n", "p", "<Plug>(YankyPutAfter)", {})
-vim.api.nvim_set_keymap("n", "P", "<Plug>(YankyPutBefore)", {})
-vim.api.nvim_set_keymap("x", "p", "<Plug>(YankyPutAfter)", {})
-vim.api.nvim_set_keymap("x", "P", "<Plug>(YankyPutBefore)", {})
-vim.api.nvim_set_keymap("n", "gp", "<Plug>(YankyGPutAfter)", {})
-vim.api.nvim_set_keymap("n", "gP", "<Plug>(YankyGPutBefore)", {})
-vim.api.nvim_set_keymap("x", "gp", "<Plug>(YankyGPutAfter)", {})
-vim.api.nvim_set_keymap("x", "gP", "<Plug>(YankyGPutBefore)", {})
+vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
+vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
+vim.keymap.set("x", "p", "<Plug>(YankyPutAfter)", {})
+vim.keymap.set("x", "P", "<Plug>(YankyPutBefore)", {})
+vim.keymap.set("n", "gp", "<Plug>(YankyGPutAfter)", {})
+vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
+vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
+vim.keymap.set("x", "gP", "<Plug>(YankyGPutBefore)", {})
 ```
 
 Some features requires specific mappings, refer to feature documentation section.
@@ -342,8 +342,8 @@ difference being that the cursor position will not change after performing a yan
 ### ⌨️ Mappings
 
 ```lua
-vim.api.nvim_set_keymap("n", "y", "<Plug>(YankyYank)", {})
-vim.api.nvim_set_keymap("x", "y", "<Plug>(YankyYank)", {})
+vim.keymap.set("n", "y", "<Plug>(YankyYank)", {})
+vim.keymap.set("x", "y", "<Plug>(YankyYank)", {})
 ```
 
 ### ⚙️ Configuration
