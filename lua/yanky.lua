@@ -51,6 +51,8 @@ function yanky.setup(options)
       yanky.init_history()
     end,
   })
+
+  vim.api.nvim_create_user_command("YankyClearHistory", yanky.clear_history, {})
 end
 
 function yanky.init_history()
@@ -186,6 +188,10 @@ function yanky.yank()
   preserve_cursor.yank()
 
   return "y"
+end
+
+function yanky.clear_history()
+  yanky.history.clear()
 end
 
 return yanky
