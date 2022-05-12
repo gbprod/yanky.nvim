@@ -83,7 +83,7 @@ function yanky.put(type, is_visual)
 end
 
 function yanky.init_ring(type, register, count, is_visual, callback)
-  register = register ~= '"' and register or utils.get_default_register()
+  register = (register ~= '"' and register ~= "_") and register or utils.get_default_register()
 
   local reg_content = vim.fn.getreg(register)
   if nil == reg_content or "" == reg_content then
