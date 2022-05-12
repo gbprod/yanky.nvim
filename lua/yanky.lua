@@ -36,13 +36,21 @@ function yanky.setup(options)
   preserve_cursor.setup()
   picker.setup()
 
-  vim.cmd([[
-  augroup Yanky
-    au!
-    autocmd TextYankPost * lua require('yanky').on_yank()
-    autocmd VimEnter * lua require('yanky').init_history()
-  augroup END
-  ]])
+  local yanky_augroup = vim.api.nvim_create_augroup("Yanky", { clear = true })
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    group = yanky_augroup,
+    pattern = "*",
+    callback = function(_)
+      yanky.on_yank()
+    end,
+  })
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = yanky_augroup,
+    pattern = "*",
+    callback = function(_)
+      yanky.init_history()
+    end,
+  })
 end
 
 function yanky.init_history()

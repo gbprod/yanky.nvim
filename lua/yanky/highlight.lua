@@ -5,17 +5,18 @@ function highlight.setup()
   if highlight.config.on_put then
     highlight.hl_put = vim.api.nvim_create_namespace("yanky.put")
     highlight.timer = vim.loop.new_timer()
+
     vim.highlight.link("YankyPut", "Search", false)
     vim.highlight.link("YankyYanked", "Search", false)
   end
 
-  if highlight.config.on_put then
-    vim.cmd(
-      string.format(
-        "autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup='YankyYanked', timeout=%s}",
-        highlight.config.timer
-      )
-    )
+  if highlight.config.on_yank then
+    vim.api.nvim_create_autocmd("TextYankPost", {
+      pattern = "*",
+      callback = function(_)
+        vim.highlight.on_yank({ higroup = "YankyYanked", timeout = highlight.config.timer })
+      end,
+    })
   end
 end
 

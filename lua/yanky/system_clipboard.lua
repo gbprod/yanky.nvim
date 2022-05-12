@@ -11,13 +11,21 @@ function system_clipboard.setup()
   system_clipboard.history = require("yanky.history")
 
   if system_clipboard.config.sync_with_ring then
-    vim.cmd([[
-      augroup YankySyncClipboard
-        au!
-        autocmd FocusGained * lua require('yanky.system_clipboard').on_focus_gained()
-        autocmd FocusLost * lua require('yanky.system_clipboard').on_focus_lost()
-      augroup END
-    ]])
+    local yanky_clipboard_augroup = vim.api.nvim_create_augroup("YankySyncClipboard", { clear = true })
+    vim.api.nvim_create_autocmd("FocusGained", {
+      group = yanky_clipboard_augroup,
+      pattern = "*",
+      callback = function(_)
+        system_clipboard.on_focus_gained()
+      end,
+    })
+    vim.api.nvim_create_autocmd("FocusLost", {
+      group = yanky_clipboard_augroup,
+      pattern = "*",
+      callback = function(_)
+        system_clipboard.on_focus_lost()
+      end,
+    })
   end
 end
 
