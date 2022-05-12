@@ -39,4 +39,8 @@ function shada.all()
   return vim.g.YANKY_HISTORY
 end
 
+function shada.clear()
+  vim.g.YANKY_HISTORY = {}
+end
+
 return shada

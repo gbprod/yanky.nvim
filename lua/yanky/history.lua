@@ -70,4 +70,9 @@ function history.all()
   return history.storage.all()
 end
 
+function history.clear()
+  history.storage.clear()
+  history.position = 1
+end
+
 return history

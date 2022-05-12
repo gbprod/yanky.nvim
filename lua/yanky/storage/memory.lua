@@ -26,4 +26,8 @@ function memory.all()
   return memory.state
 end
 
+function memory.clear()
+  memory.state = {}
+end
+
 return memory

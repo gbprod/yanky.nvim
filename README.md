@@ -197,6 +197,10 @@ If `&clipboard` is empty, if you yank something outside of Neovim, this will be
 the first value you'll have when cycling through the ring. Basicly, you can do
 `p` and then `<c-p>` to paste yanked text.
 
+### Commands
+
+You can clear yank history using `YankyClearHistory` command.
+
 ## 📜 Yank history picker
 
 This allows you to select an entry in your recorded yank history using default
