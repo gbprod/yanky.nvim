@@ -43,4 +43,11 @@ function shada.clear()
   vim.g.YANKY_HISTORY = {}
 end
 
+function shada.delete(index)
+  local copy = vim.deepcopy(vim.g.YANKY_HISTORY)
+  table.remove(copy, index)
+
+  vim.g.YANKY_HISTORY = copy
+end
+
 return shada

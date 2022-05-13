@@ -75,4 +75,8 @@ function history.clear()
   history.position = 1
 end
 
+function history.delete(index)
+  history.storage.delete(index)
+end
+
 return history

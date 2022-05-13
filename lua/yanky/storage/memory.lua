@@ -30,4 +30,8 @@ function memory.clear()
   memory.state = {}
 end
 
+function memory.delete(index)
+  table.remove(memory.state, index)
+end
+
 return memory
