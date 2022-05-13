@@ -45,4 +45,15 @@ function picker.actions.put(type)
   end
 end
 
+function picker.actions.delete()
+  return function(content)
+    if nil == content then
+      return
+    end
+
+    local yanky = require("yanky")
+    yanky.history.delete(content.history_index)
+  end
+end
+
 return picker

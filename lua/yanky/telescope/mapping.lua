@@ -12,16 +12,27 @@ function mapping.put(type)
   end
 end
 
+function mapping.delete()
+  return function(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    current_picker:delete_selection(function(selection)
+      picker.actions.delete()(selection.value)
+    end)
+  end
+end
+
 function mapping.get_defaults()
   return {
     default = mapping.put("p"),
     i = {
       ["<c-p>"] = mapping.put("p"),
       ["<c-k>"] = mapping.put("P"),
+      ["<c-x>"] = mapping.delete(),
     },
     n = {
-      ["p"] = mapping.put("p"),
-      ["P"] = mapping.put("P"),
+      p = mapping.put("p"),
+      P = mapping.put("P"),
+      d = mapping.delete(),
     },
   }
 end
