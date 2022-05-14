@@ -300,6 +300,7 @@ Available actions:
     require("yanky.picker").actions.put("P") -- put before cursor
     require("yanky.picker").actions.put("gp") -- put after cursor and leave the cursor after
     require("yanky.picker").actions.put("gP") -- put before cursor and leave the cursor after
+    require("yanky.picker").actions.delete() -- delete entry from yank history
 <
 
 
@@ -322,10 +323,12 @@ This define the mappings available in Telescope. If you let this option to
             i = {
               ["<c-p>"] = mapping.put("p"),
               ["<c-k>"] = mapping.put("P"),
+              ["<c-x>"] = mapping.delete(),
             },
             n = {
-              ["p"] = mapping.put("p"),
-              ["P"] = mapping.put("P"),
+              p = mapping.put("p"),
+              P = mapping.put("P"),
+              d = mapping.delete(),
             },
           }
         }
@@ -341,10 +344,12 @@ Available actions:
     require("yanky.telescope.mapping").put("P") -- put before cursor
     require("yanky.telescope.mapping").put("gp") -- put after cursor and leave the cursor after
     require("yanky.telescope.mapping").put("gP") -- put before cursor and leave the cursor after
+    require("yanky.telescope.mapping").delete() -- delete entry from yank history
 <
 
 
 _NB: More actions and mappings will come._
+<https://github.com/gbprod/yanky.nvim/issues/3>
 
 💡 HIGHLIGHT PUT AND YANKED TEXT  *yanky-💡-highlight-put-and-yanked-text*
 
