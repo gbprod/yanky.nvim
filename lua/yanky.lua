@@ -51,7 +51,7 @@ function yanky.setup(options)
     group = yanky_augroup,
     pattern = "*",
     callback = function(_)
-      yanky.init_history()
+      vim.schedule(yanky.init_history)
     end,
   })
 

@@ -16,14 +16,14 @@ function system_clipboard.setup()
       group = yanky_clipboard_augroup,
       pattern = "*",
       callback = function(_)
-        system_clipboard.on_focus_gained()
+        vim.schedule(system_clipboard.on_focus_gained)
       end,
     })
     vim.api.nvim_create_autocmd("FocusLost", {
       group = yanky_clipboard_augroup,
       pattern = "*",
       callback = function(_)
-        system_clipboard.on_focus_lost()
+        vim.schedule(system_clipboard.on_focus_lost)
       end,
     })
   end
