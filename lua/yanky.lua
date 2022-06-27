@@ -184,10 +184,11 @@ function yanky.on_yank()
   preserve_cursor.on_yank()
 end
 
-function yanky.yank()
+function yanky.yank(options)
+  options = options or {}
   preserve_cursor.yank()
 
-  return "y"
+  return string.format("%sy", options.register and '"' .. options.register or "")
 end
 
 function yanky.clear_history()
