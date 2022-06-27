@@ -56,4 +56,14 @@ function picker.actions.delete()
   end
 end
 
+function picker.actions.set_register(register)
+  return function(content)
+    if nil == content then
+      return
+    end
+
+    vim.fn.setreg(register, content.regcontents, content.regtype)
+  end
+end
+
 return picker

@@ -122,8 +122,8 @@ can choose between when pasting.
 ### ⌨️ Mappings
 
 ```lua
-vim.api.nvim_set_keymap("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
-vim.api.nvim_set_keymap("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
 ```
 
 With these mappings, after performing a paste, you can cycle through the history
@@ -256,6 +256,7 @@ require("yanky.picker").actions.put("P") -- put before cursor
 require("yanky.picker").actions.put("gp") -- put after cursor and leave the cursor after
 require("yanky.picker").actions.put("gP") -- put before cursor and leave the cursor after
 require("yanky.picker").actions.delete() -- delete entry from yank history
+require("yanky.picker").actions.set_register(regname) -- fill register with selected value
 ```
 
 #### `picker.telescope.mappings`
@@ -266,6 +267,7 @@ This define the mappings available in Telescope. If you let this option to `nil`
 this will use the default mappings :
 
 ```lua
+local utils = require("yanky.utils")
 local mapping = require("yanky.telescope.mapping")
 
 require("yanky").setup({
@@ -277,11 +279,13 @@ require("yanky").setup({
           ["<c-p>"] = mapping.put("p"),
           ["<c-k>"] = mapping.put("P"),
           ["<c-x>"] = mapping.delete(),
+          ["<c-r>"] = mapping.set_register(utils.get_default_register()),
         },
         n = {
           p = mapping.put("p"),
           P = mapping.put("P"),
           d = mapping.delete(),
+          r = mapping.set_register(utils.get_default_register())
         },
       }
     }
@@ -297,6 +301,7 @@ require("yanky.telescope.mapping").put("P") -- put before cursor
 require("yanky.telescope.mapping").put("gp") -- put after cursor and leave the cursor after
 require("yanky.telescope.mapping").put("gP") -- put before cursor and leave the cursor after
 require("yanky.telescope.mapping").delete() -- delete entry from yank history
+require("yanky.telescope.mapping").set_register(regname) -- fill register {regname} with selected value
 ```
 
 [_NB: More actions and mappings will come._](https://github.com/gbprod/yanky.nvim/issues/3)
