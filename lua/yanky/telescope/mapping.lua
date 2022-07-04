@@ -9,6 +9,13 @@ function mapping.put(type)
   return function(prompt_bufnr)
     actions.close(prompt_bufnr)
     local selection = action_state.get_selected_entry()
+
+    -- fix cursor position since
+    -- https://github.com/nvim-telescope/telescope.nvim/commit/3eb90430b61b78b707e8ffe0cfe49138daaddbcc
+    if vim.api.nvim_get_mode().mode == "i" then
+      local cursor_pos = vim.api.nvim_win_get_cursor(0)
+      vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+    end
     picker.actions.put(type)(selection.value)
   end
 end
