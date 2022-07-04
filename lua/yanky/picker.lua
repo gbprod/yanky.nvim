@@ -40,7 +40,7 @@ function picker.actions.put(type)
     end
 
     utils.use_temporary_register(utils.get_default_register(), next_content, function()
-      yanky.put(type, vim.fn.visualmode():match("[vV]"))
+      yanky.put(type, false)
     end)
   end
 end
