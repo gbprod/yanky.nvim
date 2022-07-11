@@ -6,8 +6,8 @@ function highlight.setup()
     highlight.hl_put = vim.api.nvim_create_namespace("yanky.put")
     highlight.timer = vim.loop.new_timer()
 
-    vim.highlight.link("YankyPut", "Search", false)
-    vim.highlight.link("YankyYanked", "Search", false)
+    vim.api.nvim_set_hl(0, "YankyPut", { link = "Search" })
+    vim.api.nvim_set_hl(0, "YankyYanked", { link = "Search" })
   end
 
   if highlight.config.on_yank then
