@@ -101,16 +101,18 @@ function yank_history.yank_history(opts)
 
   opts.history_length = #history
 
-  pickers.new(opts, {
-    prompt_title = "Yank history",
-    finder = finders.new_table({
-      results = history,
-      entry_maker = yank_history.gen_from_history(opts),
-    }),
-    attach_mappings = yank_history.attach_mappings,
-    previewer = yank_history.previewer(),
-    sorter = conf.generic_sorter(opts),
-  }):find()
+  pickers
+    .new(opts, {
+      prompt_title = "Yank history",
+      finder = finders.new_table({
+        results = history,
+        entry_maker = yank_history.gen_from_history(opts),
+      }),
+      attach_mappings = yank_history.attach_mappings,
+      previewer = yank_history.previewer(),
+      sorter = conf.generic_sorter(opts),
+    })
+    :find()
 end
 
 return yank_history
