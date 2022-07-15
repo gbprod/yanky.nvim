@@ -72,6 +72,7 @@ Yanky comes with the following defaults:
     history_length = 10,
     storage = "shada",
     sync_with_numbered_registers = true,
+    cancel_event = "update",
   },
   picker = {
     select = {
@@ -141,6 +142,7 @@ require("yanky").setup({
     history_length = 10,
     storage = "shada",
     sync_with_numbered_registers = true,
+    cancel_event = "update",
   },
   system_clipboard = {
     sync_with_ring = true,
@@ -181,6 +183,14 @@ History can also be synchronized with numbered registers. Every time the yank
 history changes the numbered registers 1 - 9 will be updated to sync with the
 first 9 entries in the yank history. See [here](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
 for an explanation of why we would want do do this.
+
+### `ring.cancel_event`
+
+Default: `update`
+
+Define the event used to cancel ring activation. `update` will cancel ring on
+next buffer update, `move` will cancel ring when moving cursor or content
+changed.
 
 ### `system_clipboard.sync_with_ring`
 
