@@ -84,6 +84,36 @@ function yanky.put(type, is_visual)
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, do_put)
 end
 
+function yanky.clear_ring()
+  if yanky.can_cycle() and nil ~= yanky.ring.state.augroup then
+    vim.api.nvim_clear_autocmds({ group = yanky.ring.state.augroup })
+  end
+
+  yanky.ring.state = nil
+  yanky.ring.is_cycling = false
+end
+
+function yanky.attach_cancel()
+  if yanky.config.options.ring.cancel_event == "move" then
+    vim.schedule(function()
+      yanky.ring.state.augroup = vim.api.nvim_create_augroup("YankyRingClear", { clear = true })
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        group = yanky.ring.state.augroup,
+        buffer = 0,
+        callback = yanky.clear_ring,
+      })
+    end)
+  else
+    vim.api.nvim_buf_attach(0, false, {
+      on_lines = function(_)
+        yanky.clear_ring()
+
+        return true
+      end,
+    })
+  end
+end
+
 function yanky.init_ring(type, register, count, is_visual, callback)
   register = (register ~= '"' and register ~= "_") and register or utils.get_default_register()
 
@@ -108,27 +138,27 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   yanky.ring.is_cycling = false
   yanky.ring.skip_next = false
 
-  vim.api.nvim_buf_attach(0, false, {
-    on_lines = function()
-      yanky.ring.state = nil
-      yanky.ring.is_cycling = false
+  yanky.attach_cancel()
+end
 
-      return true
-    end,
-  })
+function yanky.can_cycle()
+  return nil ~= yanky.ring.state
 end
 
 function yanky.cycle(direction)
-  if nil == yanky.ring.state then
+  if not yanky.can_cycle() then
     vim.notify("Your last action was not put, ignoring cycle", vim.log.levels.INFO)
     return
   end
 
   direction = direction or yanky.direction.FORWARD
-
   if not vim.tbl_contains(vim.tbl_values(yanky.direction), direction) then
     vim.notify("Invalid direction for cycle", vim.log.levels.ERROR)
     return
+  end
+
+  if nil ~= yanky.ring.state.augroup then
+    vim.api.nvim_clear_autocmds({ group = yanky.ring.state.augroup })
   end
 
   if not yanky.ring.is_cycling then
@@ -141,8 +171,8 @@ function yanky.cycle(direction)
   end
 
   local new_state = yanky.ring.state
-  local next_content
 
+  local next_content
   if direction == yanky.direction.FORWARD then
     next_content = yanky.history.next()
     if nil == next_content then
@@ -169,6 +199,8 @@ function yanky.cycle(direction)
 
   yanky.ring.is_cycling = true
   yanky.ring.state = new_state
+
+  yanky.attach_cancel()
 end
 
 function yanky.on_yank()
