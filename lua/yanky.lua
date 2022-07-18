@@ -10,6 +10,7 @@ yanky.ring = {
   state = nil,
   is_cycling = false,
   skip_next = false,
+  callback = nil,
 }
 
 yanky.direction = {
@@ -22,6 +23,8 @@ yanky.type = {
   PUT_AFTER = "p",
   GPUT_BEFORE = "gP",
   GPUT_AFTER = "gp",
+  PUT_INDENT_AFTER = "]p",
+  PUT_INDENT_BEFORE = "[p",
 }
 
 function yanky.setup(options)
@@ -60,7 +63,7 @@ function yanky.init_history()
   yanky.history.sync_with_numbered_registers()
 end
 
-local function do_put(state)
+local function do_put(state, _)
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
@@ -72,7 +75,7 @@ local function do_put(state)
   highlight.highlight_put(state)
 end
 
-function yanky.put(type, is_visual)
+function yanky.put(type, is_visual, callback)
   if not vim.tbl_contains(vim.tbl_values(yanky.type), type) then
     vim.notify("Invalid type " .. type, vim.log.levels.ERROR)
     return
@@ -81,7 +84,9 @@ function yanky.put(type, is_visual)
   yanky.ring.state = nil
   yanky.ring.is_cycling = false
   yanky.ring.skip_next = false
-  yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, do_put)
+  yanky.ring.callback = callback or do_put
+
+  yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
 end
 
 function yanky.clear_ring()
@@ -131,7 +136,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   }
 
   if nil ~= callback then
-    callback(new_state)
+    callback(new_state, do_put)
   end
 
   yanky.ring.state = new_state
@@ -188,13 +193,8 @@ function yanky.cycle(direction)
   end
 
   utils.use_temporary_register(yanky.ring.state.register, next_content, function()
-    if new_state.is_visual then -- Can't manage to make visual replacement repeatable
-      vim.cmd("silent normal! u")
-      do_put(new_state)
-    else
-      vim.cmd("silent normal! u.")
-      highlight.highlight_put(new_state)
-    end
+    vim.cmd("silent normal! u")
+    yanky.ring.callback(new_state, do_put)
   end)
 
   yanky.ring.is_cycling = true
@@ -225,6 +225,47 @@ end
 
 function yanky.clear_history()
   yanky.history.clear()
+end
+
+function yanky.register_plugs()
+  local yanky_wrappers = require("yanky.wrappers")
+
+  vim.keymap.set("n", "<Plug>(YankyCycleForward)", function()
+    yanky.cycle(1)
+  end, { silent = true })
+
+  vim.keymap.set("n", "<Plug>(YankyCycleBackward)", function()
+    yanky.cycle(-1)
+  end, { silent = true })
+
+  vim.keymap.set({ "n", "x" }, "<Plug>(YankyYank)", yanky.yank, { silent = true, expr = true })
+
+  for type, type_text in pairs({
+    p = "PutAfter",
+    P = "PutBefore",
+    gp = "GPutBefore",
+    gP = "GPutAfter",
+    ["]p"] = "PutIndentAfter",
+    ["[p"] = "PutIndentBefore",
+  }) do
+    vim.keymap.set("n", string.format("<Plug>(Yanky%s)", type_text), function()
+      yanky.put(type, false)
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%s)", type_text), function()
+      yanky.put(type, true)
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sLinewise)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.linewise())
+    end, { silent = true })
+
+    for change, change_text in pairs({ [">"] = "ShiftRight", ["<"] = "ShiftLeft", ["="] = "Filter" }) do
+      vim.keymap.set("n", string.format("<Plug>(Yanky%s%s)", type_text, change_text), function()
+        yanky.put(type, false, yanky_wrappers.linewise(yanky_wrappers.change(change)))
+      end, { silent = true })
+    end
+  end
 end
 
 return yanky

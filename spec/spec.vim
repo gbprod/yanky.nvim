@@ -2,10 +2,10 @@ set rtp+=.
 set rtp+=vendor/plenary.nvim/
 
 runtime plugin/plenary.vim
-runtime plugin/yanky.vim
 
 lua require('plenary.busted')
 lua require('yanky').setup({ ring = { storage = "memory" }})
+lua require('yanky').register_plugs()
 
 lua vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
 lua vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
