@@ -21,6 +21,7 @@ Or in English:
 - [Yank history picker](#-yank-history-picker)
 - [Highlight put and yanked text](#-highlight-put-and-yanked-text)
 - [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
+- [Special put](#%EF%B8%8F-special-put)
 
 ## ⚡️ Requirements
 
@@ -411,6 +412,53 @@ require("substitute").setup({
 
 </details>
 
+## ↩️ Special put
+
+Yanky comes with special put moves (inspired by
+[tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100)):
+
+- Linewise put: this will force put above or below the current line ;
+- Shift right/left put: will put above or below the current line and increasing
+  or decreasing indent ;
+- Filter put: will put above or below the current line and reindenting.
+
+### ⌨️ Mappings
+
+For basic usage (like with [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100)),
+you can use those bindings:
+
+```lua
+vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)", {})
+vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)", {})
+vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)", {})
+vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)", {})
+
+vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)", {})
+vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", {})
+vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", {})
+vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", {})
+
+vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)", {})
+vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)", {})
+```
+
+To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifier)`.
+
+`put-type` can be:
+
+- `PutAfter`: put after your cursor (as [`p`](https://neovim.io/doc/user/change.html#put) key) ;
+- `PutBefore`: put before your cursor (as [`P`](https://neovim.io/doc/user/change.html#P) key) ;
+- `GPutAfter`: like `PutAfter` but leave the cursor after the new text (as [`gp`](https://neovim.io/doc/user/change.html#gp) key) ;
+- `GPutBefore`: like `PutBefore` but leave the cursor after the new text (as [`gP`](https://neovim.io/doc/user/change.html#gP) key) ;
+- `PutIndentAfter`: like `PutAfter` but adjust the indent to the current line (as [`]p`](https://neovim.io/doc/user/change.html#]p) key) ;
+- `PutIndentBefore`: like `PutBefore` but adjust the indent to the current line (as [`[p`](https://neovim.io/doc/user/change.html#[p) key) ;
+
+`modifier` (optional) can be:
+
+- `Linewise`: put in linewise mode ;
+- `ShiftRight`: increase indent ;
+- `ShiftLeft`: decrease indent.
+
 ## 🎉 Credits
 
 This plugin is mostly a lua version of [svermeulen/vim-yoink](https://github.com/svermeulen/vim-yoink)
@@ -423,5 +471,6 @@ Other inspiration :
 - [svermeulen/vim-easyclip](https://github.com/svermeulen/vim-easyclip)
 - [bkoropoff/yankee.vim](https://github.com/bkoropoff/yankee.vim)
 - [svban/YankAssassin.vim](https://github.com/svban/YankAssassin.vim)
+- [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
 
 Thanks to [m00qek lua plugin template](https://github.com/m00qek/plugin-template.nvim).
