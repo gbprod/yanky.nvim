@@ -15,6 +15,7 @@ Table of Contents                                    *yanky-table-of-contents*
   - ⤵️ Preserve cursor position on yank|yanky-⤵️-preserve-cursor-position-on-yank|
   - 🎨 Colors                                            |yanky-🎨-colors|
   - 🤝 Integrations                                |yanky-🤝-integrations|
+  - ↩️ Special put                              |yanky-↩️-special-put|
   - 🎉 Credits                                          |yanky-🎉-credits|
 
 ==============================================================================
@@ -50,6 +51,7 @@ Or in English:
 - |yanky-yank-history-picker|
 - |yanky-highlight-put-and-yanked-text|
 - |yanky-perserve-cursor-position-on-yank|
+- |yanky-special-put|
 
 
 ⚡️ REQUIREMENTS                                *yanky-⚡️-requirements*
@@ -466,6 +468,62 @@ swap when performing a substitution, you can add this to your setup:
 <
 
 
+↩️ SPECIAL PUT                                  *yanky-↩️-special-put*
+
+Yanky comes with special put moves (inspired by tpope/vim-unimpaired
+<https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100>):
+
+
+- Linewise put: this will force put above or below the current line ;
+- Shift right/left put: will put above or below the current line and increasing
+    or decreasing indent ;
+- Filter put: will put above or below the current line and reindenting.
+
+
+⌨️ MAPPINGS ~
+
+For basic usage (like with tpope/vim-unimpaired
+<https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100>),
+you can use those bindings:
+
+>
+    vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)", {})
+    vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)", {})
+    vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)", {})
+    vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)", {})
+    
+    vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)", {})
+    vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", {})
+    vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", {})
+    vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", {})
+    
+    vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)", {})
+    vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)", {})
+<
+
+
+To go further, Plug mappings are constructed like this:
+`Yanky(put-type)(modifier)`.
+
+`put-type` can be:
+
+
+- `PutAfter`: put after your cursor (as |`p`| key) ;
+- `PutBefore`: put before your cursor (as |`P`| key) ;
+- `GPutAfter`: like `PutAfter` but leave the cursor after the new text (as |`gp`| key) ;
+- `GPutBefore`: like `PutBefore` but leave the cursor after the new text (as |`gP`| key) ;
+- `PutIndentAfter`: like `PutAfter` but adjust the indent to the current line (as |`]p`| key) ;
+- `PutIndentBefore`: like `PutBefore` but adjust the indent to the current line (as |`[p`| key) ;
+
+
+`modifier` (optional) can be:
+
+
+- `Linewise`: put in linewise mode ;
+- `ShiftRight`: increase indent ;
+- `ShiftLeft`: decrease indent.
+
+
 🎉 CREDITS                                              *yanky-🎉-credits*
 
 This plugin is mostly a lua version of svermeulen/vim-yoink
@@ -479,6 +537,7 @@ Other inspiration :
 - svermeulen/vim-easyclip <https://github.com/svermeulen/vim-easyclip>
 - bkoropoff/yankee.vim <https://github.com/bkoropoff/yankee.vim>
 - svban/YankAssassin.vim <https://github.com/svban/YankAssassin.vim>
+- tpope/vim-unimpaired <https://github.com/tpope/vim-unimpaired>
 
 
 Thanks to m00qek lua plugin template
