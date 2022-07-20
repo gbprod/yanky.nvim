@@ -193,8 +193,13 @@ function yanky.cycle(direction)
   end
 
   utils.use_temporary_register(yanky.ring.state.register, next_content, function()
-    vim.cmd("silent normal! u")
-    yanky.ring.callback(new_state, do_put)
+    if new_state.is_visual then -- Can't manage to make visual replacement repeatable
+      vim.cmd("silent normal! u")
+      yanky.ring.callback(new_state, do_put)
+    else
+      vim.cmd("silent normal! u.")
+      highlight.highlight_put(new_state)
+    end
   end)
 
   yanky.ring.is_cycling = true
@@ -260,9 +265,17 @@ function yanky.register_plugs()
       yanky.put(type, false, yanky_wrappers.linewise())
     end, { silent = true })
 
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sLinewise)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.linewise())
+    end, { silent = true })
+
     for change, change_text in pairs({ [">"] = "ShiftRight", ["<"] = "ShiftLeft", ["="] = "Filter" }) do
       vim.keymap.set("n", string.format("<Plug>(Yanky%s%s)", type_text, change_text), function()
         yanky.put(type, false, yanky_wrappers.linewise(yanky_wrappers.change(change)))
+      end, { silent = true })
+
+      vim.keymap.set("x", string.format("<Plug>(Yanky%s%s)", type_text, change_text), function()
+        yanky.put(type, true, yanky_wrappers.linewise(yanky_wrappers.change(change)))
       end, { silent = true })
     end
   end
