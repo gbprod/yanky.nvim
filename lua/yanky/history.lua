@@ -7,11 +7,14 @@ local history = {
 function history.setup()
   history.config = require("yanky.config").options.ring
   history.storage = require("yanky.storage." .. history.config.storage)
-  history.storage.setup()
+  if false == history.storage.setup() then
+    history.storage = require("yanky.storage.memory")
+  end
 end
 
 function history.push(item)
-  if vim.deep_equal(item, history.storage.get(1)) then
+  local prev = history.storage.get(1)
+  if prev ~= nil and prev.regcontents == item.regcontents and prev.regtype == item.regtype then
     return
   end
 
