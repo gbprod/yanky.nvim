@@ -103,14 +103,10 @@ This plugin contains no default mappings and will have no effect until you add y
 You should at least set those keymaps:
 
 ```lua
-vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
-vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
-vim.keymap.set("x", "p", "<Plug>(YankyPutAfter)", {})
-vim.keymap.set("x", "P", "<Plug>(YankyPutBefore)", {})
-vim.keymap.set("n", "gp", "<Plug>(YankyGPutAfter)", {})
-vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
-vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
-vim.keymap.set("x", "gP", "<Plug>(YankyGPutBefore)", {})
+vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
 ```
 
 Some features requires specific mappings, refer to feature documentation section.
@@ -124,8 +120,8 @@ can choose between when pasting.
 ### ⌨️ Mappings
 
 ```lua
-vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
-vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
 ```
 
 With these mappings, after performing a paste, you can cycle through the history
@@ -366,8 +362,7 @@ difference being that the cursor position will not change after performing a yan
 ### ⌨️ Mappings
 
 ```lua
-vim.keymap.set("n", "y", "<Plug>(YankyYank)", {})
-vim.keymap.set("x", "y", "<Plug>(YankyYank)", {})
+vim.keymap.set({"n","x"}, "y", "<Plug>(YankyYank)")
 ```
 
 ### ⚙️ Configuration
@@ -428,18 +423,18 @@ For basic usage (like with [tpope/vim-unimpaired](https://github.com/tpope/vim-u
 you can use those bindings:
 
 ```lua
-vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)", {})
-vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)", {})
-vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)", {})
-vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)", {})
+vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
+vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
+vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
+vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
 
-vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)", {})
-vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", {})
-vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", {})
-vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", {})
+vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
+vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
+vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
+vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
 
-vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)", {})
-vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)", {})
+vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
+vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 ```
 
 To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifier)`.
