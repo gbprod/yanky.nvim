@@ -135,19 +135,13 @@ Yanky comes with the following defaults:
 
 This plugin contains no default mappings and will have no effect until you add
 your own maps to it. You should at least set those keymaps:
-
 >
-    vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
-    vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
-    vim.keymap.set("x", "p", "<Plug>(YankyPutAfter)", {})
-    vim.keymap.set("x", "P", "<Plug>(YankyPutBefore)", {})
-    vim.keymap.set("n", "gp", "<Plug>(YankyGPutAfter)", {})
-    vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
-    vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
-    vim.keymap.set("x", "gP", "<Plug>(YankyGPutBefore)", {})
+    vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+    vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+
+    vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+    vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
 <
-
-
 Some features requires specific mappings, refer to feature documentation
 section.
 
@@ -160,8 +154,8 @@ that you can choose between when pasting.
 ⌨️ MAPPINGS ~
 
 >
-    vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
-    vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
+    vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+    vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
 <
 
 
@@ -421,8 +415,7 @@ a yank.
 ⌨️ MAPPINGS ~
 
 >
-    vim.keymap.set("n", "y", "<Plug>(YankyYank)", {})
-    vim.keymap.set("x", "y", "<Plug>(YankyYank)", {})
+    vim.keymap.set({"n","x"}, "y", "<Plug>(YankyYank)")
 <
 
 
@@ -487,18 +480,18 @@ For basic usage (like with tpope/vim-unimpaired
 you can use those bindings:
 
 >
-    vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)", {})
-    vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)", {})
-    vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)", {})
-    vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)", {})
-    
-    vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)", {})
-    vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", {})
-    vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", {})
-    vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", {})
-    
-    vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)", {})
-    vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)", {})
+    vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
+    vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
+    vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
+    vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
+
+    vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
+    vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
+    vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
+    vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
+
+    vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
+    vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 <
 
 
