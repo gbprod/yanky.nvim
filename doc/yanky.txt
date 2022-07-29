@@ -173,7 +173,7 @@ history will be unchanged.
 >
     require("yanky").setup({
       ring = {
-        history_length = 10,
+        history_length = 100,
         storage = "shada",
         sync_with_numbered_registers = true,
         cancel_event = "update",
@@ -187,7 +187,7 @@ history will be unchanged.
 
                                                  *yanky-`ring.history_length`*
 
-`ring.history_length`                  Default : `10`
+`ring.history_length`                  Default : `100`
 
 
 Define the number of yanked items that will be saved and used for ring.
