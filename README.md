@@ -70,7 +70,7 @@ Yanky comes with the following defaults:
 ```lua
 {
   ring = {
-    history_length = 10,
+    history_length = 100,
     storage = "shada",
     sync_with_numbered_registers = true,
     cancel_event = "update",
