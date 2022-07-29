@@ -136,7 +136,7 @@ history will be unchanged.
 ```lua
 require("yanky").setup({
   ring = {
-    history_length = 10,
+    history_length = 100,
     storage = "shada",
     sync_with_numbered_registers = true,
     cancel_event = "update",
@@ -149,7 +149,7 @@ require("yanky").setup({
 
 #### `ring.history_length`
 
-Default : `10`
+Default : `100`
 
 Define the number of yanked items that will be saved and used for ring.
 
