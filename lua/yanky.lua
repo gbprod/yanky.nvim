@@ -9,7 +9,6 @@ local yanky = {}
 yanky.ring = {
   state = nil,
   is_cycling = false,
-  skip_next = false,
   callback = nil,
 }
 
@@ -83,7 +82,6 @@ function yanky.put(type, is_visual, callback)
 
   yanky.ring.state = nil
   yanky.ring.is_cycling = false
-  yanky.ring.skip_next = false
   yanky.ring.callback = callback or do_put
 
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
@@ -141,7 +139,6 @@ function yanky.init_ring(type, register, count, is_visual, callback)
 
   yanky.ring.state = new_state
   yanky.ring.is_cycling = false
-  yanky.ring.skip_next = false
 
   yanky.attach_cancel()
 end
@@ -168,11 +165,12 @@ function yanky.cycle(direction)
 
   if not yanky.ring.is_cycling then
     yanky.history.reset()
-  end
 
-  if yanky.ring.skip_next then
-    yanky.history.skip()
-    yanky.ring.skip_next = false
+    local reg = utils.get_register_info(yanky.ring.state.register)
+    local first = yanky.history.first()
+    if reg.regcontents == first.regcontents and reg.regtype == first.regtype then
+      yanky.history.skip()
+    end
   end
 
   local new_state = yanky.ring.state

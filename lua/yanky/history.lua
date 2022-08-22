@@ -63,7 +63,7 @@ function history.previous()
 end
 
 function history.reset()
-  history.position = 1
+  history.position = 0
 end
 
 function history.all()
