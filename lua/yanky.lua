@@ -131,6 +131,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
     register = register,
     count = count > 0 and count or 1,
     is_visual = is_visual,
+    use_repeat = callback == nil,
   }
 
   if nil ~= callback then
@@ -191,12 +192,12 @@ function yanky.cycle(direction)
   end
 
   utils.use_temporary_register(yanky.ring.state.register, next_content, function()
-    if new_state.is_visual then -- Can't manage to make visual replacement repeatable
-      vim.cmd("silent normal! u")
-      yanky.ring.callback(new_state, do_put)
-    else
+    if new_state.use_repeat then
       vim.cmd("silent normal! u.")
       highlight.highlight_put(new_state)
+    else
+      vim.cmd("silent normal! u")
+      yanky.ring.callback(new_state, do_put)
     end
   end)
 
