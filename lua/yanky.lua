@@ -67,9 +67,14 @@ local function do_put(state, _)
     vim.cmd([[execute "normal! \<esc>"]])
   end
 
-  vim.cmd(
+  local ok, val = pcall(
+    vim.cmd,
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
+  if not ok then
+    vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+    return
+  end
 
   highlight.highlight_put(state)
 end
@@ -193,10 +198,18 @@ function yanky.cycle(direction)
 
   utils.use_temporary_register(yanky.ring.state.register, next_content, function()
     if new_state.use_repeat then
-      vim.cmd("silent normal! u.")
+      local ok, val = pcall(vim.cmd, "silent normal! u.")
+      if not ok then
+        vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+        return
+      end
       highlight.highlight_put(new_state)
     else
-      vim.cmd("silent normal! u")
+      local ok, val = pcall(vim.cmd, "silent normal! u")
+      if not ok then
+        vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+        return
+      end
       yanky.ring.callback(new_state, do_put)
     end
   end)
