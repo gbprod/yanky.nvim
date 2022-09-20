@@ -72,7 +72,7 @@ local function do_put(state, _)
     string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
   )
   if not ok then
-    vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+    vim.notify(val, vim.log.levels.WARN)
     return
   end
 
@@ -200,14 +200,14 @@ function yanky.cycle(direction)
     if new_state.use_repeat then
       local ok, val = pcall(vim.cmd, "silent normal! u.")
       if not ok then
-        vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+        vim.notify(val, vim.log.levels.WARN)
         return
       end
       highlight.highlight_put(new_state)
     else
       local ok, val = pcall(vim.cmd, "silent normal! u")
       if not ok then
-        vim.api.nvim_echo({ { val, "WarningMsg" } }, true, {})
+        vim.notify(val, vim.log.levels.WARN)
         return
       end
       yanky.ring.callback(new_state, do_put)
