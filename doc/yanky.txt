@@ -21,8 +21,6 @@ Table of Contents                                    *yanky-table-of-contents*
 ==============================================================================
 1. 🍃 yanky.nvim                                     *yanky-🍃-yanky.nvim*
 
-**This plugin still under development, use at your own risk**
-
 <img
 src='https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua'
 title=''/> <img
@@ -197,7 +195,7 @@ Define the number of yanked items that will be saved and used for ring.
 `ring.storage`                         Default : `shada`
 
 
-Available : `shada` or `memory`
+Available : `shada`, `sqlite` or `memory`
 
 Define the storage mode for ring values.
 
@@ -211,6 +209,19 @@ will be synced with the yank history in the first instance.
 
 Using `memory`, each Neovim instance will have his own history and il will be
 lost between sessions.
+
+If you want to use `sqlite` as storage, you must add `kkharji/sqlite.lua`
+<https://github.com/kkharji/sqlite.lua> as dependency:
+
+>
+    use({
+      "gbprod/yanky.nvim",
+      requires = { "kkharji/sqlite.lua" }
+    })
+<
+
+
+Sqlite is more reliable than ShaDa but requires more dependencies.
 
 `RING.SYNC_WITH_NUMBERED_REGISTERS` ~
 
