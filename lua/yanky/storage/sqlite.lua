@@ -46,8 +46,7 @@ function sqlite.push(item)
 
     sqlite.db:eval(
       string.format(
-        "DELETE FROM history LIMIT %s OFFSET %s",
-        sqlite.config.history_length,
+        "DELETE FROM history WHERE id NOT IN (SELECT id FROM history ORDER BY id DESC LIMIT %s)",
         sqlite.config.history_length
       )
     )
@@ -80,7 +79,12 @@ end
 
 function sqlite.delete(index)
   return sqlite.db:with_open(function()
-    return sqlite.db:eval(string.format("DELETE FROM history ORDER BY id DESC LIMIT 1 OFFSET %s", index - 1))
+    return sqlite.db:eval(
+      string.format(
+        "DELETE FROM history WHERE id IN (SELECT id FROM history ORDER BY id DESC LIMIT 1 OFFSET %s)",
+        index - 1
+      )
+    )
   end)
 end
 
