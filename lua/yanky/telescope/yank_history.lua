@@ -5,7 +5,7 @@ local actions = require("telescope.actions")
 local entry_display = require("telescope.pickers.entry_display")
 local conf = require("telescope.config").values
 local mapping = require("yanky.telescope.mapping")
-local config = require("yanky.config").options.picker.telescope
+local config = require("yanky.config")
 
 local yank_history = {}
 
@@ -46,7 +46,7 @@ function yank_history.previewer()
 end
 
 function yank_history.attach_mappings(_, map)
-  local mappings = config.mappings or mapping.get_defaults()
+  local mappings = config.options.picker.telescope.mappings or mapping.get_defaults()
 
   if mappings.default then
     actions.select_default:replace(mappings.default)
