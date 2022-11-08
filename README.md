@@ -384,7 +384,7 @@ require("yanky").setup({
 })
 ```
 
-#### `preserve_cursor_position.enable`
+#### `preserve_cursor_position.enabled`
 
 Default : `true`
 

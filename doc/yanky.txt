@@ -443,9 +443,9 @@ a yank.
 <
 
 
-                                     *yanky-`preserve_cursor_position.enable`*
+                                     *yanky-`preserve_cursor_position.enabled`*
 
-`preserve_cursor_position.enable`      Default : `true`
+`preserve_cursor_position.enabled`      Default : `true`
 
 
 Define if cursor position should be preserved on yank. This works only if
