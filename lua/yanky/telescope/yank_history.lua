@@ -93,6 +93,7 @@ function yank_history.gen_from_history(opts)
 end
 
 function yank_history.yank_history(opts)
+  opts = opts or {}
   local history = {}
   for index, value in pairs(require("yanky.history").all()) do
     value.history_index = index
