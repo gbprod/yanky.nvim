@@ -281,22 +281,25 @@ Telescope extension in your Neovim config file.
     :lua require("telescope").load_extension("yank_history")
 <
 
+
 After loading the extension, you can access the picker by running:
 
 >
     :Telescope yank_history
 <
 
+
 Or:
 
 >
-    :lua require("telescope").load_extension("yank_history")
+    :lua require("telescope").extensions.yank_history.yank_history()
 <
 
-If you want your Telescope preview window to have a dynamic title with the
-register type, set the `dynamic_preview_title`
+
+Set the Telescope option `dynamic_preview_title`
 <https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt>
-Telescope option to `true`.
+to `true` if you want your Telescope preview window to have a dynamic title
+showing the register’s type.
 
 Default configuration :
 
@@ -346,7 +349,7 @@ This define the mappings available in Telescope. If you let this option to
 >
     local utils = require("yanky.utils")
     local mapping = require("yanky.telescope.mapping")
-
+    
     require("yanky").setup({
       picker = {
         telescope = {
@@ -491,11 +494,11 @@ your setup:
 
 >
     local Hydra = require("hydra")
-
+    
     local function t(str)
       return api.nvim_replace_termcodes(str, true, true, true)
     end
-
+    
     local yanky_hydra = Hydra({
       name = "Yank ring",
       mode = "n",
@@ -506,7 +509,7 @@ your setup:
         { "<C-p>", "<Plug>(YankyCycleBackward)", { private = true, desc = "↑" } },
       },
     })
-
+    
     -- choose/change the mappings if you want
     for key, putAction in pairs({
       ["p"] = "<Plug>(YankyPutAfter)",
@@ -519,19 +522,19 @@ your setup:
         yanky_hydra:activate()
       end)
     end
-
+    
     -- choose/change the mappings if you want
     for key, putAction in pairs({
       ["]p"] = "<Plug>(YankyPutIndentAfterLinewise)",
       ["[p"] = "<Plug>(YankyPutIndentBeforeLinewise)",
       ["]P"] = "<Plug>(YankyPutIndentAfterLinewise)",
       ["[P"] = "<Plug>(YankyPutIndentBeforeLinewise)",
-
+    
       [">p"] = "<Plug>(YankyPutIndentAfterShiftRight)",
       ["<p"] = "<Plug>(YankyPutIndentAfterShiftLeft)",
       [">P"] = "<Plug>(YankyPutIndentBeforeShiftRight)",
       ["<P"] = "<Plug>(YankyPutIndentBeforeShiftLeft)",
-
+    
       ["=p"] = "<Plug>(YankyPutAfterFilter)",
       ["=P"] = "<Plug>(YankyPutBeforeFilter)",
     }) do
@@ -566,12 +569,12 @@ you can use those bindings:
     vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
     vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
     vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
-
+    
     vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
     vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
     vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
     vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
-
+    
     vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
     vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 <
