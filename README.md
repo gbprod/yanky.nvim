@@ -230,16 +230,28 @@ just use [`ring.history_length` option](#ringhistory_length).
 
 To use `vim.ui.select` picker, just call `YankyRingHistory` command.
 
-To use `Telescope` extension, you must first register this extention and then
-you can call `Telescope yank_history` :
+To use the `yank_history` Telescope picker, register `yank_history` as a
+Telescope extension in your Neovim config file.
 
 ```lua
-require("telescope").load_extension("yank_history")
+:lua require("telescope").load_extension("yank_history")
 ```
 
-If you want dynamic title with register type in Telescope preview window, you
-should set [`dynamic_preview_title`](https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt)
-Telescope options to `true`.
+After loading the extension, you can access the picker by running:
+
+```vim
+:Telescope yank_history
+```
+
+Or:
+
+```lua
+:lua require("telescope").extensions.yank_history.yank_history()
+```
+
+Set the Telescope option [`dynamic_preview_title`](https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt)
+to `true` if you want your Telescope preview window to have a
+dynamic title showing the register's type.
 
 Default configuration :
 
