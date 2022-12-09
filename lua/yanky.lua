@@ -271,12 +271,60 @@ function yanky.register_plugs()
       yanky.put(type, true)
     end, { silent = true })
 
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sJoined)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.trim_and_join_lines())
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sJoined)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.trim_and_join_lines())
+    end, { silent = true })
+
     vim.keymap.set("n", string.format("<Plug>(Yanky%sLinewise)", type_text), function()
       yanky.put(type, false, yanky_wrappers.linewise())
     end, { silent = true })
 
     vim.keymap.set("x", string.format("<Plug>(Yanky%sLinewise)", type_text), function()
       yanky.put(type, true, yanky_wrappers.linewise())
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sLinewiseJoined)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.linewise(yanky_wrappers.trim_and_join_lines()))
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sLinewiseJoined)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.linewise(yanky_wrappers.trim_and_join_lines()))
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sCharwise)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.charwise())
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sCharwise)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.charwise())
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sCharwiseJoined)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.charwise(yanky_wrappers.trim_and_join_lines()))
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sCharwiseJoined)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.charwise(yanky_wrappers.trim_and_join_lines()))
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sBlockwise)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.blockwise())
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sBlockwise)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.blockwise())
+    end, { silent = true })
+
+    vim.keymap.set("n", string.format("<Plug>(Yanky%sBlockwiseJoined)", type_text), function()
+      yanky.put(type, false, yanky_wrappers.blockwise(yanky_wrappers.trim_and_join_lines()))
+    end, { silent = true })
+
+    vim.keymap.set("x", string.format("<Plug>(Yanky%sBlockwiseJoined)", type_text), function()
+      yanky.put(type, true, yanky_wrappers.blockwise(yanky_wrappers.trim_and_join_lines()))
     end, { silent = true })
 
     for change, change_text in pairs({ [">"] = "ShiftRight", ["<"] = "ShiftLeft", ["="] = "Filter" }) do
@@ -286,6 +334,22 @@ function yanky.register_plugs()
 
       vim.keymap.set("x", string.format("<Plug>(Yanky%s%s)", type_text, change_text), function()
         yanky.put(type, true, yanky_wrappers.linewise(yanky_wrappers.change(change)))
+      end, { silent = true })
+
+      vim.keymap.set("n", string.format("<Plug>(Yanky%s%sJoined)", type_text, change_text), function()
+        yanky.put(
+          type,
+          false,
+          yanky_wrappers.linewise(yanky_wrappers.trim_and_join_lines(yanky_wrappers.change(change)))
+        )
+      end, { silent = true })
+
+      vim.keymap.set("x", string.format("<Plug>(Yanky%s%sJoined)", type_text, change_text), function()
+        yanky.put(
+          type,
+          true,
+          yanky_wrappers.linewise(yanky_wrappers.trim_and_join_lines(yanky_wrappers.change(change)))
+        )
       end, { silent = true })
     end
   end

@@ -517,7 +517,7 @@ vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
 vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 ```
 
-To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifier)`.
+To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifier)(rewriter)`.
 
 `put-type` can be:
 
@@ -531,8 +531,105 @@ To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifie
 `modifier` (optional) can be:
 
 - `Linewise`: put in linewise mode ;
+- `Blockwise`: put in blockwise mode ;
 - `ShiftRight`: increase indent ;
 - `ShiftLeft`: decrease indent.
+
+`rewriter` (optional) can be:
+
+- `Joined`: put lines trimed and joined.
+
+<details>
+<summary><b>All special puts</b></summary>
+
+```vim
+<Plug>(YankyPutAfter)
+<Plug>(YankyPutAfterBlockwise)
+<Plug>(YankyPutAfterBlockwiseJoined)
+<Plug>(YankyPutAfterCharwise)
+<Plug>(YankyPutAfterCharwiseJoined)
+<Plug>(YankyPutAfterFilter)
+<Plug>(YankyPutAfterFilterJoined)
+<Plug>(YankyPutAfterJoined)
+<Plug>(YankyPutAfterLinewise)
+<Plug>(YankyPutAfterLinewiseJoined)
+<Plug>(YankyPutAfterShiftLeft)
+<Plug>(YankyPutAfterShiftLeftJoined)
+<Plug>(YankyPutAfterShiftRight)
+<Plug>(YankyPutAfterShiftRightJoined)
+<Plug>(YankyPutBefore)
+<Plug>(YankyPutBeforeBlockwise)
+<Plug>(YankyPutBeforeBlockwiseJoined)
+<Plug>(YankyPutBeforeCharwise)
+<Plug>(YankyPutBeforeCharwiseJoined)
+<Plug>(YankyPutBeforeFilter)
+<Plug>(YankyPutBeforeFilterJoined)
+<Plug>(YankyPutBeforeJoined)
+<Plug>(YankyPutBeforeLinewise)
+<Plug>(YankyPutBeforeLinewiseJoined)
+<Plug>(YankyPutBeforeShiftLeft)
+<Plug>(YankyPutBeforeShiftLeftJoined)
+<Plug>(YankyPutBeforeShiftRight)
+<Plug>(YankyPutBeforeShiftRightJoined)
+<Plug>(YankyGPutAfter)
+<Plug>(YankyGPutAfterBlockwise)
+<Plug>(YankyGPutAfterBlockwiseJoined)
+<Plug>(YankyGPutAfterCharwise)
+<Plug>(YankyGPutAfterCharwiseJoined)
+<Plug>(YankyGPutAfterFilter)
+<Plug>(YankyGPutAfterFilterJoined)
+<Plug>(YankyGPutAfterJoined)
+<Plug>(YankyGPutAfterLinewise)
+<Plug>(YankyGPutAfterLinewiseJoined)
+<Plug>(YankyGPutAfterShiftLeft)
+<Plug>(YankyGPutAfterShiftLeftJoined)
+<Plug>(YankyGPutAfterShiftRight)
+<Plug>(YankyGPutAfterShiftRightJoined)
+<Plug>(YankyGPutBefore)
+<Plug>(YankyGPutBeforeBlockwise)
+<Plug>(YankyGPutBeforeBlockwiseJoined)
+<Plug>(YankyGPutBeforeCharwise)
+<Plug>(YankyGPutBeforeCharwiseJoined)
+<Plug>(YankyGPutBeforeFilter)
+<Plug>(YankyGPutBeforeFilterJoined)
+<Plug>(YankyGPutBeforeJoined)
+<Plug>(YankyGPutBeforeLinewise)
+<Plug>(YankyGPutBeforeLinewiseJoined)
+<Plug>(YankyGPutBeforeShiftLeft)
+<Plug>(YankyGPutBeforeShiftLeftJoined)
+<Plug>(YankyGPutBeforeShiftRight)
+<Plug>(YankyGPutBeforeShiftRightJoined)
+<Plug>(YankyPutIndentAfter)
+<Plug>(YankyPutIndentAfterBlockwise)
+<Plug>(YankyPutIndentAfterBlockwiseJoined)
+<Plug>(YankyPutIndentAfterCharwise)
+<Plug>(YankyPutIndentAfterCharwiseJoined)
+<Plug>(YankyPutIndentAfterFilter)
+<Plug>(YankyPutIndentAfterFilterJoined)
+<Plug>(YankyPutIndentAfterJoined)
+<Plug>(YankyPutIndentAfterLinewise)
+<Plug>(YankyPutIndentAfterLinewiseJoined)
+<Plug>(YankyPutIndentAfterShiftLeft)
+<Plug>(YankyPutIndentAfterShiftLeftJoined)
+<Plug>(YankyPutIndentAfterShiftRight)
+<Plug>(YankyPutIndentAfterShiftRightJoined)
+<Plug>(YankyPutIndentBefore)
+<Plug>(YankyPutIndentBeforeBlockwise)
+<Plug>(YankyPutIndentBeforeBlockwiseJoined)
+<Plug>(YankyPutIndentBeforeCharwise)
+<Plug>(YankyPutIndentBeforeCharwiseJoined)
+<Plug>(YankyPutIndentBeforeFilter)
+<Plug>(YankyPutIndentBeforeFilterJoined)
+<Plug>(YankyPutIndentBeforeJoined)
+<Plug>(YankyPutIndentBeforeLinewise)
+<Plug>(YankyPutIndentBeforeLinewiseJoined)
+<Plug>(YankyPutIndentBeforeShiftLeft)
+<Plug>(YankyPutIndentBeforeShiftLeftJoined)
+<Plug>(YankyPutIndentBeforeShiftRight)
+<Plug>(YankyPutIndentBeforeShiftRightJoined)
+```
+
+</details>
 
 ## 🎉 Credits
 
@@ -547,5 +644,7 @@ Other inspiration :
 - [bkoropoff/yankee.vim](https://github.com/bkoropoff/yankee.vim)
 - [svban/YankAssassin.vim](https://github.com/svban/YankAssassin.vim)
 - [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
+- [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
+- [inkarkat/vim-UnconditionalPaste](https://github.com/inkarkat/vim-UnconditionalPaste)
 
 Thanks to [m00qek lua plugin template](https://github.com/m00qek/plugin-template.nvim).
