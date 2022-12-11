@@ -258,8 +258,8 @@ function yanky.register_plugs()
   for type, type_text in pairs({
     p = "PutAfter",
     P = "PutBefore",
-    gp = "GPutBefore",
-    gP = "GPutAfter",
+    gp = "GPutAfter",
+    gP = "GPutBefore",
     ["]p"] = "PutIndentAfter",
     ["[p"] = "PutIndentBefore",
   }) do
