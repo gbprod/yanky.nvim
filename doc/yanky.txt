@@ -598,6 +598,7 @@ To go further, Plug mappings are constructed like this:
 
 
 - `Linewise`: put in linewise mode ;
+- `Charwise`: put in charwise mode ;
 - `Blockwise`: put in blockwise mode ;
 - `ShiftRight`: increase indent ;
 - `ShiftLeft`: decrease indent.
