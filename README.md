@@ -531,6 +531,7 @@ To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifie
 `modifier` (optional) can be:
 
 - `Linewise`: put in linewise mode ;
+- `Charwise`: put in charwise mode ;
 - `Blockwise`: put in blockwise mode ;
 - `ShiftRight`: increase indent ;
 - `ShiftLeft`: decrease indent.
