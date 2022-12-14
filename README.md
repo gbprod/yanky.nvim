@@ -321,7 +321,7 @@ require("yanky").setup({
 })
 ```
 
-Available actions:
+**Available actions:**
 
 ```lua
 require("yanky.telescope.mapping").put("p") -- put after cursor
@@ -332,9 +332,16 @@ require("yanky.telescope.mapping").delete() -- delete entry from yank history
 require("yanky.telescope.mapping").set_register(regname) -- fill register {regname} with selected value
 ```
 
-[_NB: More actions and mappings will come._](https://github.com/gbprod/yanky.nvim/issues/3)
+You can also use any of available [special puts](https://github.com/gbprod/yanky.nvim#%EF%B8%8F-special-put) like this:
 
-## 💡 Highlight put and yanked text
+```lua
+require("yanky.telescope.mapping").special_put("{{ name of the special put }}")
+
+-- eg.
+require("yanky.telescope.mapping").special_put("YankyPutAfterCharwiseJoined")
+```
+
+## 💡 Highlight put an yanked text
 
 This will give you a visual feedback on put and yank text
 by highlighting this.

@@ -66,4 +66,21 @@ function picker.actions.set_register(register)
   end
 end
 
+function picker.actions.special_put(name)
+  if "" == vim.fn.maparg(string.format("<Plug>(%s)", name), "n") then
+    vim.notify("Invalid special put " .. type, vim.log.levels.ERROR)
+    return
+  end
+
+  return function(next_content)
+    if nil == next_content then
+      return
+    end
+
+    utils.use_temporary_register(utils.get_default_register(), next_content, function()
+      vim.fn.maparg(string.format("<Plug>(%s)", name), "n", false, true).callback()
+    end)
+  end
+end
+
 return picker
