@@ -11,7 +11,7 @@ Table of Contents                                    *yanky-table-of-contents*
   - ⚙️ Configuration                          |yanky-⚙️-configuration|
   - 🖇️ Yank-ring                                |yanky-🖇️-yank-ring|
   - 📜 Yank history picker                  |yanky-📜-yank-history-picker|
-  - 💡 Highlight put and yanked text|yanky-💡-highlight-put-and-yanked-text|
+  - 💡 Highlight put an yanked text|yanky-💡-highlight-put-an-yanked-text|
   - ⤵️ Preserve cursor position on yank|yanky-⤵️-preserve-cursor-position-on-yank|
   - 🎨 Colors                                            |yanky-🎨-colors|
   - 🤝 Integrations                                |yanky-🤝-integrations|
@@ -374,7 +374,7 @@ This define the mappings available in Telescope. If you let this option to
 <
 
 
-Available actions:
+**Available actions:**
 
 >
     require("yanky.telescope.mapping").put("p") -- put after cursor
@@ -386,10 +386,18 @@ Available actions:
 <
 
 
-_NB: More actions and mappings will come._
-<https://github.com/gbprod/yanky.nvim/issues/3>
+You can also use any of available special puts
+<https://github.com/gbprod/yanky.nvim#%EF%B8%8F-special-put> like this:
 
-💡 HIGHLIGHT PUT AND YANKED TEXT  *yanky-💡-highlight-put-and-yanked-text*
+>
+    require("yanky.telescope.mapping").special_put("{{ name of the special put }}")
+    
+    -- eg.
+    require("yanky.telescope.mapping").special_put("YankyPutAfterCharwiseJoined")
+<
+
+
+💡 HIGHLIGHT PUT AN YANKED TEXT    *yanky-💡-highlight-put-an-yanked-text*
 
 This will give you a visual feedback on put and yank text by highlighting this.
 
