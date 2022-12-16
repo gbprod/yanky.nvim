@@ -1,7 +1,7 @@
 # 🍃 yanky.nvim
 
 ![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gbprod/yanky.nvim/Integration?style=for-the-badge)](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gbprod/yanky.nvim/integration.yml?branch=main&style=for-the-badge)](https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml)
 
 The aim of `yanky.nvim` is to improve yank and put functionalities for Neovim.
 
