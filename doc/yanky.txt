@@ -24,7 +24,7 @@ Table of Contents                                    *yanky-table-of-contents*
 <img
 src='https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua'
 title=''/> <img
-src='https://img.shields.io/github/workflow/status/gbprod/yanky.nvim/Integration?style=for-the-badge'
+src='https://img.shields.io/github/actions/workflow/status/gbprod/yanky.nvim/integration.yml?branch=main&style=for-the-badge'
 title=''/>
 <https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml>
 
