@@ -327,7 +327,7 @@ function yanky.register_plugs()
       yanky.put(type, true, yanky_wrappers.blockwise(yanky_wrappers.trim_and_join_lines()))
     end, { silent = true })
 
-    for change, change_text in pairs({ [">"] = "ShiftRight", ["<"] = "ShiftLeft", ["="] = "Filter" }) do
+    for change, change_text in pairs({ [">>"] = "ShiftRight", ["<<"] = "ShiftLeft", ["=="] = "Filter" }) do
       vim.keymap.set("n", string.format("<Plug>(Yanky%s%s)", type_text, change_text), function()
         yanky.put(type, false, yanky_wrappers.linewise(yanky_wrappers.change(change)))
       end, { silent = true })
