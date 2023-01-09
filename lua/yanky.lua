@@ -61,14 +61,27 @@ function yanky.init_history()
 end
 
 local function do_put(state, _)
+  local register = state.register
+  local temp_register_info = utils.get_register_info(utils.get_default_register())
+  if state.register == "=" then
+    local current_register_info = utils.get_register_info(utils.get_default_register())
+    vim.fn.setreg(utils.get_default_register(), current_register_info.regcontents, current_register_info.regtype)
+    register = utils.get_default_register()
+  end
+
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
 
   local ok, val = pcall(
     vim.cmd,
-    string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
+    string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", register, state.count, state.type)
   )
+
+  if state.register == "=" then
+    vim.fn.setreg('"', temp_register_info.regcontents, temp_register_info.regtype)
+  end
+
   if not ok then
     vim.notify(val, vim.log.levels.WARN)
     return
@@ -194,7 +207,8 @@ function yanky.cycle(direction)
     end
   end
 
-  utils.use_temporary_register(yanky.ring.state.register, next_content, function()
+  local register = yanky.ring.state.register ~= "=" and yanky.ring.state.register or utils.get_default_register()
+  utils.use_temporary_register(register, next_content, function()
     if new_state.use_repeat then
       local ok, val = pcall(vim.cmd, "silent normal! u.")
       if not ok then
