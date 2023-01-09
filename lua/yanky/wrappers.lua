@@ -65,6 +65,7 @@ function wrappers.trim_and_join_lines(next)
       next(state, callback)
     end
 
+    callback(state)
     vim.fn.setreg(state.register, body, vim.fn.getregtype(state.register))
   end
 end
@@ -77,7 +78,24 @@ function wrappers.change(change, next)
       next(state, callback)
     end
 
-    vim.cmd(string.format("normal! %s']", change))
+    -- local line_len = vim.api.nvim_get_current_line():len()
+
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    vim.cmd(string.format("silent '[,']normal! %s", change))
+    vim.api.nvim_win_set_cursor(0, cursor_pos)
+    vim.cmd(string.format("silent normal! %s", (state.type == "gp" or state.type == "gP") and "0" or "^"))
+  end
+end
+
+function wrappers.set_cursor_pos(pos, next)
+  return function(state, callback)
+    if nil == next then
+      callback(state)
+    else
+      next(state, callback)
+    end
+
+    vim.cmd(string.format("silent normal! %s", pos))
   end
 end
 
