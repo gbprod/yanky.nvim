@@ -67,7 +67,13 @@ local function do_put(state, _)
 
   local ok, val = pcall(
     vim.cmd,
-    string.format('silent normal! %s"%s%s%s', state.is_visual and "gv" or "", state.register, state.count, state.type)
+    string.format(
+      'silent normal! %s"%s%s%s',
+      state.is_visual and "gv" or "",
+      state.register ~= "=" and state.register or "=" .. vim.api.nvim_replace_termcodes("<CR>", true, false, true),
+      state.count,
+      state.type
+    )
   )
   if not ok then
     vim.notify(val, vim.log.levels.WARN)
@@ -86,6 +92,15 @@ function yanky.put(type, is_visual, callback)
   yanky.ring.state = nil
   yanky.ring.is_cycling = false
   yanky.ring.callback = callback or do_put
+
+  -- On Yank event is not triggered when put from expression register,
+  -- To allows cycling, we must store value here
+  if vim.v.register == "=" then
+    local entry = utils.get_register_info("=")
+    entry.filetype = vim.bo.filetype
+
+    yanky.history.push(entry)
+  end
 
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
 end
@@ -193,6 +208,9 @@ function yanky.cycle(direction)
       return
     end
   end
+
+  yanky.ring.state.register = yanky.ring.state.register ~= "=" and yanky.ring.state.register
+    or utils.get_default_register()
 
   utils.use_temporary_register(yanky.ring.state.register, next_content, function()
     if new_state.use_repeat then
