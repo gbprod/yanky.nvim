@@ -31,7 +31,6 @@ jobs:
       - name: Install dependencies
         run: |
           luarocks install luacheck
-          make prepare
       - name: Run linter
         run: luacheck lua/ spec/
       - name: Run tests
