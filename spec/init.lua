@@ -29,6 +29,8 @@ function M.setup()
 
   M.load("nvim-lua/plenary.nvim")
 
+  vim.api.nvim_set_option("clipboard", "")
+
   require("yanky").setup({ ring = { storage = "memory" } })
   require("yanky").register_plugs()
 

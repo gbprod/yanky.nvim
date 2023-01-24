@@ -65,7 +65,6 @@ function wrappers.trim_and_join_lines(next)
       next(state, callback)
     end
 
-    callback(state)
     vim.fn.setreg(state.register, body, vim.fn.getregtype(state.register))
   end
 end
