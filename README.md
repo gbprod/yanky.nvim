@@ -368,7 +368,7 @@ Default : `true`
 
 Define if highlight yanked text feature is enabled.
 
-#### `ring.timeout`
+#### `highlight.timer`
 
 Default : `500`
 
