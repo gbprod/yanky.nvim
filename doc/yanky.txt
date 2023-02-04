@@ -345,7 +345,7 @@ This define the mappings available in Telescope. If you let this option to
 >
     local utils = require("yanky.utils")
     local mapping = require("yanky.telescope.mapping")
-
+    
     require("yanky").setup({
       picker = {
         telescope = {
@@ -387,7 +387,7 @@ You can also use any of available special puts
 
 >
     require("yanky.telescope.mapping").special_put("{{ name of the special put }}")
-
+    
     -- eg.
     require("yanky.telescope.mapping").special_put("YankyPutAfterCharwiseJoined")
 <
@@ -426,9 +426,9 @@ Define if highlight put text feature is enabled.
 
 Define if highlight yanked text feature is enabled.
 
-                                                        *yanky-`highlight.timer`*
+                                                     *yanky-`highlight.timer`*
 
-`highlight.timer`                         Default : `500`
+`highlight.timer`                      Default : `500`
 
 
 Define the duration of highlight.
@@ -498,11 +498,11 @@ your setup:
 
 >
     local Hydra = require("hydra")
-
+    
     local function t(str)
       return api.nvim_replace_termcodes(str, true, true, true)
     end
-
+    
     local yanky_hydra = Hydra({
       name = "Yank ring",
       mode = "n",
@@ -513,7 +513,7 @@ your setup:
         { "<C-p>", "<Plug>(YankyCycleBackward)", { private = true, desc = "↑" } },
       },
     })
-
+    
     -- choose/change the mappings if you want
     for key, putAction in pairs({
       ["p"] = "<Plug>(YankyPutAfter)",
@@ -526,19 +526,19 @@ your setup:
         yanky_hydra:activate()
       end)
     end
-
+    
     -- choose/change the mappings if you want
     for key, putAction in pairs({
       ["]p"] = "<Plug>(YankyPutIndentAfterLinewise)",
       ["[p"] = "<Plug>(YankyPutIndentBeforeLinewise)",
       ["]P"] = "<Plug>(YankyPutIndentAfterLinewise)",
       ["[P"] = "<Plug>(YankyPutIndentBeforeLinewise)",
-
+    
       [">p"] = "<Plug>(YankyPutIndentAfterShiftRight)",
       ["<p"] = "<Plug>(YankyPutIndentAfterShiftLeft)",
       [">P"] = "<Plug>(YankyPutIndentBeforeShiftRight)",
       ["<P"] = "<Plug>(YankyPutIndentBeforeShiftLeft)",
-
+    
       ["=p"] = "<Plug>(YankyPutAfterFilter)",
       ["=P"] = "<Plug>(YankyPutBeforeFilter)",
     }) do
@@ -573,12 +573,12 @@ you can use those bindings:
     vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
     vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
     vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
-
+    
     vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
     vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
     vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
     vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
-
+    
     vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
     vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 <
