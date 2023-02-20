@@ -337,7 +337,7 @@ require("yanky.telescope.mapping").special_put("{{ name of the special put }}")
 require("yanky.telescope.mapping").special_put("YankyPutAfterCharwiseJoined")
 ```
 
-## 💡 Highlight put an yanked text
+## 💡 Highlight put and yanked text
 
 This will give you a visual feedback on put and yank text
 by highlighting this.
