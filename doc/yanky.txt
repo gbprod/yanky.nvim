@@ -4,28 +4,23 @@
 Table of Contents                                    *yanky-table-of-contents*
 
 1. 🍃 yanky.nvim                                     |yanky-🍃-yanky.nvim|
-  - ✨ Features                                          |yanky-✨-features|
-  - ⚡️ Requirements                            |yanky-⚡️-requirements|
-  - Usage                                                        |yanky-usage|
-  - 📦 Installation                                |yanky-📦-installation|
-  - ⚙️ Configuration                          |yanky-⚙️-configuration|
-  - 🖇️ Yank-ring                                |yanky-🖇️-yank-ring|
-  - 📜 Yank history picker                  |yanky-📜-yank-history-picker|
-  - 💡 Highlight put an yanked text|yanky-💡-highlight-put-an-yanked-text|
-  - ⤵️ Preserve cursor position on yank|yanky-⤵️-preserve-cursor-position-on-yank|
-  - 🎨 Colors                                            |yanky-🎨-colors|
-  - 🤝 Integrations                                |yanky-🤝-integrations|
-  - ↩️ Special put                              |yanky-↩️-special-put|
-  - 🎉 Credits                                          |yanky-🎉-credits|
+  - ✨ Features                          |yanky-🍃-yanky.nvim-✨-features|
+  - ⚡️ Requirements            |yanky-🍃-yanky.nvim-⚡️-requirements|
+  - Usage                                        |yanky-🍃-yanky.nvim-usage|
+  - 📦 Installation                |yanky-🍃-yanky.nvim-📦-installation|
+  - ⚙️ Configuration          |yanky-🍃-yanky.nvim-⚙️-configuration|
+  - 🖇️ Yank-ring                |yanky-🍃-yanky.nvim-🖇️-yank-ring|
+  - 📜 Yank history picker  |yanky-🍃-yanky.nvim-📜-yank-history-picker|
+  - 💡 Highlight put and yanked text|yanky-🍃-yanky.nvim-💡-highlight-put-and-yanked-text|
+  - ⤵️ Preserve cursor position on yank|yanky-🍃-yanky.nvim-⤵️-preserve-cursor-position-on-yank|
+  - 🎨 Colors                            |yanky-🍃-yanky.nvim-🎨-colors|
+  - 🤝 Integrations                |yanky-🍃-yanky.nvim-🤝-integrations|
+  - ↩️ Special put              |yanky-🍃-yanky.nvim-↩️-special-put|
+  - 🎉 Credits                          |yanky-🍃-yanky.nvim-🎉-credits|
 
 ==============================================================================
 1. 🍃 yanky.nvim                                     *yanky-🍃-yanky.nvim*
 
-<img
-src='https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua'
-title=''/> <img
-src='https://img.shields.io/github/actions/workflow/status/gbprod/yanky.nvim/integration.yml?branch=main&style=for-the-badge'
-title=''/>
 <https://github.com/gbprod/yanky.nvim/actions/workflows/integration.yml>
 
 The aim of `yanky.nvim` is to improve yank and put functionalities for Neovim.
@@ -34,15 +29,12 @@ French slogan:
 
 
   "Vas-y Yanky, c’est bon !" - Yanky Vincent
-
-
 Or in English:
 
 
   "Yanky-ki-yay, motherf*cker" - John McYanky
 
-
-✨ FEATURES                                              *yanky-✨-features*
+✨ FEATURES                              *yanky-🍃-yanky.nvim-✨-features*
 
 
 - |yanky-yank-ring|
@@ -52,19 +44,22 @@ Or in English:
 - |yanky-special-put|
 
 
-⚡️ REQUIREMENTS                                *yanky-⚡️-requirements*
+⚡️ REQUIREMENTS                *yanky-🍃-yanky.nvim-⚡️-requirements*
 
 Requires neovim > `0.7.0`.
 
-USAGE                                                            *yanky-usage*
 
-📦 INSTALLATION                                    *yanky-📦-installation*
+USAGE                                            *yanky-🍃-yanky.nvim-usage*
+
+
+📦 INSTALLATION                    *yanky-🍃-yanky.nvim-📦-installation*
 
 Install the plugin with your preferred package manager:
 
-PACKER <HTTPS://GITHUB.COM/WBTHOMASON/PACKER.NVIM> ~
 
->
+PACKER ~
+
+>lua
     -- Lua
     use("gbprod/yanky.nvim")
     require("yanky").setup({
@@ -75,9 +70,9 @@ PACKER <HTTPS://GITHUB.COM/WBTHOMASON/PACKER.NVIM> ~
 <
 
 
-VIM-PLUG <HTTPS://GITHUB.COM/JUNEGUNN/VIM-PLUG> ~
+VIM-PLUG ~
 
->
+>vim
     " Vim Script
     Plug 'gbprod/yanky.nvim'
     lua << EOF
@@ -90,11 +85,11 @@ VIM-PLUG <HTTPS://GITHUB.COM/JUNEGUNN/VIM-PLUG> ~
 <
 
 
-⚙️ CONFIGURATION                              *yanky-⚙️-configuration*
+⚙️ CONFIGURATION              *yanky-🍃-yanky.nvim-⚙️-configuration*
 
 Yanky comes with the following defaults:
 
->
+>lua
     {
       ring = {
         history_length = 100,
@@ -130,30 +125,30 @@ Yanky comes with the following defaults:
 This plugin contains no default mappings and will have no effect until you add
 your own maps to it. You should at least set those keymaps:
 
->
+>lua
     vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
     vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
     vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
     vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
 <
 
-
 Some features requires specific mappings, refer to feature documentation
 section.
 
-🖇️ YANK-RING                                    *yanky-🖇️-yank-ring*
+
+🖇️ YANK-RING                    *yanky-🍃-yanky.nvim-🖇️-yank-ring*
 
 Yank-ring allows cycling throught yank history when putting text (like the
 Emacs "kill-ring" feature). Yanky automatically maintain a history of yanks
 that you can choose between when pasting.
 
+
 ⌨️ MAPPINGS ~
 
->
+>lua
     vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
     vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
 <
-
 
 With these mappings, after performing a paste, you can cycle through the
 history by hitting `<c-n>` and `<c-p>`. Any modifications done after pasting
@@ -162,9 +157,10 @@ will cancel the possibility to cycle.
 Note that the swap operations above will only affect the current paste and the
 history will be unchanged.
 
+
 ⚙️ CONFIGURATION ~
 
->
+>lua
     require("yanky").setup({
       ring = {
         history_length = 100,
@@ -179,17 +175,16 @@ history will be unchanged.
 <
 
 
-                                                 *yanky-`ring.history_length`*
+RING.HISTORY_LENGTH
 
-`ring.history_length`                  Default : `100`
-
+Default : `100`
 
 Define the number of yanked items that will be saved and used for ring.
 
-                                                        *yanky-`ring.storage`*
 
-`ring.storage`                         Default : `shada`
+RING.STORAGE
 
+Default : `shada`
 
 Available : `shada`, `sqlite` or `memory`
 
@@ -209,17 +204,17 @@ lost between sessions.
 If you want to use `sqlite` as storage, you must add `kkharji/sqlite.lua`
 <https://github.com/kkharji/sqlite.lua> as dependency:
 
->
+>lua
     use({
       "gbprod/yanky.nvim",
       requires = { "kkharji/sqlite.lua" }
     })
 <
 
-
 Sqlite is more reliable than ShaDa but requires more dependencies.
 
-`RING.SYNC_WITH_NUMBERED_REGISTERS` ~
+
+RING.SYNC_WITH_NUMBERED_REGISTERS ~
 
 Default : `true`
 
@@ -229,7 +224,8 @@ first 9 entries in the yank history. See here
 <http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/>
 for an explanation of why we would want do do this.
 
-`RING.CANCEL_EVENT` ~
+
+RING.CANCEL_EVENT ~
 
 Default: `update`
 
@@ -237,7 +233,8 @@ Define the event used to cancel ring activation. `update` will cancel ring on
 next buffer update, `move` will cancel ring when moving cursor or content
 changed.
 
-`SYSTEM_CLIPBOARD.SYNC_WITH_RING` ~
+
+SYSTEM_CLIPBOARD.SYNC_WITH_RING ~
 
 Default: `true`
 
@@ -252,11 +249,13 @@ If `&clipboard` is empty, if you yank something outside of Neovim, this will be
 the first value you’ll have when cycling through the ring. Basicly, you can
 do `p` and then `<c-p>` to paste yanked text.
 
+
 COMMANDS ~
 
 You can clear yank history using `YankyClearHistory` command.
 
-📜 YANK HISTORY PICKER                      *yanky-📜-yank-history-picker*
+
+📜 YANK HISTORY PICKER      *yanky-🍃-yanky.nvim-📜-yank-history-picker*
 
 This allows you to select an entry in your recorded yank history using default
 `vim.ui.select` neovim prompt (you can use stevearc/dressing.nvim
@@ -266,6 +265,7 @@ telescope.nvim <https://github.com/nvim-telescope/telescope.nvim>.
 It uses the same history as yank ring, so, if you want to increase history
 size, just use |yanky-`ring.history_length`-option|.
 
+
 ⚙️ CONFIGURATION ~
 
 To use `vim.ui.select` picker, just call `YankyRingHistory` command.
@@ -273,24 +273,21 @@ To use `vim.ui.select` picker, just call `YankyRingHistory` command.
 To use the `yank_history` Telescope picker, register `yank_history` as a
 Telescope extension in your Neovim config file.
 
->
+>lua
     :lua require("telescope").load_extension("yank_history")
 <
 
-
 After loading the extension, you can access the picker by running:
 
->
+>vim
     :Telescope yank_history
 <
 
-
 Or:
 
->
+>lua
     :lua require("telescope").extensions.yank_history.yank_history()
 <
-
 
 Set the Telescope option `dynamic_preview_title`
 <https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt>
@@ -299,7 +296,7 @@ showing the register’s type.
 
 Default configuration :
 
->
+>lua
     require("yanky").setup({
       picker = {
         select = {
@@ -313,10 +310,9 @@ Default configuration :
 <
 
 
-                                                 *yanky-`picker.select.acion`*
+PICKER.SELECT.ACION
 
-`picker.select.acion`                  Default : `nil`
-
+Default : `nil`
 
 This define the action that should be done when selecting an item in the
 `vim.ui.select` prompt. If you let this option to `nil`, this will use the
@@ -324,7 +320,7 @@ default action : put selected item after cursor.
 
 Available actions:
 
->
+>lua
     require("yanky.picker").actions.put("p") -- put after cursor
     require("yanky.picker").actions.put("P") -- put before cursor
     require("yanky.picker").actions.put("gp") -- put after cursor and leave the cursor after
@@ -334,15 +330,14 @@ Available actions:
 <
 
 
-                                           *yanky-`picker.telescope.mappings`*
+PICKER.TELESCOPE.MAPPINGS
 
-`picker.telescope.mappings`            Default : `nil`
-
+Default : `nil`
 
 This define the mappings available in Telescope. If you let this option to
 `nil`, this will use the default mappings :
 
->
+>lua
     local utils = require("yanky.utils")
     local mapping = require("yanky.telescope.mapping")
     
@@ -369,10 +364,9 @@ This define the mappings available in Telescope. If you let this option to
     })
 <
 
-
 **Available actions:**
 
->
+>lua
     require("yanky.telescope.mapping").put("p") -- put after cursor
     require("yanky.telescope.mapping").put("P") -- put before cursor
     require("yanky.telescope.mapping").put("gp") -- put after cursor and leave the cursor after
@@ -381,11 +375,10 @@ This define the mappings available in Telescope. If you let this option to
     require("yanky.telescope.mapping").set_register(regname) -- fill register {regname} with selected value
 <
 
-
 You can also use any of available special puts
 <https://github.com/gbprod/yanky.nvim#%EF%B8%8F-special-put> like this:
 
->
+>lua
     require("yanky.telescope.mapping").special_put("{{ name of the special put }}")
     
     -- eg.
@@ -393,13 +386,13 @@ You can also use any of available special puts
 <
 
 
-💡 HIGHLIGHT PUT AN YANKED TEXT    *yanky-💡-highlight-put-an-yanked-text*
+💡 HIGHLIGHT PUT AND YANKED TEXT*yanky-🍃-yanky.nvim-💡-highlight-put-and-yanked-text*
 
 This will give you a visual feedback on put and yank text by highlighting this.
 
 ### Configuration
 
->
+>lua
     require("yanky").setup({
       highlight = {
         on_put = true,
@@ -409,31 +402,31 @@ This will give you a visual feedback on put and yank text by highlighting this.
     })
 <
 
-
 You can override `YankyPut` highlight to change colors.
 
-                                                    *yanky-`highlight.on_put`*
 
-`highlight.on_put`                     Default : `true`
+HIGHLIGHT.ON_PUT
 
+Default : `true`
 
 Define if highlight put text feature is enabled.
 
-                                                   *yanky-`highlight.on_yank`*
 
-`highlight.on_yank`                    Default : `true`
+HIGHLIGHT.ON_YANK
 
+Default : `true`
 
 Define if highlight yanked text feature is enabled.
 
-                                                     *yanky-`highlight.timer`*
 
-`highlight.timer`                      Default : `500`
+HIGHLIGHT.TIMER
 
+Default : `500`
 
 Define the duration of highlight.
 
-⤵️ PRESERVE CURSOR POSITION ON YANK*yanky-⤵️-preserve-cursor-position-on-yank*
+
+⤵️ PRESERVE CURSOR POSITION ON YANK*yanky-🍃-yanky.nvim-⤵️-preserve-cursor-position-on-yank*
 
 By default in Neovim, when yanking text, cursor moves to the start of the
 yanked text. Could be annoying especially when yanking a large text object such
@@ -443,16 +436,17 @@ With this feature, yank will function exactly the same as previously with the
 one difference being that the cursor position will not change after performing
 a yank.
 
+
 ⌨️ MAPPINGS ~
 
->
+>lua
     vim.keymap.set({"n","x"}, "y", "<Plug>(YankyYank)")
 <
 
 
 ⚙️ CONFIGURATION ~
 
->
+>lua
     require("yanky").setup({
       preserve_cursor_position = {
         enabled = true,
@@ -461,42 +455,40 @@ a yank.
 <
 
 
-                                    *yanky-`preserve_cursor_position.enabled`*
+PRESERVE_CURSOR_POSITION.ENABLED
 
-`preserve_cursor_position.enabled`     Default : `true`
-
+Default : `true`
 
 Define if cursor position should be preserved on yank. This works only if
 mappings has been defined.
 
-🎨 COLORS                                                *yanky-🎨-colors*
 
-│          Description          │   Group   │   Default    │
-│Highlight color for put text   │YankyPut   │link to Search│
-│Highlight color for yanked text│YankyYanked│link to Search│
+🎨 COLORS                                *yanky-🍃-yanky.nvim-🎨-colors*
 
+  Description                       Group         Default
+  --------------------------------- ------------- ----------------
+  Highlight color for put text      YankyPut      link to Search
+  Highlight color for yanked text   YankyYanked   link to Search
 
-🤝 INTEGRATIONS                                    *yanky-🤝-integrations*
+🤝 INTEGRATIONS                    *yanky-🍃-yanky.nvim-🤝-integrations*
 
 gbprod/substitute.nvim ~
 
 To enable gbprod/substitute.nvim <https://github.com/gbprod/substitute.nvim>
 swap when performing a substitution, you can add this to your setup:
 
->
+>lua
     require("substitute").setup({
       on_substitute = require("yanky.integration").substitute(),
     })
 <
 
-
 anuvyklack/hydra.nvim ~
 
 To work with anuvyklack/hydra.nvim <https://github.com/anuvyklack/hydra.nvim>
-only setup <C-n>/<C-p> mapping when yanky is activated, you can add this to
-your setup:
+only setup / mapping when yanky is activated, you can add this to your setup:
 
->
+>lua
     local Hydra = require("hydra")
     
     local function t(str)
@@ -550,7 +542,7 @@ your setup:
 <
 
 
-↩️ SPECIAL PUT                                  *yanky-↩️-special-put*
+↩️ SPECIAL PUT                  *yanky-🍃-yanky.nvim-↩️-special-put*
 
 Yanky comes with special put moves (inspired by tpope/vim-unimpaired
 <https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100>):
@@ -568,7 +560,7 @@ For basic usage (like with tpope/vim-unimpaired
 <https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100>),
 you can use those bindings:
 
->
+>lua
     vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
     vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
     vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
@@ -583,7 +575,6 @@ you can use those bindings:
     vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 <
 
-
 To go further, Plug mappings are constructed like this:
 `Yanky(put-type)(modifier)(rewriter)`.
 
@@ -597,7 +588,6 @@ To go further, Plug mappings are constructed like this:
 - `PutIndentAfter`: like `PutAfter` but adjust the indent to the current line (as |`]p`| key) ;
 - `PutIndentBefore`: like `PutBefore` but adjust the indent to the current line (as |`[p`| key) ;
 
-
 `modifier` (optional) can be:
 
 
@@ -607,16 +597,14 @@ To go further, Plug mappings are constructed like this:
 - `ShiftRight`: increase indent ;
 - `ShiftLeft`: decrease indent.
 
-
 `rewriter` (optional) can be:
 
 
 - `Joined`: put lines trimed and joined.
 
-
 All special puts ~
 
->
+>vim
     <Plug>(YankyPutAfter)
     <Plug>(YankyPutAfterBlockwise)
     <Plug>(YankyPutAfterBlockwiseJoined)
@@ -704,7 +692,7 @@ All special puts ~
 <
 
 
-🎉 CREDITS                                              *yanky-🎉-credits*
+🎉 CREDITS                              *yanky-🍃-yanky.nvim-🎉-credits*
 
 This plugin is mostly a lua version of svermeulen/vim-yoink
 <https://github.com/svermeulen/vim-yoink> awesome plugin.
@@ -721,9 +709,14 @@ Other inspiration :
 - tpope/vim-unimpaired <https://github.com/tpope/vim-unimpaired>
 - inkarkat/vim-UnconditionalPaste <https://github.com/inkarkat/vim-UnconditionalPaste>
 
-
 Thanks to m00qek lua plugin template
 <https://github.com/m00qek/plugin-template.nvim>.
+
+==============================================================================
+2. Links                                                         *yanky-links*
+
+1. *Lua*: https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua
+2. *GitHub Workflow Status*: https://img.shields.io/github/actions/workflow/status/gbprod/yanky.nvim/integration.yml?branch=main&style=for-the-badge
 
 Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
 
