@@ -10,16 +10,13 @@ function highlight.setup()
 		vim.api.nvim_set_hl(0, "YankyYanked", { link = "Search", default = true })
 	end
 
+
 	if highlight.config.on_yank then
-		local aesthetics = vim.api.nvim_create_augroup("aesthetic_settings", { clear = true })
 		vim.api.nvim_create_autocmd("TextYankPost", {
 			pattern = "*",
-			group = aesthetics,
-			command = "silent! lua vim.highlight.on_yank({higroup = \"Visual\", timeout = 200})",
-		--	callback = function(_)
-
-		--		vim.highlight.on_yank({ higroup = "Visual", timeout = highlight.config.timer })
-		--	end,
+			callback = function(_)
+				vim.highlight.on_yank({ higroup = highlight.config.higroup, timeout = highlight.config.timer })
+			end,
 		})
 	end
 end
