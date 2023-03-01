@@ -15,7 +15,7 @@ function highlight.setup()
 		vim.api.nvim_create_autocmd("TextYankPost", {
 			pattern = "*",
 			callback = function(_)
-				vim.highlight.on_yank({ higroup = highlight.config.higroup, timeout = highlight.config.timer })
+				vim.highlight.on_yank({ higroup = highlight.config.yank_higroup, timeout = highlight.config.timer })
 			end,
 		})
 	end
@@ -46,7 +46,7 @@ function highlight.highlight_put(state)
 	vim.highlight.range(
 		0,
 		highlight.hl_put,
-		"YankyPut",
+		highlight.config.put_higroup,
 		{ region.start_row, region.start_col },
 		{ region.end_row, region.end_col },
 		{ regtype = vim.fn.getregtype(state.register), inclusive = true }
