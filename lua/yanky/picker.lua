@@ -21,7 +21,7 @@ function picker.select_in_history()
   vim.ui.select(history, {
     prompt = "Ring history",
     format_item = function(item)
-      return item.regcontents:gsub("\n", "\\n")
+      return item.regcontents and item.regcontents:gsub("\n", "\\n") or ""
     end,
   }, action)
 end
