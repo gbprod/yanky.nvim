@@ -15,9 +15,11 @@ function highlight.setup()
 		vim.api.nvim_create_autocmd("TextYankPost", {
 			pattern = "*",
 			group = aesthetics,
-			callback = function(_)
-				vim.highlight.on_yank({ higroup = "Visual", timeout = highlight.config.timer })
-			end,
+			command = "silent! lua vim.highlight.on_yank({higroup = \"Visual\", timeout = 200})",
+		--	callback = function(_)
+
+		--		vim.highlight.on_yank({ higroup = "Visual", timeout = highlight.config.timer })
+		--	end,
 		})
 	end
 end
