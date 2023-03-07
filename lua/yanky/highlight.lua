@@ -10,7 +10,6 @@ function highlight.setup()
     vim.api.nvim_set_hl(0, "YankyYanked", { link = "Search", default = true })
   end
 
-
   if highlight.config.on_yank then
     vim.api.nvim_create_autocmd("TextYankPost", {
       pattern = "*",
