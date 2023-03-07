@@ -15,9 +15,9 @@ local default_values = {
   highlight = {
     on_put = true,
     on_yank = true,
-    timer = 500,
-    yank_higroup = "YankyYanked",
     put_higroup = "YankyPut",
+    yank_higroup = "YankyYanked",
+    timer = 500,
   },
   preserve_cursor_position = {
     enabled = true,

@@ -83,6 +83,8 @@ Yanky comes with the following defaults:
   highlight = {
     on_put = true,
     on_yank = true,
+    put_higroup = "YankyPut",
+    yank_higroup = "YankyYanked",
     timer = 500,
   },
   preserve_cursor_position = {
@@ -349,12 +351,14 @@ require("yanky").setup({
   highlight = {
     on_put = true,
     on_yank = true,
+    put_higroup = "YankyPut",
+    yank_higroup = "YankyYanked",
     timer = 500,
   },
 })
 ```
 
-You can override `YankyPut` highlight to change colors.
+You can change `yank_higroup` or `put_higroup` to any of the existing highlight-groups to change the highlight color.
 
 #### `highlight.on_put`
 
@@ -367,6 +371,18 @@ Define if highlight put text feature is enabled.
 Default : `true`
 
 Define if highlight yanked text feature is enabled.
+
+#### `highlight.put_higroup`
+
+Default : `true`
+
+The highlight group to be used for highlighting on put.
+
+#### `highlight.yank_higroup`
+
+Default : `true`
+
+The highlight group to be used for highlighting on yank.
 
 #### `highlight.timer`
 
@@ -412,6 +428,8 @@ has been defined.
 | ------------------------------- | ----------- | -------------- |
 | Highlight color for put text    | YankyPut    | link to Search |
 | Highlight color for yanked text | YankyYanked | link to Search |
+
+Or the name of any of the existing vim highlight-groups.
 
 ## 🤝 Integrations
 
