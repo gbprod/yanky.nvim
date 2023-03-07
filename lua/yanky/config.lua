@@ -16,7 +16,8 @@ local default_values = {
     on_put = true,
     on_yank = true,
     timer = 500,
-	higroup = "YankyYanked",
+    yank_higroup = "YankyYanked",
+    put_higroup = "YankyPut",
   },
   preserve_cursor_position = {
     enabled = true,
