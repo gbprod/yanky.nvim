@@ -237,8 +237,10 @@ function yanky.cycle(direction)
 end
 
 function yanky.on_yank()
-  if "_" == vim.v.register then
-    return
+  for _k, v in pairs(yanky.config.options.ring.ignore_registers) do
+    if v == vim.v.register then
+      return
+    end
   end
 
   -- Only historize first delete in visual mode

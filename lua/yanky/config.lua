@@ -7,6 +7,7 @@ local default_values = {
     history_length = 100,
     storage = "shada",
     sync_with_numbered_registers = true,
+    ignore_registers = { "_" },
     cancel_event = "update",
   },
   system_clipboard = {
