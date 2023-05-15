@@ -237,7 +237,7 @@ function yanky.cycle(direction)
 end
 
 function yanky.on_yank()
-  for _k, v in pairs(yanky.config.options.ring.ignore_registers) do
+  for _, v in pairs(yanky.config.options.ring.ignore_registers) do
     if v == vim.v.register then
       return
     end

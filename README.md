@@ -134,6 +134,7 @@ require("yanky").setup({
     storage = "shada",
     sync_with_numbered_registers = true,
     cancel_event = "update",
+    ignore_registers = { "_" },
   },
   system_clipboard = {
     sync_with_ring = true,
@@ -193,6 +194,12 @@ Default: `update`
 Define the event used to cancel ring activation. `update` will cancel ring on
 next buffer update, `move` will cancel ring when moving cursor or content
 changed.
+
+### `ring.ignore_registers `
+
+Default: `{ "_" }`
+
+Define registeres to be ignored. By default the black hole register is ignored.
 
 ### `system_clipboard.sync_with_ring`
 
