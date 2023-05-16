@@ -14,7 +14,7 @@ function highlight.setup()
     vim.api.nvim_create_autocmd("TextYankPost", {
       pattern = "*",
       callback = function(_)
-        vim.highlight.on_yank({ higroup = "YankyYanked", timeout = highlight.config.timer })
+        pcall(vim.highlight.on_yank, { higroup = "YankyYanked", timeout = highlight.config.timer })
       end,
     })
   end
