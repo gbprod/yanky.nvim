@@ -46,11 +46,15 @@ function yanky.setup(options)
       yanky.on_yank()
     end,
   })
-  vim.api.nvim_create_autocmd("VimEnter", {
-    group = yanky_augroup,
-    pattern = "*",
-    callback = yanky.init_history,
-  })
+  if vim.v.vim_did_enter == 1 then
+    yanky.init_history()
+  else
+    vim.api.nvim_create_autocmd("VimEnter", {
+      group = yanky_augroup,
+      pattern = "*",
+      callback = yanky.init_history,
+    })
+  end
 
   vim.api.nvim_create_user_command("YankyClearHistory", yanky.clear_history, {})
 end
