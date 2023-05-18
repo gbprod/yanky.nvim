@@ -46,14 +46,17 @@ function yank_history.previewer()
 end
 
 function yank_history.attach_mappings(_, map)
-  local defaults_mappings = mapping.get_defaults()
+  local mappings = vim.tbl_deep_extend("force", mapping.get_defaults(), config.options.picker.telescope.mappings or {})
 
-  actions.select_default:replace(config.options.picker.telescope.mappings.default or defaults_mappings.default)
+  if mappings.default then
+    actions.select_default:replace(mappings.default)
+  end
 
   for _, mode in pairs({ "i", "n" }) do
-    local mappings = config.options.picker.telescope.mappings[mode] or defaults_mappings[mode]
-    for keys, action in pairs(mappings) do
-      map(mode, keys, action)
+    if mappings[mode] then
+      for keys, action in pairs(mappings[mode]) do
+        map(mode, keys, action)
+      end
     end
   end
 
