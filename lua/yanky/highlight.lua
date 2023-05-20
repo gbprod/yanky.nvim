@@ -7,7 +7,6 @@ function highlight.setup()
     highlight.timer = vim.loop.new_timer()
 
     vim.api.nvim_set_hl(0, "YankyPut", { link = "Search", default = true })
-    vim.api.nvim_set_hl(0, "YankyYanked", { link = "Search", default = true })
   end
 
   if highlight.config.on_yank then
@@ -17,6 +16,8 @@ function highlight.setup()
         pcall(vim.highlight.on_yank, { higroup = "YankyYanked", timeout = highlight.config.timer })
       end,
     })
+
+    vim.api.nvim_set_hl(0, "YankyYanked", { link = "Search", default = true })
   end
 end
 
