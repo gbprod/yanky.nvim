@@ -74,7 +74,8 @@ Yanky comes with the following defaults:
       action = nil, -- nil to use default put action
     },
     telescope = {
-      mappings = nil, -- nil to use default mappings
+      use_default_mappings = true, -- if default mappings should be used
+      mappings = nil, -- nil to use default mappings or no mappings (see `use_default_mappings`)
     },
   },
   system_clipboard = {
@@ -283,12 +284,13 @@ require("yanky.picker").actions.delete() -- delete entry from yank history
 require("yanky.picker").actions.set_register(regname) -- fill register with selected value
 ```
 
-#### `picker.telescope.mappings`
+#### `picker.telescope.use_default_mappings`
 
-Default : `nil`
+Default : `true`
 
-This define the mappings available in Telescope. If you let this option to `nil`,
-this will use the default mappings :
+This define if default Telescope mappings should be use.
+
+If you let this option to `true`, this will use the default mappings :
 
 ```lua
 local utils = require("yanky.utils")
@@ -316,6 +318,14 @@ require("yanky").setup({
   }
 })
 ```
+
+#### `picker.telescope.mappings`
+
+Default : `nil`
+
+This define or overrides the mappings available in Telescope.
+
+If you set `use_default_mappings` to `true`, mappings will be merged with default mappings.
 
 **Available actions:**
 

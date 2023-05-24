@@ -25,6 +25,7 @@ local default_values = {
       action = nil,
     },
     telescope = {
+      use_default_mappings = true,
       mappings = nil,
     },
   },
