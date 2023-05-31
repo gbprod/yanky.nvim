@@ -241,7 +241,7 @@ function yanky.cycle(direction)
 end
 
 function yanky.on_yank()
-  if "_" == vim.v.register then
+  if vim.tbl_contains(yanky.config.options.ring.ignore_registers, vim.v.register) then
     return
   end
 
