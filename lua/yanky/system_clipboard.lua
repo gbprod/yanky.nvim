@@ -12,17 +12,31 @@ function system_clipboard.setup()
 
   if system_clipboard.config.sync_with_ring then
     local yanky_clipboard_augroup = vim.api.nvim_create_augroup("YankySyncClipboard", { clear = true })
+    local fetching = false
     vim.api.nvim_create_autocmd("FocusGained", {
       group = yanky_clipboard_augroup,
       pattern = "*",
       callback = function(_)
-        system_clipboard.on_focus_gained()
+        if fetching then
+          return
+        end
+        fetching = true
+        local ok, err = pcall(system_clipboard.on_focus_gained)
+        vim.schedule(function()
+          fetching = false
+        end)
+        if not ok then
+          error(err)
+        end
       end,
     })
     vim.api.nvim_create_autocmd("FocusLost", {
       group = yanky_clipboard_augroup,
       pattern = "*",
       callback = function(_)
+        if fetching then
+          return
+        end
         system_clipboard.on_focus_lost()
       end,
     })
