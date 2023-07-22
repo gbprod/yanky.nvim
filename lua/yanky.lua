@@ -203,12 +203,14 @@ function yanky.cycle(direction)
     next_content = yanky.history.next()
     if nil == next_content then
       vim.notify("Reached oldest item", vim.log.levels.INFO)
+      yanky.attach_cancel()
       return
     end
   else
     next_content = yanky.history.previous()
     if nil == next_content then
       vim.notify("Reached first item", vim.log.levels.INFO)
+      yanky.attach_cancel()
       return
     end
   end
@@ -221,6 +223,7 @@ function yanky.cycle(direction)
       local ok, val = pcall(vim.cmd, "silent normal! u.")
       if not ok then
         vim.notify(val, vim.log.levels.WARN)
+        yanky.attach_cancel()
         return
       end
       highlight.highlight_put(new_state)
@@ -228,6 +231,7 @@ function yanky.cycle(direction)
       local ok, val = pcall(vim.cmd, "silent normal! u")
       if not ok then
         vim.notify(val, vim.log.levels.WARN)
+        yanky.attach_cancel()
         return
       end
       yanky.ring.callback(new_state, do_put)
