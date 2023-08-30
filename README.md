@@ -665,7 +665,6 @@ Other inspiration :
 - [bkoropoff/yankee.vim](https://github.com/bkoropoff/yankee.vim)
 - [svban/YankAssassin.vim](https://github.com/svban/YankAssassin.vim)
 - [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
-- [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
 - [inkarkat/vim-UnconditionalPaste](https://github.com/inkarkat/vim-UnconditionalPaste)
 
 Thanks to [m00qek lua plugin template](https://github.com/m00qek/plugin-template.nvim).
