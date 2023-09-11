@@ -66,6 +66,7 @@ Yanky comes with the following defaults:
   ring = {
     history_length = 100,
     storage = "shada",
+    storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db", -- Only for sqlite storage
     sync_with_numbered_registers = true,
     cancel_event = "update",
   },
@@ -177,7 +178,8 @@ use({
 })
 ```
 
-Sqlite is more reliable than ShaDa but requires more dependencies.
+Sqlite is more reliable than ShaDa but requires more dependencies. You can
+change the storage path using `ring.storage_path` option.
 
 ### `ring.sync_with_numbered_registers`
 
