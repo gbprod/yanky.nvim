@@ -6,6 +6,7 @@ local default_values = {
   ring = {
     history_length = 100,
     storage = "shada",
+    storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db",
     sync_with_numbered_registers = true,
     ignore_registers = { "_" },
     cancel_event = "update",
