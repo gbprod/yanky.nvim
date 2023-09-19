@@ -3,7 +3,9 @@ local utils = require("yanky.utils")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 
-local mapping = {}
+local mapping = {
+  state = { is_visual = false },
+}
 
 function mapping.put(type)
   return function(prompt_bufnr)
@@ -16,7 +18,8 @@ function mapping.put(type)
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
       vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
     end
-    picker.actions.put(type)(selection.value)
+
+    picker.actions.put(type, mapping.state.is_visual)(selection.value)
   end
 end
 
@@ -31,7 +34,7 @@ function mapping.special_put(name)
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
       vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
     end
-    picker.actions.special_put(name)(selection.value)
+    picker.actions.special_put(name, mapping.state.is_visual)(selection.value)
   end
 end
 
