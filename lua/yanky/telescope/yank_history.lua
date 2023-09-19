@@ -95,6 +95,13 @@ function yank_history.gen_from_history(opts)
 end
 
 function yank_history.yank_history(opts)
+  local is_visual = vim.fn.mode() == "v" or vim.fn.mode() == "V"
+  if is_visual then
+    vim.cmd([[execute "normal! \<esc>"]])
+  end
+
+  mapping.state.is_visual = is_visual
+
   opts = opts or {}
   local history = {}
   for index, value in pairs(require("yanky.history").all()) do

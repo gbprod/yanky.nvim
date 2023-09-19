@@ -16,7 +16,7 @@ function picker.select_in_history()
   end
 
   local config = require("yanky.config").options.picker.select
-  local action = config.action or require("yanky.picker").actions.put("p")
+  local action = config.action or require("yanky.picker").actions.put("p", false)
 
   vim.ui.select(history, {
     prompt = "Ring history",
@@ -26,7 +26,7 @@ function picker.select_in_history()
   }, action)
 end
 
-function picker.actions.put(type)
+function picker.actions.put(type, is_visual)
   local yanky = require("yanky")
 
   if not vim.tbl_contains(vim.tbl_values(yanky.type), type) then
@@ -40,7 +40,7 @@ function picker.actions.put(type)
     end
 
     utils.use_temporary_register(utils.get_default_register(), next_content, function()
-      yanky.put(type, false)
+      yanky.put(type, is_visual)
     end)
   end
 end
@@ -66,7 +66,7 @@ function picker.actions.set_register(register)
   end
 end
 
-function picker.actions.special_put(name)
+function picker.actions.special_put(name, is_visual)
   if "" == vim.fn.maparg(string.format("<Plug>(%s)", name), "n") then
     vim.notify("Invalid special put " .. type, vim.log.levels.ERROR)
     return
@@ -78,7 +78,7 @@ function picker.actions.special_put(name)
     end
 
     utils.use_temporary_register(utils.get_default_register(), next_content, function()
-      vim.fn.maparg(string.format("<Plug>(%s)", name), "n", false, true).callback()
+      vim.fn.maparg(string.format("<Plug>(%s)", name), is_visual and "x" or "n", false, true).callback()
     end)
   end
 end
