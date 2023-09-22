@@ -311,7 +311,7 @@ require("yanky").setup({
       mappings = {
         default = mapping.put("p"),
         i = {
-          ["<c-p>"] = mapping.put("p"),
+          ["<c-g>"] = mapping.put("p"),
           ["<c-k>"] = mapping.put("P"),
           ["<c-x>"] = mapping.delete(),
           ["<c-r>"] = mapping.set_register(utils.get_default_register()),
