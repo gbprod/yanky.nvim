@@ -9,7 +9,9 @@ local mapping = {
 
 function mapping.put(type)
   return function(prompt_bufnr)
-    actions.close(prompt_bufnr)
+    if vim.api.nvim_buf_is_valid(prompt_bufnr) then
+      actions.close(prompt_bufnr)
+    end
     local selection = action_state.get_selected_entry()
 
     -- fix cursor position since
@@ -25,7 +27,9 @@ end
 
 function mapping.special_put(name)
   return function(prompt_bufnr)
-    actions.close(prompt_bufnr)
+    if vim.api.nvim_buf_is_valid(prompt_bufnr) then
+      actions.close(prompt_bufnr)
+    end
     local selection = action_state.get_selected_entry()
 
     -- fix cursor position since
@@ -34,6 +38,7 @@ function mapping.special_put(name)
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
       vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
     end
+
     picker.actions.special_put(name, mapping.state.is_visual)(selection.value)
   end
 end
@@ -49,9 +54,18 @@ end
 
 function mapping.set_register(register)
   return function(prompt_bufnr)
-    actions.close(prompt_bufnr)
+    if vim.api.nvim_buf_is_valid(prompt_bufnr) then
+      actions.close(prompt_bufnr)
+    end
     local selection = action_state.get_selected_entry()
     picker.actions.set_register(register)(selection.value)
+  end
+end
+
+function mapping.put_and_set_register(type, register)
+  return function(prompt_bufnr)
+    mapping.put(type)(prompt_bufnr)
+    mapping.set_register(register)(prompt_bufnr)
   end
 end
 
