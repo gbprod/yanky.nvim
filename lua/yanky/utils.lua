@@ -42,4 +42,5 @@ function utils.use_temporary_register(register, register_info, callback)
   callback()
   vim.fn.setreg(register, current_register_info.regcontents, current_register_info.regtype)
 end
+
 return utils

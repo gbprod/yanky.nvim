@@ -20,6 +20,7 @@ Or in English:
 - [Highlight put and yanked text](#-highlight-put-and-yanked-text)
 - [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
 - [Special put](#%EF%B8%8F-special-put)
+- [Text object](#text-object) (EXPERIMENTAL)
 
 ## ⚡️ Requirements
 
@@ -654,6 +655,19 @@ To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifie
 ```
 
 </details>
+
+## Text object
+
+_This is experimental, please, report any issue._
+
+Yanky comes with a text object corresponding to last put text. To use it, you
+have to set a keymap:
+
+```lua
+vim.keymap.set({ "o", "x" }, "lp", function()
+  require("yanky.textobj").last_put()
+end, {})
+```
 
 ## 🎉 Credits
 
