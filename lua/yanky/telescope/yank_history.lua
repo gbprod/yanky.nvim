@@ -119,7 +119,8 @@ function yank_history.yank_history(opts)
         entry_maker = yank_history.gen_from_history(opts),
       }),
       attach_mappings = yank_history.attach_mappings,
-      previewer = yank_history.previewer(),
+      previewer = false,
+      -- yank_history.previewer(),
       sorter = conf.generic_sorter(opts),
     })
     :find()
