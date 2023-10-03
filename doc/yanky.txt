@@ -16,6 +16,7 @@ Table of Contents                                    *yanky-table-of-contents*
   - 🎨 Colors                            |yanky-🍃-yanky.nvim-🎨-colors|
   - 🤝 Integrations                |yanky-🍃-yanky.nvim-🤝-integrations|
   - ↩️ Special put              |yanky-🍃-yanky.nvim-↩️-special-put|
+  - Text object                            |yanky-🍃-yanky.nvim-text-object|
   - 🎉 Credits                          |yanky-🍃-yanky.nvim-🎉-credits|
 
 ==============================================================================
@@ -41,6 +42,7 @@ Or in English:
 - |yanky-highlight-put-and-yanked-text|
 - |yanky-perserve-cursor-position-on-yank|
 - |yanky-special-put|
+- |yanky-text-object| (EXPERIMENTAL)
 
 
 ⚡️ REQUIREMENTS                *yanky-🍃-yanky.nvim-⚡️-requirements*
@@ -707,6 +709,20 @@ All special puts ~
     <Plug>(YankyPutIndentBeforeShiftLeftJoined)
     <Plug>(YankyPutIndentBeforeShiftRight)
     <Plug>(YankyPutIndentBeforeShiftRightJoined)
+<
+
+
+TEXT OBJECT                                *yanky-🍃-yanky.nvim-text-object*
+
+_This is experimental, please, report any issue._
+
+Yanky comes with a text object corresponding to last put text. To use it, you
+have to set a keymap:
+
+>lua
+    vim.keymap.set({ "o", "x" }, "lp", function()
+      require("yanky.textobj").last_put()
+    end, {})
 <
 
 
