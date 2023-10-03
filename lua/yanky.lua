@@ -3,6 +3,7 @@ local highlight = require("yanky.highlight")
 local system_clipboard = require("yanky.system_clipboard")
 local preserve_cursor = require("yanky.preserve_cursor")
 local picker = require("yanky.picker")
+local textobj = require("yanky.textobj")
 
 local yanky = {}
 
@@ -164,6 +165,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   yanky.ring.is_cycling = false
 
   yanky.attach_cancel()
+  textobj.save_put()
 end
 
 function yanky.can_cycle()
