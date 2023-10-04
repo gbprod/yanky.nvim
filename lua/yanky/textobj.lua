@@ -35,8 +35,6 @@ function textobj.save_put()
   }
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function(_, _, _, first_line)
-      print(vim.inspect(first_line))
-      print(vim.inspect(vim.b.yanky_textobj.region.end_row))
       if first_line <= vim.b.yanky_textobj.region.end_row then
         vim.b.yanky_textobj = nil
         return true
