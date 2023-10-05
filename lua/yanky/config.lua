@@ -31,6 +31,9 @@ local default_values = {
       mappings = nil,
     },
   },
+  textobject = {
+    enabled = false,
+  },
 }
 
 function config.setup(options)
