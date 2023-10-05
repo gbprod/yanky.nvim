@@ -91,6 +91,9 @@ Yanky comes with the following defaults:
   preserve_cursor_position = {
     enabled = true,
   },
+  textobject = {
+   enabled = false,
+  },
 }
 ```
 
@@ -658,10 +661,22 @@ To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifie
 
 ## Text object
 
-_This is experimental, please, report any issue._
+_This is experimental, please, report any issues._
 
 Yanky comes with a text object corresponding to last put text. To use it, you
-have to set a keymap:
+have to enable it in settings and set a keymap.
+
+### ⚙️ Configuration
+
+```lua
+require("yanky").setup({
+  textobj = {
+    enabled = true,
+  },
+})
+```
+
+### ⌨️ Mappings
 
 ```lua
 vim.keymap.set({ "o", "x" }, "lp", function()
