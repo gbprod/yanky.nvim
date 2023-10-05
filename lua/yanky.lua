@@ -165,7 +165,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   yanky.ring.is_cycling = false
 
   yanky.attach_cancel()
-  if yanky.config.options.textobject.enabled then
+  if yanky.config.options.textobj.enabled then
     textobj.save_put()
   end
 end

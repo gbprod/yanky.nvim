@@ -91,7 +91,7 @@ Yanky comes with the following defaults:
   preserve_cursor_position = {
     enabled = true,
   },
-  textobject = {
+  textobj = {
    enabled = false,
   },
 }
