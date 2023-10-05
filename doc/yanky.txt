@@ -119,6 +119,9 @@ Yanky comes with the following defaults:
       preserve_cursor_position = {
         enabled = true,
       },
+      textobject = {
+       enabled = false,
+      },
     }
 <
 
@@ -714,10 +717,24 @@ All special puts ~
 
 TEXT OBJECT                                *yanky-🍃-yanky.nvim-text-object*
 
-_This is experimental, please, report any issue._
+_This is experimental, please, report any issues._
 
 Yanky comes with a text object corresponding to last put text. To use it, you
-have to set a keymap:
+have to enable it in settings and set a keymap.
+
+
+⚙️ CONFIGURATION ~
+
+>lua
+    require("yanky").setup({
+      textobj = {
+        enabled = true,
+      },
+    })
+<
+
+
+⌨️ MAPPINGS ~
 
 >lua
     vim.keymap.set({ "o", "x" }, "lp", function()
