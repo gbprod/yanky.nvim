@@ -31,7 +31,7 @@ local default_values = {
       mappings = nil,
     },
   },
-  textobject = {
+  textobj = {
     enabled = false,
   },
 }
