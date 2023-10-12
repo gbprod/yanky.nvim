@@ -70,6 +70,8 @@ Yanky comes with the following defaults:
     storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db", -- Only for sqlite storage
     sync_with_numbered_registers = true,
     cancel_event = "update",
+    ignore_registers = { "_" },
+    update_register_on_cycle = false, -- EXPERIMENTAL
   },
   picker = {
     select = {
@@ -141,6 +143,7 @@ require("yanky").setup({
     sync_with_numbered_registers = true,
     cancel_event = "update",
     ignore_registers = { "_" },
+    update_register_on_cycle = false,
   },
   system_clipboard = {
     sync_with_ring = true,
@@ -222,6 +225,16 @@ added to your yank ring.
 If `&clipboard` is empty, if you yank something outside of Neovim, this will be
 the first value you'll have when cycling through the ring. Basicly, you can do
 `p` and then `<c-p>` to paste yanked text.
+
+### `ring.update_register_on_cycle`
+
+**EXPERIMENTAL**
+
+Default: `false`
+
+Using the `update_register_on_cycle` option, when you cycle through the ring,
+the contents of the register used to update will be updated with the last
+content cycled.
 
 ### Commands
 
