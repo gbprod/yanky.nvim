@@ -10,6 +10,7 @@ local default_values = {
     sync_with_numbered_registers = true,
     ignore_registers = { "_" },
     cancel_event = "update",
+    update_register_on_cycle = false,
   },
   system_clipboard = {
     sync_with_ring = true,

@@ -195,7 +195,7 @@ function yanky.cycle(direction)
 
     local reg = utils.get_register_info(yanky.ring.state.register)
     local first = yanky.history.first()
-    if reg.regcontents == first.regcontents and reg.regtype == first.regtype then
+    if nil ~= first and reg.regcontents == first.regcontents and reg.regtype == first.regtype then
       yanky.history.skip()
     end
   end
@@ -241,6 +241,10 @@ function yanky.cycle(direction)
       yanky.ring.callback(new_state, do_put)
     end
   end)
+
+  if yanky.config.options.ring.update_register_on_cycle then
+    vim.fn.setreg(new_state.register, next_content.regcontents, next_content.regtype)
+  end
 
   yanky.ring.is_cycling = true
   yanky.ring.state = new_state
