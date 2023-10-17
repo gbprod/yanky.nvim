@@ -21,7 +21,9 @@ function mapping.put(type)
       vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
     end
 
-    picker.actions.put(type, mapping.state.is_visual)(selection.value)
+    vim.schedule(function()
+      picker.actions.put(type, mapping.state.is_visual)(selection.value)
+    end)
   end
 end
 
@@ -39,7 +41,9 @@ function mapping.special_put(name)
       vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
     end
 
-    picker.actions.special_put(name, mapping.state.is_visual)(selection.value)
+    vim.schedule(function()
+      picker.actions.special_put(name, mapping.state.is_visual)(selection.value)
+    end)
   end
 end
 
@@ -58,7 +62,10 @@ function mapping.set_register(register)
       actions.close(prompt_bufnr)
     end
     local selection = action_state.get_selected_entry()
-    picker.actions.set_register(register)(selection.value)
+
+    vim.schedule(function()
+      picker.actions.set_register(register)(selection.value)
+    end)
   end
 end
 

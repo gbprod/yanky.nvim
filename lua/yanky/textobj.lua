@@ -14,6 +14,7 @@ local function get_region(regtype)
     end_col = "V" ~= regtype and finish[2] or vim.fn.col("$"),
   }
 end
+
 local function is_visual_mode()
   return nil ~= vim.fn.mode():find("v")
 end
