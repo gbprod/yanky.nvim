@@ -253,6 +253,8 @@ just use [`ring.history_length` option](#ringhistory_length).
 
 Using [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) and [cmp_yanky](https://github.com/chrisgrieser/cmp_yanky), you can also get suggestions from your yank history as you type in insert mode.
 
+<img src="https://github.com/chrisgrieser/cmp_yanky/assets/73286100/e1e62358-63d0-4261-88ed-47bb155576d2" alt="showcasing cmp-yanky" width=70%>
+
 ### ⚙️ Configuration
 
 To use `vim.ui.select` picker, just call `YankyRingHistory` command.
