@@ -249,6 +249,10 @@ to customize this) or the awesome [telescope.nvim](https://github.com/nvim-teles
 It uses the same history as yank ring, so, if you want to increase history size,
 just use [`ring.history_length` option](#ringhistory_length).
 
+### Yank history completions
+
+Using [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) and [cmp_yanky](https://github.com/chrisgrieser/cmp_yanky), you can also get suggestions from your yank history as you type in insert mode.
+
 ### ⚙️ Configuration
 
 To use `vim.ui.select` picker, just call `YankyRingHistory` command.
