@@ -121,8 +121,8 @@ end
 
 function yanky.attach_cancel()
   if yanky.config.options.ring.cancel_event == "move" then
+    yanky.ring.state.augroup = vim.api.nvim_create_augroup("YankyRingClear", { clear = true })
     vim.schedule(function()
-      yanky.ring.state.augroup = vim.api.nvim_create_augroup("YankyRingClear", { clear = true })
       vim.api.nvim_create_autocmd("CursorMoved", {
         group = yanky.ring.state.augroup,
         buffer = 0,
