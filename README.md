@@ -15,22 +15,70 @@ Or in English:
 
 ## ✨ Features
 
-- [Yank-ring](#%EF%B8%8F-yank-ring)
-- [Yank history picker](#-yank-history-picker)
-- [Highlight put and yanked text](#-highlight-put-and-yanked-text)
-- [Perserve cursor position on yank](#%EF%B8%8F-preserve-cursor-position-on-yank)
-- [Special put](#%EF%B8%8F-special-put)
-- [Text object](#text-object) (EXPERIMENTAL)
+- 🖇️ Yank-ring
+- 📜 Yank history picker
+- 💡 Highlight put and yanked text
+- ⤵️ Preserve cursor position on yank
+- ⭐ Special put
+- ⚓ Text object
 
 ## ⚡️ Requirements
 
-Requires neovim > `0.7.0`.
-
-## Usage
+Requires neovim > `0.9.0`.
 
 ## 📦 Installation
 
 Install the plugin with your preferred package manager:
+
+### [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+{
+  "gbprod/yanky.nvim",
+  opts = {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  },
+}
+```
+
+<details>
+<summary>More complete setup</summary>
+
+```lua
+{
+  "gbprod/yanky.nvim",
+  dependencies = {
+    { "kkharji/sqlite.lua" }
+  },
+  opts = {
+    ring = { storage = "sqlite" },
+  },
+  keys = {
+    { "<leader>p", function() require("telescope").extensions.yank_history.yank_history({ }) end, desc = "Open Yank History" },
+    { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
+    { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
+    { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
+    { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
+    { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
+    { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
+    { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
+    { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+    { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+    { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+    { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+    { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
+    { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
+    { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
+    { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put before and indent left" },
+    { "=p", "<Plug>(YankyPutAfterFilter)", desc = "Put after applying a filter" },
+    { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put before applying a filter" },
+  },
+}
+```
+
+</details>
 
 ### [packer](https://github.com/wbthomason/packer.nvim)
 
@@ -42,20 +90,6 @@ require("yanky").setup({
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
 })
-```
-
-### [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-" Vim Script
-Plug 'gbprod/yanky.nvim'
-lua << EOF
-  require("yanky").setup({
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  })
-EOF
 ```
 
 ## ⚙️ Configuration
@@ -71,7 +105,7 @@ Yanky comes with the following defaults:
     sync_with_numbered_registers = true,
     cancel_event = "update",
     ignore_registers = { "_" },
-    update_register_on_cycle = false, -- EXPERIMENTAL
+    update_register_on_cycle = false,
   },
   picker = {
     select = {
@@ -94,7 +128,7 @@ Yanky comes with the following defaults:
     enabled = true,
   },
   textobj = {
-   enabled = false,
+   enabled = true,
   },
 }
 ```
@@ -228,8 +262,6 @@ the first value you'll have when cycling through the ring. Basicly, you can do
 
 ### `ring.update_register_on_cycle`
 
-**EXPERIMENTAL**
-
 Default: `false`
 
 Using the `update_register_on_cycle` option, when you cycle through the ring,
@@ -248,6 +280,8 @@ to customize this) or the awesome [telescope.nvim](https://github.com/nvim-teles
 
 It uses the same history as yank ring, so, if you want to increase history size,
 just use [`ring.history_length` option](#ringhistory_length).
+
+See [Integrations](#-integrations) to have a completion with [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
 
 ### Yank history completions
 
@@ -452,91 +486,7 @@ Default : `true`
 Define if cursor position should be preserved on yank. This works only if mappings
 has been defined.
 
-## 🎨 Colors
-
-| Description                     | Group       | Default        |
-| ------------------------------- | ----------- | -------------- |
-| Highlight color for put text    | YankyPut    | link to Search |
-| Highlight color for yanked text | YankyYanked | link to Search |
-
-## 🤝 Integrations
-
-<details>
-<summary><b>gbprod/substitute.nvim</b></summary>
-
-To enable [gbprod/substitute.nvim](https://github.com/gbprod/substitute.nvim)
-swap when performing a substitution, you can add this to your setup:
-
-```lua
-require("substitute").setup({
-  on_substitute = require("yanky.integration").substitute(),
-})
-```
-
-</details>
-
-<details>
-<summary><b>anuvyklack/hydra.nvim</b></summary>
-
-To work with [anuvyklack/hydra.nvim](https://github.com/anuvyklack/hydra.nvim)
-only setup <C-n>/<C-p> mapping when yanky is activated, you can add this to your setup:
-
-```lua
-local Hydra = require("hydra")
-
-local function t(str)
-  return api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local yanky_hydra = Hydra({
-  name = "Yank ring",
-  mode = "n",
-  heads = {
-    { "p", "<Plug>(YankyPutAfter)", { desc = "After" } },
-    { "P", "<Plug>(YankyPutBefore)", { desc = "Before" } },
-    { "<C-n>", "<Plug>(YankyCycleForward)", { private = true, desc = "↓" } },
-    { "<C-p>", "<Plug>(YankyCycleBackward)", { private = true, desc = "↑" } },
-  },
-})
-
--- choose/change the mappings if you want
-for key, putAction in pairs({
-  ["p"] = "<Plug>(YankyPutAfter)",
-  ["P"] = "<Plug>(YankyPutBefore)",
-  ["gp"] = "<Plug>(YankyGPutAfter)",
-  ["gP"] = "<Plug>(YankyGPutBefore)",
-}) do
-  vim.keymap.set({ "n", "x" }, key, function()
-    vim.fn.feedkeys(t(putAction))
-    yanky_hydra:activate()
-  end)
-end
-
--- choose/change the mappings if you want
-for key, putAction in pairs({
-  ["]p"] = "<Plug>(YankyPutIndentAfterLinewise)",
-  ["[p"] = "<Plug>(YankyPutIndentBeforeLinewise)",
-  ["]P"] = "<Plug>(YankyPutIndentAfterLinewise)",
-  ["[P"] = "<Plug>(YankyPutIndentBeforeLinewise)",
-
-  [">p"] = "<Plug>(YankyPutIndentAfterShiftRight)",
-  ["<p"] = "<Plug>(YankyPutIndentAfterShiftLeft)",
-  [">P"] = "<Plug>(YankyPutIndentBeforeShiftRight)",
-  ["<P"] = "<Plug>(YankyPutIndentBeforeShiftLeft)",
-
-  ["=p"] = "<Plug>(YankyPutAfterFilter)",
-  ["=P"] = "<Plug>(YankyPutBeforeFilter)",
-}) do
-  vim.keymap.set("n", key, function()
-    vim.fn.feedkeys(t(putAction))
-    yanky_hydra:activate()
-  end)
-end
-```
-
-</details>
-
-## ↩️ Special put
+## ⭐ Special put
 
 Yanky comes with special put moves (inspired by
 [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt#L100)):
@@ -681,9 +631,7 @@ To go further, Plug mappings are constructed like this: `Yanky(put-type)(modifie
 
 </details>
 
-## Text object
-
-_This is experimental, please, report any issues._
+## ⚓ Text object
 
 Yanky comes with a text object corresponding to last put text. To use it, you
 have to enable it in settings and set a keymap.
@@ -706,6 +654,98 @@ vim.keymap.set({ "o", "x" }, "lp", function()
 end, {})
 ```
 
+## 🎨 Colors
+
+| Description                     | Group       | Default        |
+| ------------------------------- | ----------- | -------------- |
+| Highlight color for put text    | YankyPut    | link to Search |
+| Highlight color for yanked text | YankyYanked | link to Search |
+
+## 🤝 Integrations
+
+<details>
+<summary><b>gbprod/substitute.nvim</b></summary>
+
+To enable [gbprod/substitute.nvim](https://github.com/gbprod/substitute.nvim)
+swap when performing a substitution, you can add this to your setup:
+
+```lua
+require("substitute").setup({
+  on_substitute = require("yanky.integration").substitute(),
+})
+```
+
+</details>
+
+<details>
+<summary><b>hrsh7th/nvim-cmp</b></summary>
+
+Using [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) and [chrisgrieser/cmp_yanky](https://github.com/chrisgrieser/cmp_yanky), you can also get suggestions from your yank history as you type in insert mode.
+
+<img src="https://github.com/chrisgrieser/cmp_yanky/assets/73286100/e1e62358-63d0-4261-88ed-47bb155576d2" alt="showcasing cmp-yanky" width=70%>
+</details>
+
+<details>
+<summary><b>anuvyklack/hydra.nvim</b></summary>
+
+To work with [anuvyklack/hydra.nvim](https://github.com/anuvyklack/hydra.nvim)
+only setup <C-n>/<C-p> mapping when yanky is activated, you can add this to your setup:
+
+```lua
+local Hydra = require("hydra")
+
+local function t(str)
+  return api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local yanky_hydra = Hydra({
+  name = "Yank ring",
+  mode = "n",
+  heads = {
+    { "p", "<Plug>(YankyPutAfter)", { desc = "After" } },
+    { "P", "<Plug>(YankyPutBefore)", { desc = "Before" } },
+    { "<C-n>", "<Plug>(YankyCycleForward)", { private = true, desc = "↓" } },
+    { "<C-p>", "<Plug>(YankyCycleBackward)", { private = true, desc = "↑" } },
+  },
+})
+
+-- choose/change the mappings if you want
+for key, putAction in pairs({
+  ["p"] = "<Plug>(YankyPutAfter)",
+  ["P"] = "<Plug>(YankyPutBefore)",
+  ["gp"] = "<Plug>(YankyGPutAfter)",
+  ["gP"] = "<Plug>(YankyGPutBefore)",
+}) do
+  vim.keymap.set({ "n", "x" }, key, function()
+    vim.fn.feedkeys(t(putAction))
+    yanky_hydra:activate()
+  end)
+end
+
+-- choose/change the mappings if you want
+for key, putAction in pairs({
+  ["]p"] = "<Plug>(YankyPutIndentAfterLinewise)",
+  ["[p"] = "<Plug>(YankyPutIndentBeforeLinewise)",
+  ["]P"] = "<Plug>(YankyPutIndentAfterLinewise)",
+  ["[P"] = "<Plug>(YankyPutIndentBeforeLinewise)",
+
+  [">p"] = "<Plug>(YankyPutIndentAfterShiftRight)",
+  ["<p"] = "<Plug>(YankyPutIndentAfterShiftLeft)",
+  [">P"] = "<Plug>(YankyPutIndentBeforeShiftRight)",
+  ["<P"] = "<Plug>(YankyPutIndentBeforeShiftLeft)",
+
+  ["=p"] = "<Plug>(YankyPutAfterFilter)",
+  ["=P"] = "<Plug>(YankyPutBeforeFilter)",
+}) do
+  vim.keymap.set("n", key, function()
+    vim.fn.feedkeys(t(putAction))
+    yanky_hydra:activate()
+  end)
+end
+```
+
+</details>
+
 ## 🎉 Credits
 
 This plugin is mostly a lua version of [svermeulen/vim-yoink](https://github.com/svermeulen/vim-yoink)
@@ -720,5 +760,3 @@ Other inspiration :
 - [svban/YankAssassin.vim](https://github.com/svban/YankAssassin.vim)
 - [tpope/vim-unimpaired](https://github.com/tpope/vim-unimpaired)
 - [inkarkat/vim-UnconditionalPaste](https://github.com/inkarkat/vim-UnconditionalPaste)
-
-Thanks to [m00qek lua plugin template](https://github.com/m00qek/plugin-template.nvim).
