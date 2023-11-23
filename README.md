@@ -62,8 +62,8 @@ Install the plugin with your preferred package manager:
     { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
     { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
     { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
-    { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
-    { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
+    { "<c-p>", "<Plug>(YankyPreviousEntry)", desc = "Select previous entry through yank history" },
+    { "<c-n>", "<Plug>(YankyNextEntry)", desc = "Select next entry through yank history" },
     { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
     { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
     { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
@@ -143,6 +143,9 @@ vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
 vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
 vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
 vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 ```
 
 And those keymaps for `tpope/vim-unimpaired` like usage:
@@ -173,8 +176,8 @@ can choose between when pasting.
 ### ⌨️ Mappings
 
 ```lua
-vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
-vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 ```
 
 With these mappings, after performing a paste, you can cycle through the history
@@ -721,8 +724,8 @@ local yanky_hydra = Hydra({
   heads = {
     { "p", "<Plug>(YankyPutAfter)", { desc = "After" } },
     { "P", "<Plug>(YankyPutBefore)", { desc = "Before" } },
-    { "<C-n>", "<Plug>(YankyCycleForward)", { private = true, desc = "↓" } },
-    { "<C-p>", "<Plug>(YankyCycleBackward)", { private = true, desc = "↑" } },
+    { "<c-p>", "<Plug>(YankyPreviousEntry)", { private = true, desc = "↑" } },
+    { "<c-n>", "<Plug>(YankyNextEntry)", { private = true, desc = "↓" } },
   },
 })
 
