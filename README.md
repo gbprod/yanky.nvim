@@ -135,14 +135,31 @@ Yanky comes with the following defaults:
 
 ### ⌨️ Mappings
 
-This plugin contains no default mappings and will have no effect until you add your own maps to it.
-You should at least set those keymaps:
+**This plugin contains no default mappings and will have no effect until you add your own maps to it.**
+You should at least set those keymaps for yank ring usage:
 
 ```lua
 vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
 vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
 vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
 vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+```
+
+And those keymaps for `tpope/vim-unimpaired` like usage:
+
+```lua
+vim.keymap.set("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
+vim.keymap.set("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
+vim.keymap.set("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
+vim.keymap.set("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
+
+vim.keymap.set("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
+vim.keymap.set("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
+vim.keymap.set("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
+vim.keymap.set("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
+
+vim.keymap.set("n", "=p", "<Plug>(YankyPutAfterFilter)")
+vim.keymap.set("n", "=P", "<Plug>(YankyPutBeforeFilter)")
 ```
 
 Some features requires specific mappings, refer to feature documentation section.
