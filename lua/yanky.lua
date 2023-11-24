@@ -291,6 +291,14 @@ function yanky.register_plugs()
     yanky.cycle(-1)
   end, { silent = true })
 
+  vim.keymap.set("n", "<Plug>(YankyPreviousEntry)", function()
+    yanky.cycle(1)
+  end, { silent = true })
+
+  vim.keymap.set("n", "<Plug>(YankyNextEntry)", function()
+    yanky.cycle(-1)
+  end, { silent = true })
+
   vim.keymap.set({ "n", "x" }, "<Plug>(YankyYank)", yanky.yank, { silent = true, expr = true })
 
   for type, type_text in pairs({
