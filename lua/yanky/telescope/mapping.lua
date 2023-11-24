@@ -16,12 +16,15 @@ function mapping.put(type)
 
     -- fix cursor position since
     -- https://github.com/nvim-telescope/telescope.nvim/commit/3eb90430b61b78b707e8ffe0cfe49138daaddbcc
+    local cursor_pos = nil
     if vim.api.nvim_get_mode().mode == "i" then
-      local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+      cursor_pos = vim.api.nvim_win_get_cursor(0)
     end
 
     vim.schedule(function()
+      if nil ~= cursor_pos then
+        vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+      end
       picker.actions.put(type, mapping.state.is_visual)(selection.value)
     end)
   end
@@ -36,12 +39,15 @@ function mapping.special_put(name)
 
     -- fix cursor position since
     -- https://github.com/nvim-telescope/telescope.nvim/commit/3eb90430b61b78b707e8ffe0cfe49138daaddbcc
+    local cursor_pos = nil
     if vim.api.nvim_get_mode().mode == "i" then
-      local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+      cursor_pos = vim.api.nvim_win_get_cursor(0)
     end
 
     vim.schedule(function()
+      if nil ~= cursor_pos then
+        vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+      end
       picker.actions.special_put(name, mapping.state.is_visual)(selection.value)
     end)
   end
