@@ -354,7 +354,7 @@ require("yanky").setup({
 })
 ```
 
-#### `picker.select.acion`
+#### `picker.select.action`
 
 Default : `nil`
 
