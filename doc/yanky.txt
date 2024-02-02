@@ -399,7 +399,7 @@ Default configuration :
 <
 
 
-PICKER.SELECT.ACION
+PICKER.SELECT.ACTION
 
 Default : `nil`
 
