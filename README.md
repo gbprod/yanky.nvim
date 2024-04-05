@@ -126,6 +126,7 @@ Yanky comes with the following defaults:
   },
   preserve_cursor_position = {
     enabled = true,
+    timer = 0
   },
   textobj = {
    enabled = true,
@@ -481,7 +482,11 @@ text. Could be annoying especially when yanking a large text object such as a
 paragraph or a large text object.
 
 With this feature, yank will function exactly the same as previously with the one
-difference being that the cursor position will not change after performing a yank.
+difference being that the cursor position will be restored after performing a yank.
+
+To prevent a possible jarring jump, an optional delay can be configured, with the
+default set to 0, which in many cases gives the appearance of preventing the
+cursor from moving at all.
 
 ### ⌨️ Mappings
 

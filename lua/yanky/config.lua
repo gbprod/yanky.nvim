@@ -22,6 +22,7 @@ local default_values = {
   },
   preserve_cursor_position = {
     enabled = true,
+    timer = 0,
   },
   picker = {
     select = {
