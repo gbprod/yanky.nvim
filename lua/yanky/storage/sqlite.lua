@@ -37,18 +37,20 @@ function sqlite.setup()
 end
 
 function sqlite.push(item)
-  sqlite.db:with_open(function()
-    sqlite.db:eval(
-      "INSERT INTO history (filetype, regcontents, regtype) VALUES (:filetype, :regcontents, :regtype)",
-      item
-    )
-
-    sqlite.db:eval(
-      string.format(
-        "DELETE FROM history WHERE id NOT IN (SELECT id FROM history ORDER BY id DESC LIMIT %s)",
-        sqlite.config.history_length
+  vim.schedule(function()
+    sqlite.db:with_open(function()
+      sqlite.db:eval(
+        "INSERT INTO history (filetype, regcontents, regtype) VALUES (:filetype, :regcontents, :regtype)",
+        item
       )
-    )
+
+      sqlite.db:eval(
+        string.format(
+          "DELETE FROM history WHERE id NOT IN (SELECT id FROM history ORDER BY id DESC LIMIT %s)",
+          sqlite.config.history_length
+        )
+      )
+    end)
   end)
 end
 
