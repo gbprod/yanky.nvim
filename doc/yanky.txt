@@ -17,6 +17,7 @@ Table of Contents                                    *yanky-table-of-contents*
   - 🎨 Colors                            |yanky-🍃-yanky.nvim-🎨-colors|
   - 🤝 Integrations                |yanky-🍃-yanky.nvim-🤝-integrations|
   - 🎉 Credits                          |yanky-🍃-yanky.nvim-🎉-credits|
+2. Links                                                         |yanky-links|
 
 ==============================================================================
 1. 🍃 yanky.nvim                                     *yanky-🍃-yanky.nvim*
