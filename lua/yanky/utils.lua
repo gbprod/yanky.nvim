@@ -25,7 +25,6 @@ function utils.get_system_register()
   if vim.tbl_contains(clipboardFlags, "unnamedplus") then
     return "+"
   end
-
   return "*"
 end
 

@@ -14,6 +14,7 @@ local default_values = {
   },
   system_clipboard = {
     sync_with_ring = true,
+    clipboard_register = nil,
   },
   highlight = {
     on_put = true,
