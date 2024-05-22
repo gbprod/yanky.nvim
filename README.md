@@ -118,6 +118,7 @@ Yanky comes with the following defaults:
   },
   system_clipboard = {
     sync_with_ring = true,
+    clipboard_register = nil,
   },
   highlight = {
     on_put = true,
@@ -279,6 +280,17 @@ added to your yank ring.
 If `&clipboard` is empty, if you yank something outside of Neovim, this will be
 the first value you'll have when cycling through the ring. Basicly, you can do
 `p` and then `<c-p>` to paste yanked text.
+
+Note that `clipboard == unnamed` uses the primary selection of the system (see
+`:h clipbard` for more details) which is updated on selection, not on copy/yank.
+Also note that the syncing happens when neovim gains focus.
+
+### `system_clipboard.clipboard_register`
+
+Default: `nil` use `&clipboard`
+
+Choose the register that is synced with ring (from above). If `&clipboard` is
+empty then `*` is used.
 
 ### `ring.update_register_on_cycle`
 
