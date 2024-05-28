@@ -1,5 +1,4 @@
 local utils = {}
-utils.fetching = false
 
 function utils.get_default_register()
   local clipboard_tool = vim.fn["provider#clipboard#Executable"]()
@@ -30,10 +29,6 @@ function utils.get_system_register()
 end
 
 function utils.get_register_info(register)
-  utils.fetching = true
-  vim.schedule(function()
-    utils.fetching = false
-  end)
   return {
     regcontents = vim.fn.getreg(register),
     regtype = vim.fn.getregtype(register),
