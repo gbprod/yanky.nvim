@@ -709,7 +709,7 @@ require("substitute").setup({
 or
 ```lua
 opts = {
-  on_substitute = function() require('yanky.integration').substitute() end,
+  on_substitute = function() require("yanky.integration").substitute() end,
 }
 ```
 
