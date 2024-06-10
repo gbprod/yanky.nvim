@@ -770,6 +770,14 @@ swap when performing a substitution, you can add this to your setup:
     })
 <
 
+or
+
+>lua
+    opts = {
+      on_substitute = function() require("yanky.integration").substitute() end,
+    }
+<
+
 hrsh7th/nvim-cmp ~
 
 Using hrsh7th/nvim-cmp <https://github.com/hrsh7th/nvim-cmp> and
