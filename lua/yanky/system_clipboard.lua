@@ -19,6 +19,9 @@ function system_clipboard.setup()
     vim.api.nvim_create_autocmd({ "FocusGained", "FocusLost" }, {
       group = vim.api.nvim_create_augroup("YankySyncClipboard", { clear = true }),
       callback = function(ev)
+        print(vim.inspect("Event : " .. ev.event))
+        print(vim.inspect(focused_real))
+        print(vim.inspect(focused_delayed))
         if ev.event == "FocusLost" then
           focused_real = false
           if timer then
@@ -32,6 +35,7 @@ function system_clipboard.setup()
           end, 500)
         elseif ev.event == "FocusGained" then
           if not focused_delayed then
+            print(vim.inspect("on_focus_gained"))
             system_clipboard.on_focus_gained()
           end
           focused_real = true
@@ -49,13 +53,17 @@ function system_clipboard.on_focus_lost()
 end
 
 function system_clipboard.on_focus_gained()
+  print(vim.inspect("get_register_info" .. system_clipboard.config.clipboard_register))
   local new_reg_info = utils.get_register_info(system_clipboard.config.clipboard_register)
+  print(vim.inspect("get_register_info done"))
 
   if
     system_clipboard.state.reg_info_on_focus_lost ~= nil
     and not vim.deep_equal(system_clipboard.state.reg_info_on_focus_lost, new_reg_info)
   then
+    print(vim.inspect("push"))
     system_clipboard.history.push(new_reg_info)
+    print(vim.inspect("push end"))
   end
 
   system_clipboard.state.reg_info_on_focus_lost = nil
