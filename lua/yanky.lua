@@ -162,7 +162,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
 
   if config.options.wsl then
     reg_content = vim.fn.getreg(register)
-    vim.fn.setreg(register, string.gsub(reg_content, "\r", "-------------"), reg_type)
+    vim.fn.setreg(register, string.gsub(reg_content, "\r", ""), reg_type)
   end
   if nil ~= callback then
     callback(new_state, do_put)
