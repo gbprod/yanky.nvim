@@ -69,7 +69,8 @@ local function do_put(state, _)
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
-
+  local regcontents = vim.fn.getreg(state.register)
+  vim.fn.setreg(state.register, string.gsub(regcontents, "\r", ""))
   local ok, val = pcall(
     vim.cmd,
     string.format(
@@ -80,6 +81,7 @@ local function do_put(state, _)
       state.type
     )
   )
+  vim.fn.setreg(state.register, regcontents)
   if not ok then
     vim.notify(val, vim.log.levels.WARN)
     return
