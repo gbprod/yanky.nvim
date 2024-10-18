@@ -70,6 +70,7 @@ local function do_put(state, _)
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
+
   local ok, val = pcall(
     vim.cmd,
     string.format(
@@ -106,10 +107,8 @@ function yanky.put(type, is_visual, callback)
 
     yanky.history.push(entry)
   end
-  local regcontents = nil
 
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
-
 end
 
 function yanky.clear_ring()
