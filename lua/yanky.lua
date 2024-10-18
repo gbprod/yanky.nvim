@@ -70,11 +70,6 @@ local function do_put(state, _)
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
-  local regcontents = nil
-  if config.options.wsl then
-    regcontents = vim.fn.getreg(state.register)
-    vim.fn.setreg(state.register, string.gsub(regcontents, "\r", ""))
-  end
   local ok, val = pcall(
     vim.cmd,
     string.format(
@@ -85,9 +80,6 @@ local function do_put(state, _)
       state.type
     )
   )
-  if config.options.wsl then
-    vim.fn.setreg(state.register, regcontents)
-  end
   if not ok then
     vim.notify(val, vim.log.levels.WARN)
     return
@@ -114,8 +106,10 @@ function yanky.put(type, is_visual, callback)
 
     yanky.history.push(entry)
   end
+  local regcontents = nil
 
   yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
+
 end
 
 function yanky.clear_ring()
@@ -152,6 +146,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   register = (register ~= '"' and register ~= "_") and register or utils.get_default_register()
 
   local reg_content = vim.fn.getreg(register)
+  local reg_type = vim.fn.getregtype(register)
   if nil == reg_content or "" == reg_content then
     vim.notify(string.format('Register "%s" is empty', register), vim.log.levels.WARN)
     return
@@ -165,8 +160,16 @@ function yanky.init_ring(type, register, count, is_visual, callback)
     use_repeat = callback == nil,
   }
 
+  if config.options.wsl then
+    reg_content = vim.fn.getreg(register)
+    vim.fn.setreg(register, string.gsub(reg_content, "\r", "-------------"), reg_type)
+  end
   if nil ~= callback then
     callback(new_state, do_put)
+  end
+
+  if config.options.wsl then
+    vim.fn.setreg(register, reg_content)
   end
 
   yanky.ring.state = new_state
