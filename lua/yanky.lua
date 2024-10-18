@@ -4,6 +4,7 @@ local system_clipboard = require("yanky.system_clipboard")
 local preserve_cursor = require("yanky.preserve_cursor")
 local picker = require("yanky.picker")
 local textobj = require("yanky.textobj")
+local config  = require("yanky.config")
 
 local yanky = {}
 
@@ -69,8 +70,11 @@ local function do_put(state, _)
   if state.is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
-  local regcontents = vim.fn.getreg(state.register)
-  vim.fn.setreg(state.register, string.gsub(regcontents, "\r", ""))
+  local regcontents = nil
+  if config.options.wsl then
+    regcontents = vim.fn.getreg(state.register)
+    vim.fn.setreg(state.register, string.gsub(regcontents, "\r", ""))
+  end
   local ok, val = pcall(
     vim.cmd,
     string.format(
@@ -81,7 +85,9 @@ local function do_put(state, _)
       state.type
     )
   )
-  vim.fn.setreg(state.register, regcontents)
+  if config.options.wsl then
+    vim.fn.setreg(state.register, regcontents)
+  end
   if not ok then
     vim.notify(val, vim.log.levels.WARN)
     return

@@ -1,6 +1,8 @@
 local config = {}
 
-config.options = {}
+config.options = {
+  wsl = false,
+}
 
 local default_values = {
   ring = {
