@@ -4,6 +4,7 @@ local system_clipboard = require("yanky.system_clipboard")
 local preserve_cursor = require("yanky.preserve_cursor")
 local picker = require("yanky.picker")
 local textobj = require("yanky.textobj")
+local config  = require("yanky.config")
 
 local yanky = {}
 
@@ -144,6 +145,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
   register = (register ~= '"' and register ~= "_") and register or utils.get_default_register()
 
   local reg_content = vim.fn.getreg(register)
+  local reg_type = vim.fn.getregtype(register)
   if nil == reg_content or "" == reg_content then
     vim.notify(string.format('Register "%s" is empty', register), vim.log.levels.WARN)
     return
@@ -157,8 +159,16 @@ function yanky.init_ring(type, register, count, is_visual, callback)
     use_repeat = callback == nil,
   }
 
+  if config.options.wsl then
+    reg_content = vim.fn.getreg(register)
+    vim.fn.setreg(register, string.gsub(reg_content, "\r", ""), reg_type)
+  end
   if nil ~= callback then
     callback(new_state, do_put)
+  end
+
+  if config.options.wsl then
+    vim.fn.setreg(register, reg_content)
   end
 
   yanky.ring.state = new_state
