@@ -98,4 +98,23 @@ function wrappers.set_cursor_pos(pos, next)
   end
 end
 
+function wrappers.remove_carriage_return(next)
+  return function(state, callback)
+    local body = vim.fn.getreg(state.register)
+    local type = vim.fn.getregtype(state.register)
+
+    local reformated_body = body:gsub("\r", "")
+
+    vim.fn.setreg(state.register, reformated_body, type)
+
+    if nil == next then
+      callback(state)
+    else
+      next(state, callback)
+    end
+
+    vim.fn.setreg(state.register, body, type)
+  end
+end
+
 return wrappers
