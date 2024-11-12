@@ -130,6 +130,7 @@ Yanky comes with the following defaults:
         cancel_event = "update",
         ignore_registers = { "_" },
         update_register_on_cycle = false,
+        permanent_wrapper = nil,
       },
       picker = {
         select = {
@@ -229,6 +230,7 @@ history will be unchanged.
         cancel_event = "update",
         ignore_registers = { "_" },
         update_register_on_cycle = false,
+        permanent_wrapper = nil,
       },
       system_clipboard = {
         sync_with_ring = true,
@@ -339,6 +341,15 @@ Default: `false`
 Using the `update_register_on_cycle` option, when you cycle through the ring,
 the contents of the register used to update will be updated with the last
 content cycled.
+
+
+RING.PERMANENT_WRAPPER ~
+
+Default: `nil`
+
+Using the `permanent_wrapper` option, you can set a wrapper that will be used
+for every put action. This is useful if you want to add a treatment to every
+put actions (ex: remove `\r` for wsl support).
 
 
 COMMANDS ~
@@ -840,6 +851,21 @@ only setup / mapping when yanky is activated, you can add this to your setup:
         yanky_hydra:activate()
       end)
     end
+<
+
+windows wsl ~
+
+When pasting text from windows system clipboard, there’s always a ^M at the
+end of each line. Adding a permeant wrapper to remove these ^M characters when
+pasting will allows you to paste text from windows system clipboard without any
+issues.
+
+>lua
+    require("yanky").setup({
+      ring = {
+        permanent_wrapper = require("yanky.wrappers").remove_carriage_return,
+      },
+    })
 <
 
 
