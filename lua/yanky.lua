@@ -97,6 +97,9 @@ function yanky.put(type, is_visual, callback)
   yanky.ring.state = nil
   yanky.ring.is_cycling = false
   yanky.ring.callback = callback or do_put
+  if yanky.config.options.ring.permament_wrapper ~= nil then
+    yanky.ring.callback = yanky.config.options.ring.permament_wrapper(yanky.ring.callback)
+  end
 
   -- On Yank event is not triggered when put from expression register,
   -- To allows cycling, we must store value here

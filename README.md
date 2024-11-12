@@ -106,6 +106,7 @@ Yanky comes with the following defaults:
     cancel_event = "update",
     ignore_registers = { "_" },
     update_register_on_cycle = false,
+    permanent_wrapper = nil,
   },
   picker = {
     select = {
@@ -199,6 +200,7 @@ require("yanky").setup({
     cancel_event = "update",
     ignore_registers = { "_" },
     update_register_on_cycle = false,
+    permanent_wrapper = nil,
   },
   system_clipboard = {
     sync_with_ring = true,
@@ -299,6 +301,14 @@ Default: `false`
 Using the `update_register_on_cycle` option, when you cycle through the ring,
 the contents of the register used to update will be updated with the last
 content cycled.
+
+### `ring.permanent_wrapper`
+
+Default: `nil`
+
+Using the `permanent_wrapper` option, you can set a wrapper that will be used
+for every put action. This is useful if you want to add a treatment to every
+put actions (ex: remove `\r` for wsl support).
 
 ### Commands
 
@@ -706,7 +716,9 @@ require("substitute").setup({
   on_substitute = require("yanky.integration").substitute(),
 })
 ```
+
 or
+
 ```lua
 opts = {
   on_substitute = function() require("yanky.integration").substitute() end,
@@ -780,6 +792,22 @@ for key, putAction in pairs({
     yanky_hydra:activate()
   end)
 end
+```
+
+</details>
+
+<details>
+  <summary><b>windows wsl</b></summary>
+When pasting text from windows system clipboard, there's always a ^M at the end
+of each line. Adding a permeant wrapper to remove these ^M characters when pasting
+will allows you to paste text from windows system clipboard without any issues.
+
+```lua
+require("yanky").setup({
+  ring = {
+    permanent_wrapper = require("yanky.wrappers").remove_carriage_return,
+  },
+})
 ```
 
 </details>
