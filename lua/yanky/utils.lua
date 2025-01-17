@@ -1,28 +1,31 @@
 local utils = {}
 
 function utils.get_default_register()
-  local clipboard_tool = vim.fn["provider#clipboard#Executable"]()
-  if not clipboard_tool or "" == clipboard_tool then
-    return '"'
-  end
-
-  local clipboard_flags = vim.split(vim.api.nvim_get_option("clipboard"), ",")
+  local clipboard_flags = vim.split(vim.api.nvim_get_option_value("clipboard", {}), ",")
+  local selected_register = '"'
 
   if vim.tbl_contains(clipboard_flags, "unnamedplus") then
-    return "+"
+    selected_register = "+"
   end
 
   if vim.tbl_contains(clipboard_flags, "unnamed") then
-    return "*"
+    selected_register = "*"
   end
 
-  return '"'
+  if selected_register ~= '"' then
+    local clipboard_tool = vim.fn["provider#clipboard#Executable"]()
+    if not clipboard_tool or "" == clipboard_tool then
+      return '"'
+    end
+  end
+
+  return selected_register
 end
 
 function utils.get_system_register()
-  local clipboardFlags = vim.split(vim.api.nvim_get_option("clipboard"), ",")
+  local clipboard_flags = vim.split(vim.api.nvim_get_option_value("clipboard", {}), ",")
 
-  if vim.tbl_contains(clipboardFlags, "unnamedplus") then
+  if vim.tbl_contains(clipboard_flags, "unnamedplus") then
     return "+"
   end
   return "*"
