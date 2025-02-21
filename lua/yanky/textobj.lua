@@ -45,6 +45,12 @@ function textobj.save_put()
 end
 
 function textobj.last_put()
+  if not require("yanky.config").options.textobj.enabled then
+    vim.notify("Last put text text-object is not enabled", vim.log.levels.INFO)
+
+    return
+  end
+
   if nil == vim.b.yanky_textobj then
     vim.notify("No last put text-object", vim.log.levels.INFO)
 

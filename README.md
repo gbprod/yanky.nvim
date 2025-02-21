@@ -130,7 +130,7 @@ Yanky comes with the following defaults:
     enabled = true,
   },
   textobj = {
-   enabled = true,
+   enabled = false,
   },
 }
 ```
@@ -262,7 +262,7 @@ Define the event used to cancel ring activation. `update` will cancel ring on
 next buffer update, `move` will cancel ring when moving cursor or content
 changed.
 
-### `ring.ignore_registers `
+### `ring.ignore_registers`
 
 Default: `{ "_" }`
 
@@ -683,7 +683,7 @@ have to enable it in settings and set a keymap.
 ```lua
 require("yanky").setup({
   textobj = {
-    enabled = true,
+    enabled = false,
   },
 })
 ```
@@ -691,7 +691,7 @@ require("yanky").setup({
 ### ⌨️ Mappings
 
 ```lua
-vim.keymap.set({ "o", "x" }, "lp", function()
+vim.keymap.set({ "o", "x" }, "iy", function()
   require("yanky.textobj").last_put()
 end, {})
 ```
