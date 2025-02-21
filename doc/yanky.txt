@@ -154,7 +154,7 @@ Yanky comes with the following defaults:
         enabled = true,
       },
       textobj = {
-       enabled = true,
+       enabled = false,
       },
     }
 <
@@ -746,7 +746,7 @@ have to enable it in settings and set a keymap.
 >lua
     require("yanky").setup({
       textobj = {
-        enabled = true,
+        enabled = false,
       },
     })
 <
@@ -755,7 +755,7 @@ have to enable it in settings and set a keymap.
 ⌨️ MAPPINGS ~
 
 >lua
-    vim.keymap.set({ "o", "x" }, "lp", function()
+    vim.keymap.set({ "o", "x" }, "iy", function()
       require("yanky.textobj").last_put()
     end, {})
 <
