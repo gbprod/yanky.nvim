@@ -58,6 +58,10 @@ function yanky.setup(options)
   end
 
   vim.api.nvim_create_user_command("YankyClearHistory", yanky.clear_history, {})
+
+  if Snacks then
+    Snacks.picker.sources.yanky = require("yanky.sources.snacks").config
+  end
 end
 
 function yanky.init_history()

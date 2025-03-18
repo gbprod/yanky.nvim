@@ -56,7 +56,7 @@ Install the plugin with your preferred package manager:
     ring = { storage = "sqlite" },
   },
   keys = {
-    { "<leader>p", function() require("telescope").extensions.yank_history.yank_history({ }) end, desc = "Open Yank History" },
+    { "<leader>p", "<cmd>YankyRingHistory<cr>", mode = { "n", "x" }, desc = "Open Yank History" },
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
     { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
     { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
@@ -317,26 +317,46 @@ You can clear yank history using `YankyClearHistory` command.
 ## 📜 Yank history picker
 
 This allows you to select an entry in your recorded yank history using default
-`vim.ui.select` neovim prompt (you can use [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim/)
-to customize this) or the awesome [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
+`vim.ui.select` neovim prompt (you can use [folke/snacks.nvim](https://github.com/folke/snacks.nvim)
+to customize this).
+
+There is also an integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) and [Snacks.picker](https://github.com/folke/snacks.nvim).
 
 It uses the same history as yank ring, so, if you want to increase history size,
 just use [`ring.history_length` option](#ringhistory_length).
 
 See [Integrations](#-integrations) to have a completion with [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
 
-### Yank history completions
-
-Using [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) and [cmp_yanky](https://github.com/chrisgrieser/cmp_yanky), you can also get suggestions from your yank history as you type in insert mode.
-
-<details>
-<summary>demonstration</summary>
-<img src="https://github.com/chrisgrieser/cmp_yanky/assets/73286100/e1e62358-63d0-4261-88ed-47bb155576d2" alt="showcasing cmp-yanky" width=70%>
-</details>
-
 ### ⚙️ Configuration
 
 To use `vim.ui.select` picker, just call `YankyRingHistory` command.
+
+#### Snacks picker
+
+To use the `yanky` Snacks picker, you must load `yanky` after `snacks.nvim`, the picker will self register.
+Then, you can call `:lua Snacks.picker.yanky()`.
+
+With [lazy.nvim](https://github.com/folke/lazy.nvim) :
+
+```lua
+{
+  "gbprod/yanky.nvim",
+  opts = { },
+  dependencies = { "folke/snacks.nvim" },
+  keys = {
+    {
+      "<leader>p",
+      function()
+          Snacks.picker.yanky()
+      end,
+      mode = { "n", "x" },
+      desc = "Open Yank History",
+    },
+  }
+}
+```
+
+#### Telescope
 
 To use the `yank_history` Telescope picker, register `yank_history` as a
 Telescope extension in your Neovim config file.
@@ -464,7 +484,7 @@ require("yanky.telescope.mapping").special_put("YankyPutAfterCharwiseJoined")
 This will give you a visual feedback on put and yank text
 by highlighting this.
 
-### Configuration
+###  Configuration
 
 ```lua
 require("yanky").setup({
