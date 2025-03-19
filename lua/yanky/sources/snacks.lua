@@ -22,6 +22,7 @@ M.config = {
     local items = {}
     for index, value in pairs(require("yanky.history").all()) do
       value.key = index
+      value.text = tostring(value.regcontents)
       items[#items + 1] = value
     end
     return items
