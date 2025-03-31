@@ -1,5 +1,8 @@
 local highlight = {}
 
+-- Use the non-deprecated `vim.hl` if available.
+vim.hl = vim.hl or vim.highlight
+
 function highlight.setup()
   highlight.config = require("yanky.config").options.highlight
   if highlight.config.on_put then
@@ -13,7 +16,7 @@ function highlight.setup()
     vim.api.nvim_create_autocmd("TextYankPost", {
       pattern = "*",
       callback = function(_)
-        pcall(vim.highlight.on_yank, { higroup = "YankyYanked", timeout = highlight.config.timer })
+        pcall(vim.hl.on_yank, { higroup = "YankyYanked", timeout = highlight.config.timer })
       end,
     })
 
@@ -43,7 +46,7 @@ function highlight.highlight_put(state)
 
   local region = get_region()
 
-  vim.highlight.range(
+  vim.hl.range(
     0,
     highlight.hl_put,
     "YankyPut",
