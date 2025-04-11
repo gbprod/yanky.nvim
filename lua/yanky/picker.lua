@@ -19,7 +19,7 @@ function picker.select_in_history()
   local action = config.action or require("yanky.picker").actions.put("p", false)
 
   vim.ui.select(history, {
-    prompt = "Ring history",
+    prompt = "Ring history> ",
     format_item = function(item)
       return item.regcontents and item.regcontents:gsub("\n", "\\n") or ""
     end,
