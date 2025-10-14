@@ -114,7 +114,7 @@ function yanky.put(type, is_visual, callback)
     yanky.history.push(entry)
   end
 
-  yanky.init_ring(type, vim.v.register, vim.v.count, is_visual, yanky.ring.callback)
+  yanky.init_ring(type, utils.get_register(), vim.v.count, is_visual, yanky.ring.callback)
 end
 
 function yanky.clear_ring()
