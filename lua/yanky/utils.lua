@@ -32,9 +32,16 @@ function utils.get_system_register()
 end
 
 function utils.get_register_info(register)
+  local ok_contents, regcontents = pcall(vim.fn.getreg, register)
+  local ok_type, regtype = pcall(vim.fn.getregtype, register)
+
+  if not ok_contents or not ok_type then
+    return nil
+  end
+
   return {
-    regcontents = vim.fn.getreg(register),
-    regtype = vim.fn.getregtype(register),
+    regcontents = regcontents,
+    regtype = regtype,
   }
 end
 

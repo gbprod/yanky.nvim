@@ -51,6 +51,11 @@ end
 function system_clipboard.on_focus_gained()
   local new_reg_info = utils.get_register_info(system_clipboard.config.clipboard_register)
 
+  if new_reg_info == nil then
+    system_clipboard.state.reg_info_on_focus_lost = nil
+    return
+  end
+
   if
     system_clipboard.state.reg_info_on_focus_lost ~= nil
     and not vim.deep_equal(system_clipboard.state.reg_info_on_focus_lost, new_reg_info)
