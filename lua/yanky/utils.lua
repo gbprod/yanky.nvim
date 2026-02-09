@@ -1,15 +1,31 @@
 local utils = {}
 
+function utils.is_osc52_active()
+  -- If no clipboard set, can't be OSC 52
+  if not vim.g.clipboard then
+    return false
+  end
+
+  -- Per the docs, OSC 52 should be set up with a name field in the table
+  if vim.g.clipboard.name == "OSC 52" then
+    return true
+  end
+
+  return false
+end
+
 function utils.get_default_register()
   local clipboard_flags = vim.split(vim.api.nvim_get_option_value("clipboard", {}), ",")
   local selected_register = '"'
 
-  if vim.tbl_contains(clipboard_flags, "unnamed") then
-    selected_register = "*"
-  end
+  if not utils.is_osc52_active() then
+    if vim.tbl_contains(clipboard_flags, "unnamed") then
+      selected_register = "*"
+    end
 
-  if vim.tbl_contains(clipboard_flags, "unnamedplus") then
-    selected_register = "+"
+    if vim.tbl_contains(clipboard_flags, "unnamedplus") then
+      selected_register = "+"
+    end
   end
 
   if selected_register ~= '"' then
