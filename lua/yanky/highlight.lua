@@ -3,6 +3,14 @@ local highlight = {}
 -- Use the non-deprecated `vim.hl` if available.
 vim.hl = vim.hl or vim.highlight
 
+local function hl_op(opts)
+  if vim.hl.hl_op then
+    return vim.hl.hl_op(opts)
+  end
+
+  return vim.hl.on_yank(opts)
+end
+
 function highlight.setup()
   highlight.config = require("yanky.config").options.highlight
   if highlight.config.on_put then
@@ -16,7 +24,7 @@ function highlight.setup()
     vim.api.nvim_create_autocmd("TextYankPost", {
       pattern = "*",
       callback = function(_)
-        pcall(vim.hl.on_yank, { higroup = "YankyYanked", timeout = highlight.config.timer })
+        pcall(hl_op, { higroup = "YankyYanked", timeout = highlight.config.timer })
       end,
     })
 
