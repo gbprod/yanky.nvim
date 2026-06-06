@@ -13,6 +13,12 @@ function history.setup()
 end
 
 function history.push(item)
+  if item == nil then
+    -- `utils.get_register_info` returns nil when the register can't be read
+    -- (e.g. a clipboard provider error), so there is nothing to push.
+    return
+  end
+
   local prev = history.storage.get(1)
   if prev ~= nil and prev.regcontents == item.regcontents and prev.regtype == item.regtype then
     return
