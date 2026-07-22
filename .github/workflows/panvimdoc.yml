@@ -14,7 +14,7 @@ jobs:
         uses: kdheepak/panvimdoc@main
         with:
           vimdoc: yanky
-          description: Improved Yank an Put functionalities for Neovim
+          description: Improved Yank and Put functionalities for Neovim
           version: 'NVIM v0.6.0'
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
