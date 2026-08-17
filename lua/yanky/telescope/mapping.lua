@@ -23,7 +23,7 @@ function mapping.put(type)
 
     vim.schedule(function()
       if nil ~= cursor_pos then
-        vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2] - 1, 0) })
+        vim.api.nvim_win_set_cursor(0, { cursor_pos[1], math.max(cursor_pos[2], 0) })
       end
       picker.actions.put(type, mapping.state.is_visual)(selection.value)
     end)
