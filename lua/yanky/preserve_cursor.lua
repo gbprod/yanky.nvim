@@ -15,13 +15,15 @@ function preserve_cursor.on_yank()
   end
 
   if nil ~= preserve_cursor.state.cusor_position then
-    vim.fn.setpos(".", preserve_cursor.state.cusor_position)
-    vim.fn.winrestview(preserve_cursor.state.win_state)
+    vim.defer_fn(function()
+      vim.fn.setpos(".", preserve_cursor.state.cusor_position)
+      vim.fn.winrestview(preserve_cursor.state.win_state)
 
-    preserve_cursor.state = {
-      cusor_position = nil,
-      win_state = nil,
-    }
+      preserve_cursor.state = {
+        cusor_position = nil,
+        win_state = nil,
+      }
+    end, preserve_cursor.config.timer or 0)
   end
 end
 
