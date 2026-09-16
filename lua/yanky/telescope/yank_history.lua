@@ -6,6 +6,7 @@ local entry_display = require("telescope.pickers.entry_display")
 local conf = require("telescope.config").values
 local mapping = require("yanky.telescope.mapping")
 local config = require("yanky.config")
+local utils = require("yanky.utils")
 
 local yank_history = {}
 
@@ -95,7 +96,7 @@ function yank_history.gen_from_history(opts)
 end
 
 function yank_history.yank_history(opts)
-  local is_visual = vim.fn.mode() == "v" or vim.fn.mode() == "V"
+  local is_visual = utils.is_visual_mode()
   if is_visual then
     vim.cmd([[execute "normal! \<esc>"]])
   end
