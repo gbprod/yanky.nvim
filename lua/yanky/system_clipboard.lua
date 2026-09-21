@@ -60,7 +60,7 @@ function system_clipboard.on_focus_gained()
     system_clipboard.state.reg_info_on_focus_lost ~= nil
     and not vim.deep_equal(system_clipboard.state.reg_info_on_focus_lost, new_reg_info)
   then
-    system_clipboard.history.push(new_reg_info)
+    system_clipboard.history.push(new_reg_info, { source = "clipboard" })
   end
 
   system_clipboard.state.reg_info_on_focus_lost = nil

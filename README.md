@@ -107,6 +107,7 @@ Yanky comes with the following defaults:
     ignore_registers = { "_" },
     update_register_on_cycle = false,
     permanent_wrapper = nil,
+    filter = nil,
   },
   picker = {
     select = {
@@ -201,6 +202,7 @@ require("yanky").setup({
     ignore_registers = { "_" },
     update_register_on_cycle = false,
     permanent_wrapper = nil,
+    filter = nil,
   },
   system_clipboard = {
     sync_with_ring = true,
@@ -309,6 +311,51 @@ Default: `nil`
 Using the `permanent_wrapper` option, you can set a wrapper that will be used
 for every put action. This is useful if you want to add a treatment to every
 put actions (ex: remove `\r` for wsl support).
+
+### `ring.filter`
+
+Default: `nil`
+
+Using the `filter` option, you can define which contents are recorded in the
+yank history. The function is called with the entry that is about to be pushed
+and a context table, and must return `true` to keep it or `false` to discard
+it.
+
+```lua
+require("yanky").setup({
+  ring = {
+    -- Ignore yanks that only contain whitespaces
+    filter = function(entry, context)
+      return vim.trim(entry.regcontents) ~= ""
+    end,
+  },
+})
+```
+
+`entry` contains `regcontents`, `regtype` and `filetype` (`filetype` is only
+set when the entry comes from a yank or the expression register).
+
+`context.source` tells where the entry comes from:
+
+- `yank`: a yank (or delete) inside Neovim, `context.event` then contains the
+  [`TextYankPost`](https://neovim.io/doc/user/autocmd.html#TextYankPost) event
+  (`operator`, `regname`, `visual`, ...),
+- `clipboard`: a yank that occured outside of Neovim (see
+  `system_clipboard.sync_with_ring`),
+- `expression`: a put from the expression register,
+- `init`: the content of the default register when Neovim starts.
+
+For example, to only filter yanks made with the `y` operator:
+
+```lua
+filter = function(entry, context)
+  if context.source ~= "yank" or context.event.operator ~= "y" then
+    return true
+  end
+
+  return #entry.regcontents > 3
+end
+```
 
 ### Commands
 
