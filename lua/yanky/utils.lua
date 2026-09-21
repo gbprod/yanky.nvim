@@ -1,5 +1,13 @@
 local utils = {}
 
+local blockwise_mode = vim.api.nvim_replace_termcodes("<C-v>", true, false, true)
+
+function utils.is_visual_mode()
+  local mode = vim.fn.mode()
+
+  return mode == "v" or mode == "V" or mode == blockwise_mode
+end
+
 function utils.is_osc52_active()
   if not vim.g.clipboard then
     return false

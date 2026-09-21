@@ -1,6 +1,8 @@
 local utils = require("yanky.utils")
 
-local M = {}
+local M = {
+  state = { is_visual = false, captured = false },
+}
 
 local format_title = function(item)
   local regtype_map = {
@@ -18,6 +20,22 @@ end
 
 M.config = {
   title = "Yank History",
+  config = function(opts)
+    if not M.state.captured then
+      M.state.captured = true
+      vim.schedule(function()
+        M.state.captured = false
+      end)
+
+      M.state.is_visual = utils.is_visual_mode()
+
+      if M.state.is_visual then
+        vim.cmd([[execute "normal! \<esc>"]])
+      end
+    end
+
+    return opts
+  end,
   finder = function()
     local items = {}
     for index, value in pairs(require("yanky.history").all()) do
@@ -58,7 +76,7 @@ M.config = {
       local selected = picker:selected({ fallback = true })
 
       if vim.tbl_count(selected) == 1 then
-        require("yanky.picker").actions.put("p", false)(selected[1])
+        require("yanky.picker").actions.put("p", M.state.is_visual)(selected[1])
         return
       end
       local content = {
@@ -71,7 +89,7 @@ M.config = {
           content.regcontents = content.regcontents .. "\n"
         end
       end
-      require("yanky.picker").actions.put("p", false)(content)
+      require("yanky.picker").actions.put("p", M.state.is_visual)(content)
     end,
     set_default_register = function(picker)
       picker:close()

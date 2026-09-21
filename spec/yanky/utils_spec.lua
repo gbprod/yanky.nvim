@@ -1,5 +1,30 @@
 local utils = require("yanky.utils")
 
+describe("utils.is_visual_mode", function()
+  after_each(function()
+    vim.cmd([[execute "normal! \<esc>"]])
+  end)
+
+  it("should return false in normal mode", function()
+    assert.is_false(utils.is_visual_mode())
+  end)
+
+  it("should return true in charwise visual mode", function()
+    vim.cmd([[execute "normal! v"]])
+    assert.is_true(utils.is_visual_mode())
+  end)
+
+  it("should return true in linewise visual mode", function()
+    vim.cmd([[execute "normal! V"]])
+    assert.is_true(utils.is_visual_mode())
+  end)
+
+  it("should return true in blockwise visual mode", function()
+    vim.cmd([[execute "normal! \<C-v>"]])
+    assert.is_true(utils.is_visual_mode())
+  end)
+end)
+
 describe("utils.is_osc52_active", function()
   after_each(function()
     vim.g.clipboard = nil
