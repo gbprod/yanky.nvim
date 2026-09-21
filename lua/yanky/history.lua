@@ -12,10 +12,40 @@ function history.setup()
   end
 end
 
-function history.push(item)
+-- Deletes and changes shift vim numbered registers before yanky sees them,
+-- yanks and entries coming from outside of a buffer don't.
+local function has_shifted_numbered_registers(context)
+  return context.source == "yank" and (context.event.operator == "d" or context.event.operator == "c")
+end
+
+-- Restore numbered registers from the history after a shift that yanky did not
+-- record, including the registers that are no longer backed by an history entry.
+local function restore_numbered_registers()
+  if not history.config.sync_with_numbered_registers then
+    return
+  end
+
+  history.sync_with_numbered_registers()
+
+  for i = history.storage.length() + 1, 9 do
+    vim.fn.setreg(tostring(i), "", "v")
+  end
+end
+
+function history.push(item, context)
   if item == nil then
     -- `utils.get_register_info` returns nil when the register can't be read
     -- (e.g. a clipboard provider error), so there is nothing to push.
+    return
+  end
+
+  context = context or { source = "unknown" }
+
+  if history.config.filter ~= nil and not history.config.filter(item, context) then
+    if has_shifted_numbered_registers(context) then
+      restore_numbered_registers()
+    end
+
     return
   end
 
