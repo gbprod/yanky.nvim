@@ -12,10 +12,17 @@ function history.setup()
   end
 end
 
-function history.push(item)
+function history.push(item, context)
   if item == nil then
     -- `utils.get_register_info` returns nil when the register can't be read
     -- (e.g. a clipboard provider error), so there is nothing to push.
+    return
+  end
+
+  if history.config.filter ~= nil and not history.config.filter(item, context or { source = "unknown" }) then
+    -- A rejected delete has already shifted vim numbered registers, restore
+    -- them from the history to keep both in sync.
+    history.sync_with_numbered_registers()
     return
   end
 
