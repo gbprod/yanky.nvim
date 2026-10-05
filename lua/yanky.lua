@@ -65,7 +65,7 @@ function yanky.setup(options)
 end
 
 function yanky.init_history()
-  yanky.history.push(utils.get_register_info(utils.get_default_register()))
+  yanky.history.push(utils.get_register_info(utils.get_default_register()), { source = "init" })
   yanky.history.sync_with_numbered_registers()
 end
 
@@ -111,7 +111,7 @@ function yanky.put(type, is_visual, callback)
     local entry = utils.get_register_info("=")
     entry.filetype = vim.bo.filetype
 
-    yanky.history.push(entry)
+    yanky.history.push(entry, { source = "expression" })
   end
 
   yanky.init_ring(type, utils.get_register(), vim.v.count, is_visual, yanky.ring.callback)
@@ -271,7 +271,7 @@ function yanky.on_yank()
   local entry = utils.get_register_info(vim.v.event.regname)
   entry.filetype = vim.bo.filetype
 
-  yanky.history.push(entry)
+  yanky.history.push(entry, { source = "yank", event = vim.v.event })
 
   preserve_cursor.on_yank()
 end
