@@ -74,6 +74,8 @@ local function do_put(state, _)
     vim.cmd([[execute "normal! \<esc>"]])
   end
 
+  state.put_regtype = vim.fn.getregtype(state.register)
+
   local ok, val = pcall(
     vim.cmd,
     string.format(
@@ -173,7 +175,7 @@ function yanky.init_ring(type, register, count, is_visual, callback)
 
   yanky.attach_cancel()
   if yanky.config.options.textobj.enabled then
-    textobj.save_put()
+    textobj.save_put(new_state.put_regtype)
   end
 end
 

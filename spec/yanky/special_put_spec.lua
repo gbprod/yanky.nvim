@@ -74,4 +74,19 @@ describe("Special Put", function()
 
     assert.are.same({ 6, 0 }, vim.api.nvim_win_get_cursor(0))
   end)
+
+  it("should select the whole put region with last_put after a charwise PutAfterFilter", function()
+    yanky.setup({ ring = { storage = "memory" }, textobj = { enabled = true } })
+
+    vim.cmd("5")
+    execute_keys("^yw")
+    vim.cmd("3")
+    vim.cmd('execute "normal \\<Plug>(YankyPutAfterFilter)"')
+    assert.are.same("    cout ", get_buf_lines()[4])
+
+    require("yanky.textobj").last_put()
+    execute_keys('"zy')
+
+    assert.are.same("    cout \n", vim.fn.getreg("z"))
+  end)
 end)
