@@ -11,7 +11,7 @@ local function get_region(regtype)
     start_row = start[1],
     start_col = "V" ~= regtype and start[2] or 0,
     end_row = finish[1],
-    end_col = "V" ~= regtype and finish[2] or vim.fn.col("$"),
+    end_col = "V" ~= regtype and finish[2] or #vim.fn.getline(finish[1]),
   }
 end
 
@@ -29,10 +29,12 @@ local function set_selection(startpos, endpos)
   vim.api.nvim_win_set_cursor(0, endpos)
 end
 
-function textobj.save_put()
+function textobj.save_put(regtype)
+  regtype = regtype or vim.fn.getregtype(vim.v.register)
+
   vim.b.yanky_textobj = {
-    region = get_region(vim.fn.getregtype(vim.v.register)),
-    regtype = vim.fn.getregtype(vim.v.register),
+    region = get_region(regtype),
+    regtype = regtype,
   }
   vim.api.nvim_buf_attach(0, false, {
     on_lines = function(_, _, _, first_line)
