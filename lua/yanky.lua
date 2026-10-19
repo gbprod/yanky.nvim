@@ -4,6 +4,7 @@ local system_clipboard = require("yanky.system_clipboard")
 local preserve_cursor = require("yanky.preserve_cursor")
 local picker = require("yanky.picker")
 local textobj = require("yanky.textobj")
+local insert = require("yanky.insert")
 
 local yanky = {}
 
@@ -309,6 +310,18 @@ function yanky.register_plugs()
   end, { silent = true })
 
   vim.keymap.set({ "n", "x" }, "<Plug>(YankyYank)", yanky.yank, { silent = true, expr = true })
+
+  vim.keymap.set("i", "<Plug>(YankyInsertPut)", function()
+    insert.put()
+  end, { silent = true })
+
+  vim.keymap.set("i", "<Plug>(YankyInsertCycleForward)", function()
+    insert.cycle(yanky.direction.FORWARD)
+  end, { silent = true })
+
+  vim.keymap.set("i", "<Plug>(YankyInsertCycleBackward)", function()
+    insert.cycle(yanky.direction.BACKWARD)
+  end, { silent = true })
 
   for type, type_text in pairs({
     p = "PutAfter",
