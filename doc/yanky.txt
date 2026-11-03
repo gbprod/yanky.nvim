@@ -1,5 +1,5 @@
 *yanky.txt*                   Improved Yank and Put functionalities for Neovim
-                               For NVIM v0.6.0    Last change: 2026 October 06
+                              For NVIM v0.6.0    Last change: 2026 November 03
 
 ==============================================================================
 Table of Contents                                    *yanky-table-of-contents*
@@ -201,9 +201,9 @@ section.
 
 🖇️ YANK-RING                    *yanky-🍃-yanky.nvim-🖇️-yank-ring*
 
-Yank-ring allows cycling throught yank history when putting text (like the
-Emacs "kill-ring" feature). Yanky automatically maintain a history of yanks
-that you can choose between when pasting.
+Yank-ring allows cycling through yank history when putting text (like the Emacs
+"kill-ring" feature). Yanky automatically maintain a history of yanks that you
+can choose between when pasting.
 
 
 ⌨️ MAPPINGS ~
@@ -306,7 +306,7 @@ RING.IGNORE_REGISTERS ~
 
 Default: `{ "_" }`
 
-Define registeres to be ignored. By default the black hole register is ignored.
+Define registers to be ignored. By default the black hole register is ignored.
 
 
 SYSTEM_CLIPBOARD.SYNC_WITH_RING ~
@@ -317,11 +317,11 @@ Yanky can automatically adds to ring history yanks that occurs outside of
 Neovim. This works regardless to your `&clipboard` setting.
 
 This means, if `&clipboard` is set to `unnamed` and/or `unnamedplus`, if you
-yank something outside of Neovim, you can put it immediatly using `p` and it
+yank something outside of Neovim, you can put it immediately using `p` and it
 will be added to your yank ring.
 
 If `&clipboard` is empty, if you yank something outside of Neovim, this will be
-the first value you’ll have when cycling through the ring. Basicly, you can
+the first value you’ll have when cycling through the ring. Basically, you can
 do `p` and then `<c-p>` to paste yanked text.
 
 Note that `clipboard == unnamed` uses the primary selection of the system (see
@@ -383,7 +383,7 @@ set when the entry comes from a yank or the expression register).
 - `yank`: a yank (or delete) inside Neovim, `context.event` then contains the
     |`TextYankPost`| event
     (`operator`, `regname`, `visual`, …),
-- `clipboard`: a yank that occured outside of Neovim (see
+- `clipboard`: a yank that occurred outside of Neovim (see
     `system_clipboard.sync_with_ring`),
 - `expression`: a put from the expression register,
 - `init`: the content of the default register when Neovim starts.
@@ -716,7 +716,7 @@ To go further, Plug mappings are constructed like this:
 
 `rewriter` (optional) can be:
 
-- `Joined`: put lines trimed and joined.
+- `Joined`: put lines trimmed and joined.
 
 All special puts ~
 
