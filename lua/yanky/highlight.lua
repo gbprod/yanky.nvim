@@ -44,7 +44,7 @@ local function get_region()
   }
 end
 
-function highlight.highlight_put(state)
+local function highlight_range(start, finish, opts)
   if not highlight.config.on_put then
     return
   end
@@ -52,16 +52,7 @@ function highlight.highlight_put(state)
   highlight.timer:stop()
   vim.api.nvim_buf_clear_namespace(0, highlight.hl_put, 0, -1)
 
-  local region = get_region()
-
-  vim.hl.range(
-    0,
-    highlight.hl_put,
-    "YankyPut",
-    { region.start_row, region.start_col },
-    { region.end_row, region.end_col },
-    { regtype = vim.fn.getregtype(state.register), inclusive = true }
-  )
+  vim.hl.range(0, highlight.hl_put, "YankyPut", start, finish, opts)
 
   highlight.timer:start(
     highlight.config.timer,
@@ -70,6 +61,20 @@ function highlight.highlight_put(state)
       vim.api.nvim_buf_clear_namespace(0, highlight.hl_put, 0, -1)
     end)
   )
+end
+
+function highlight.highlight_put(state)
+  local region = get_region()
+
+  highlight_range(
+    { region.start_row, region.start_col },
+    { region.end_row, region.end_col },
+    { regtype = vim.fn.getregtype(state.register), inclusive = true }
+  )
+end
+
+function highlight.highlight_insert_put(state)
+  highlight_range({ state.start_row, state.start_col }, { state.end_row, state.end_col }, { regtype = "v" })
 end
 
 return highlight

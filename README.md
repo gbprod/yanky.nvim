@@ -190,6 +190,32 @@ the possibility to cycle.
 Note that the swap operations above will only affect the current paste and the
 history will be unchanged.
 
+#### Insert mode
+
+```lua
+vim.keymap.set("i", "<c-g>p", "<Plug>(YankyInsertPut)")
+vim.keymap.set("i", "<c-p>", "<Plug>(YankyInsertCycleForward)")
+vim.keymap.set("i", "<c-n>", "<Plug>(YankyInsertCycleBackward)")
+```
+
+`<Plug>(YankyInsertPut)` works like `i_CTRL-R`: it waits for a register name
+and inserts its content at the cursor position. You can then cycle through the
+history with `<Plug>(YankyInsertCycleForward)` and
+`<Plug>(YankyInsertCycleBackward)`. Typing anything or moving the cursor after
+pasting cancels the possibility to cycle.
+
+The text is inserted literally (like `i_CTRL-R_CTRL-R`, without autoindent).
+`=`, `<c-r>`, `<c-o>` and `<c-p>` typed after `<Plug>(YankyInsertPut)` are
+forwarded to the native `i_CTRL-R` and can't be cycled.
+
+You can map `<Plug>(YankyInsertPut)` to `<c-r>`, but plugins that show a popup
+on `<c-r>` (like [which-key.nvim](https://github.com/folke/which-key.nvim)
+registers popup) won't be triggered anymore. Using another key keeps them
+working, see [which-key integration](#-integrations) to keep the popup on `<c-r>`.
+
+Note that mapping `<c-p>` and `<c-n>` in insert mode overrides the native
+keyword completion keys.
+
 ### ⚙️ Configuration
 
 ```lua
@@ -860,6 +886,25 @@ for key, putAction in pairs({
   end)
 end
 ```
+
+</details>
+
+<details>
+<summary><b>folke/which-key.nvim</b></summary>
+
+Mapping `<Plug>(YankyInsertPut)` to `<c-r>` prevents
+[folke/which-key.nvim](https://github.com/folke/which-key.nvim) from showing its
+registers popup. To keep the popup and still be able to cycle after pasting,
+you can use this mapping instead:
+
+```lua
+vim.keymap.set("i", "<c-r>", function()
+  require("yanky.integration").which_key_insert_put()
+end)
+```
+
+When a register is selected in the popup, which-key replays `<c-r>{register}`,
+which is then handled by yanky.
 
 </details>
 

@@ -10,4 +10,15 @@ function integration.substitute()
   end
 end
 
+function integration.which_key_insert_put()
+  return function()
+    if vim.fn.getchar(1) ~= 0 then
+      -- A register name is already pending (replayed by which-key or typed quickly)
+      require("yanky.insert").put()
+    else
+      require("which-key").show({ keys = "<c-r>", mode = "i" })
+    end
+  end
+end
+
 return integration
