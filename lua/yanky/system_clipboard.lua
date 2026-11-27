@@ -6,9 +6,12 @@ local system_clipboard = {
   },
 }
 
+local function get_clipboard_register()
+  return system_clipboard.config.clipboard_register or utils.get_system_register()
+end
+
 function system_clipboard.setup()
   system_clipboard.config = require("yanky.config").options.system_clipboard
-  system_clipboard.config.clipboard_register = system_clipboard.config.clipboard_register or utils.get_system_register()
   system_clipboard.history = require("yanky.history")
 
   if system_clipboard.config.sync_with_ring then
@@ -45,11 +48,11 @@ function system_clipboard.setup()
 end
 
 function system_clipboard.on_focus_lost()
-  system_clipboard.state.reg_info_on_focus_lost = utils.get_register_info(system_clipboard.config.clipboard_register)
+  system_clipboard.state.reg_info_on_focus_lost = utils.get_register_info(get_clipboard_register())
 end
 
 function system_clipboard.on_focus_gained()
-  local new_reg_info = utils.get_register_info(system_clipboard.config.clipboard_register)
+  local new_reg_info = utils.get_register_info(get_clipboard_register())
 
   if new_reg_info == nil then
     system_clipboard.state.reg_info_on_focus_lost = nil
