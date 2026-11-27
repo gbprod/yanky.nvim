@@ -95,3 +95,37 @@ describe("utils.get_register", function()
     assert.are.equal("a", utils.get_register("a"))
   end)
 end)
+
+describe("utils.get_register_info", function()
+  after_each(function()
+    vim.g.clipboard = nil
+    vim.cmd([[messages clear]])
+  end)
+
+  it("suppresses clipboard provider messages", function()
+    vim.g.clipboard = {
+      name = "test",
+      copy = {
+        ["+"] = function() end,
+        ["*"] = function() end,
+      },
+      paste = {
+        ["+"] = function()
+          vim.cmd([[echohl WarningMsg | echomsg "clipboard: error: Nothing is copied" | echohl None]])
+          return {}
+        end,
+        ["*"] = function()
+          return {}
+        end,
+      },
+      cache_enabled = false,
+    }
+
+    vim.cmd([[messages clear]])
+
+    local info = utils.get_register_info("+")
+
+    assert.is.same({ regcontents = "", regtype = "v" }, info)
+    assert.are.equal("", vim.api.nvim_exec2("messages", { output = true }).output)
+  end)
+end)
