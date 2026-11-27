@@ -64,11 +64,22 @@ function utils.get_register(register)
   return register
 end
 
-function utils.get_register_info(register)
-  local ok_contents, regcontents = pcall(vim.fn.getreg, register)
-  local ok_type, regtype = pcall(vim.fn.getregtype, register)
+local register_info_id = 0
 
-  if not ok_contents or not ok_type then
+local function silent_get_expr(expr_name, register)
+  register_info_id = register_info_id + 1
+  local var_name = ("_yanky_register_info_%d"):format(register_info_id)
+  local ok = pcall(vim.cmd, ("silent! let g:%s = %s(%s)"):format(var_name, expr_name, vim.fn.string(register)))
+  local value = ok and vim.g[var_name] or nil
+  vim.g[var_name] = nil
+  return value
+end
+
+function utils.get_register_info(register)
+  local regcontents = silent_get_expr("getreg", register)
+  local regtype = silent_get_expr("getregtype", register)
+
+  if regcontents == nil or regtype == nil then
     return nil
   end
 
